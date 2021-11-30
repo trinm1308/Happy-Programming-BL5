@@ -59,7 +59,7 @@ public class UserController extends HttpServlet {
             ArrayList<User> users = ud.getUsers();
 
             request.setAttribute("users", users);
-            request.getRequestDispatcher("user_management.jsp").forward(request, response);
+            request.getRequestDispatcher("user_management_1.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

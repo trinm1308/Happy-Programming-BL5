@@ -16,6 +16,9 @@
     </head>
     <body>
         <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #272727; font-family: Nunito Sans, Arial, sans-serif;">
+            <button type="button" id="sidebarCollapse" class="btn-link" style="margin-right: 10px">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <a class="navbar-brand" style="margin-right: 4rem" href="homepage.jsp">Happy Programming</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
