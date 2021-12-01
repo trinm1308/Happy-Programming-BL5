@@ -80,12 +80,12 @@ class EditableRows {
 //                    },
 //                },
                 // Adding checkbox for Check column
-                {
-                    targets: 7,
-                    render: function (data, type, row, meta) {
-                        return '<div class="form-check float-end mt-1"><input type="checkbox" class="form-check-input"></div>';
-                    },
-                },
+//                {
+//                    targets: 7,
+//                    render: function (data, type, row, meta) {
+//                        return '<div class="form-check float-end mt-1"><input name="deleteIds" value="' + row.ID + '" type="checkbox" class="form-check-input"/></div>';
+//                    },
+//                },
             ],
         });
         _this._setInlineHeight();
@@ -187,6 +187,7 @@ class EditableRows {
     // Delete icon click
     _onDeleteClick() {
         const selected = this._datatableExtend.getSelectedRows();
+        console.log(selected);
         selected.remove().draw();
         this._datatableExtend.controlCheckAll();
     }
