@@ -158,4 +158,17 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void deleteUser(int id) {
+        try {
+            String sql = "delete from user where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, id);
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

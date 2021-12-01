@@ -899,16 +899,7 @@
                                                 data-submenu
                                                 ></button>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <div class="dropdown dropstart dropdown-submenu">
-                                                    <button class="dropdown-item dropdown-toggle tag-datatable caret-absolute disabled" type="button">Tag</button>
-                                                    <div class="dropdown-menu">
-                                                        <button class="dropdown-item tag-done" type="button">Done</button>
-                                                        <button class="dropdown-item tag-new" type="button">New</button>
-                                                        <button class="dropdown-item tag-sale" type="button">Sale</button>
-                                                    </div>
-                                                </div>
-                                                <div class="dropdown-divider"></div>
-                                                <button class="dropdown-item disabled delete-datatable" type="button">Delete</button>
+                                                <button class="dropdown-item disabled delete-datatable" type="button" onclick="document.getElementById('deleteForm').submit();">Delete</button>
                                             </div>
                                         </div>
                                         <!-- Check Button End -->
@@ -920,129 +911,138 @@
 
                             <!-- Content Start -->
                             <div class="data-table-rows slim">
-                                <!-- Controls Start -->
-                                <div class="row">
-                                    <!-- Search Start -->
-                                    <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
-                                        <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-                                            <input class="form-control datatable-search" placeholder="Search" data-datatable="#datatableRows" />
-                                            <span class="search-magnifier-icon">
-                                                <i data-cs-icon="search"></i>
-                                            </span>
-                                            <span class="search-delete-icon d-none">
-                                                <i data-cs-icon="close"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <!-- Search End -->
-
-                                    <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
-                                        <div class="d-inline-block me-0 me-sm-3 float-start float-md-none">
-                                            <!-- Add Button Start -->
-                                            <button
-                                                class="btn btn-icon btn-icon-only btn-foreground-alternate shadow add-datatable"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Add"
-                                                type="button"
-                                                data-bs-delay="0"
-                                                >
-                                                <i data-cs-icon="plus"></i>
-                                            </button>
-                                            <!-- Add Button End -->
-
-                                            <!-- Edit Button Start -->
-                                            <button
-                                                class="btn btn-icon btn-icon-only btn-foreground-alternate shadow edit-datatable disabled"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Edit"
-                                                type="button"
-                                                data-bs-delay="0"
-                                                >
-                                                <i data-cs-icon="edit"></i>
-                                            </button>
-                                            <!-- Edit Button End -->
-
-                                            <!-- Delete Button Start -->
-                                            <button
-                                                class="btn btn-icon btn-icon-only btn-foreground-alternate shadow disabled delete-datatable"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Delete"
-                                                type="button"
-                                                data-bs-delay="0"
-                                                >
-                                                <i data-cs-icon="bin"></i>
-                                            </button>
-                                            <!-- Delete Button End -->
-                                        </div>
-                                        <div class="d-inline-block">
-                                            <!-- Length Start -->
-                                            <div class="dropdown-as-select d-inline-block datatable-length" data-datatable="#datatableRows" data-childSelector="span">
-                                                <button class="btn p-0 shadow" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,3">
-                                                    <span
-                                                        class="btn btn-foreground-alternate dropdown-toggle"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-bs-delay="0"
-                                                        title="Item Count"
-                                                        >
-                                                        10 Items
-                                                    </span>
-                                                </button>
-                                                <div class="dropdown-menu shadow dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">5 Items</a>
-                                                    <a class="dropdown-item active" href="#">10 Items</a>
-                                                    <a class="dropdown-item" href="#">20 Items</a>
-                                                </div>
+                                <form id="deleteForm" method="POST" action="UserController?action=delete">
+                                    <!-- Controls Start -->
+                                    <div class="row">
+                                        <!-- Search Start -->
+                                        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+                                            <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                                                <input class="form-control datatable-search" placeholder="Search" data-datatable="#datatableRows" />
+                                                <span class="search-magnifier-icon">
+                                                    <i data-cs-icon="search"></i>
+                                                </span>
+                                                <span class="search-delete-icon d-none">
+                                                    <i data-cs-icon="close"></i>
+                                                </span>
                                             </div>
-                                            <!-- Length End -->
+                                        </div>
+                                        <!-- Search End -->
+
+                                        <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
+                                            <div class="d-inline-block me-0 me-sm-3 float-start float-md-none">
+                                                <!-- Add Button Start -->
+                                                <button
+                                                    class="btn btn-icon btn-icon-only btn-foreground-alternate shadow add-datatable"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Add"
+                                                    type="button"
+                                                    data-bs-delay="0"
+                                                    >
+                                                    <i data-cs-icon="plus"></i>
+                                                </button>
+                                                <!-- Add Button End -->
+
+                                                <!-- Edit Button Start -->
+                                                <button
+                                                    class="btn btn-icon btn-icon-only btn-foreground-alternate shadow edit-datatable disabled"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Edit"
+                                                    type="button"
+                                                    data-bs-delay="0"
+                                                    >
+                                                    <i data-cs-icon="edit"></i>
+                                                </button>
+                                                <!-- Edit Button End -->
+
+                                                <!-- Delete Button Start -->
+                                                <button
+                                                    class="btn btn-icon btn-icon-only btn-foreground-alternate shadow disabled delete-datatable"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Delete"
+                                                    type="button"
+                                                    data-bs-delay="0"
+                                                    onclick="document.getElementById('deleteForm').submit();"
+                                                    >
+                                                    <i data-cs-icon="bin"></i>
+                                                </button>
+
+                                                <!-- Delete Button End -->
+                                            </div>
+                                            <div class="d-inline-block">
+                                                <!-- Length Start -->
+                                                <div class="dropdown-as-select d-inline-block datatable-length" data-datatable="#datatableRows" data-childSelector="span">
+                                                    <button class="btn p-0 shadow" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,3">
+                                                        <span
+                                                            class="btn btn-foreground-alternate dropdown-toggle"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-bs-delay="0"
+                                                            title="Item Count"
+                                                            >
+                                                            10 Items
+                                                        </span>
+                                                    </button>
+                                                    <div class="dropdown-menu shadow dropdown-menu-end">
+                                                        <a class="dropdown-item" href="#">5 Items</a>
+                                                        <a class="dropdown-item active" href="#">10 Items</a>
+                                                        <a class="dropdown-item" href="#">20 Items</a>
+                                                    </div>
+                                                </div>
+                                                <!-- Length End -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Controls End -->
+                                    <!-- Controls End -->
 
-                                <!-- Table Start -->
-                                <div class="data-table-responsive-wrapper">
-                                    <table id="datatableRows" class="data-table nowrap hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-muted text-small text-uppercase">ID</th>
-                                                <th class="text-muted text-small text-uppercase">Full Name</th>
-                                                <th class="text-muted text-small text-uppercase">Username</th>
-                                                <th class="text-muted text-small text-uppercase">Email</th>
-                                                <th class="text-muted text-small text-uppercase">Phone</th>
-                                                <th class="text-muted text-small text-uppercase">Gender</th>
-                                                <th class="text-muted text-small text-uppercase">Address</th>
-
-                                                <th class="empty">&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${users}" var="user">
+                                    <!-- Table Start -->
+                                    <div class="data-table-responsive-wrapper">
+                                        <table id="datatableRows" class="data-table nowrap hover">
+                                            <thead>
                                                 <tr>
-                                                    <td>${user.id}</td>
-                                                    <td>${user.fullName}</td>
-                                                    <td>${user.account}</td>
-                                                    <td>${user.email}</td>
-                                                    <td>${user.phone}</td>
-                                                    <td>
-                                                        <c:choose >
-                                                            <c:when test="${user.gender == true}">Male</c:when>
-                                                            <c:when test="${user.gender == false}">Female</c:when>
-                                                        </c:choose>
+                                                    <th class="text-muted text-small text-uppercase">ID</th>
+                                                    <th class="text-muted text-small text-uppercase">Full Name</th>
+                                                    <th class="text-muted text-small text-uppercase">Username</th>
+                                                    <th class="text-muted text-small text-uppercase">Email</th>
+                                                    <th class="text-muted text-small text-uppercase">Phone</th>
+                                                    <th class="text-muted text-small text-uppercase">Gender</th>
+                                                    <th class="text-muted text-small text-uppercase">Address</th>
 
-                                                    </td>
-                                                    <td>${user.address}</td>
-                                                    <td></td>
-                                                    <!--<th><a style="color: red; cursor: pointer" onclick="setConfirmModal(${user.id}, '${user.fullName}')">Demote</a></th>-->
+                                                    <th class="empty">&nbsp;</th>
                                                 </tr>
-                                            </c:forEach> 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- Table End -->
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${users}" var="user">
+                                                    <tr>
+                                                        <td>${user.id}</td>
+                                                        <td>${user.fullName}</td>
+                                                        <td>${user.account}</td>
+                                                        <td>${user.email}</td>
+                                                        <td>${user.phone}</td>
+                                                        <td>
+                                                            <c:choose >
+                                                                <c:when test="${user.gender == true}">Male</c:when>
+                                                                <c:when test="${user.gender == false}">Female</c:when>
+                                                            </c:choose>
+
+                                                        </td>
+                                                        <td>${user.address}</td>
+                                                        <td>
+                                                            <div class="form-check float-end mt-1">
+                                                                <input name="deleteIds" value="${user.id}" type="checkbox" class="form-check-input"/>
+                                                            </div>
+                                                        </td>
+                                                        <!--<td></td>-->                                                  
+                                                    </tr>
+                                                </c:forEach> 
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Table End -->
+                                </form>
                             </div>
                             <!-- Content End -->
 
