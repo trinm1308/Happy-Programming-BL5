@@ -1,3 +1,4 @@
+
 /**
  *
  * Scripts.js
@@ -306,3 +307,4 @@ class Scripts {
     Dropzone.autoDiscover = false;
   }
 })();
+

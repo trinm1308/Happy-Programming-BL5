@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 public class DBConnect {
 
-    private static String DB_URL = "jdbc:mysql://localhost:3306/happy_programming?allowPublicKeyRetrieval=true&useSSL=false";
+    private static String DB_URL = "jdbc:mysql://localhost:3306/happyprogramming?allowPublicKeyRetrieval=true&useSSL=false";
     private static String USER_NAME = "root";
-    private static String PASSWORD = "123456789";
+    private static String PASSWORD = "123456";
     //class này quản lý các kết nối đến cơ sở dữ liệu
     public Connection con = null;//cho bằng null để tránh ngoại lệ
 
@@ -26,7 +26,7 @@ public class DBConnect {
         //để kết nối đến cơ sở dữ liệu
         try {
             //get driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
             System.out.println("Connected");
         } catch (ClassNotFoundException | SQLException ex) {
