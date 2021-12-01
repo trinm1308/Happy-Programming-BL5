@@ -75,14 +75,9 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("password");
             User u = ud.checkUser(acc, password);
             if(u == null){
-                
                 HttpSession session =request.getSession();
                request.setAttribute("mess", "Wrong username or password ");
                request.getRequestDispatcher("login.jsp").forward(request, response);
-               
-                
-                
-                
             }else{
                 Cookie usernameC = new Cookie("userC", acc);
                 Cookie passwordC = new Cookie("passC", password);
@@ -96,7 +91,7 @@ public class LoginController extends HttpServlet {
                 response.addCookie(passwordC);
                 HttpSession session = request.getSession();
                 session.setAttribute("user", u);
-                request.getRequestDispatcher("homepage.jsp").forward(request, response);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
