@@ -138,6 +138,24 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void registerUser(String fullName, String account, String password, String email, String phone, int gender, String address) {
+        try {
+            String sql = "insert into user (full_name, email, phone, gender, address, role, account, password) values (?,?,?,?,?,?,?,?)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setString(2, email);
+            pre.setString(3, phone);
+            pre.setInt(4, gender);
+            pre.setString(5, address);
+            pre.setInt(6, 0);
+            pre.setString(7, account);
+            pre.setString(8, password);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {
         try {
@@ -147,13 +165,11 @@ public class UserDAO {
             pre.setString(2, account);
             pre.setString(3, email);
             pre.setString(4, phone);
-            pre.setBoolean(5, gender);
+            pre.setInt(5, 0);
             pre.setString(6, address);
             pre.setInt(7, 0);
             pre.setString(8, "12345678");
-
             pre.executeUpdate();
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

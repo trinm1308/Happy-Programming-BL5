@@ -4,7 +4,6 @@
     Author     : AnhDK
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,7 +56,7 @@
                             <h4 style="color: red; margin-bottom: 30px"><%=alert1%></h4>
                         </c:if>
 
-                        <form action="UserController?service=Signup" method="POST">
+                        <form action="register?action=Signup" method="POST">
                             <div class="input-group">
                                 <label class="label">Full name</label>
                                 <div class="rs-select2 js-select-simple select--no-search">
