@@ -18,7 +18,7 @@ public class DBConnect {
 
     private static String DB_URL = "jdbc:mysql://localhost:3306/happyprogramming?allowPublicKeyRetrieval=true&useSSL=false";
     private static String USER_NAME = "root";
-    private static String PASSWORD = "123456";
+    private static String PASSWORD = "123456789";
     //class này quản lý các kết nối đến cơ sở dữ liệu
     public Connection con = null;//cho bằng null để tránh ngoại lệ
 

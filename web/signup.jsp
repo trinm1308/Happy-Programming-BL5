@@ -61,7 +61,7 @@
                             <div class="input-group">
                                 <label class="label">Full name</label>
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <input class="input--style-4" type="text" value="${sessionScope.user.name}" name="fullname">
+                                    <input class="input--style-4" type="text" value="${sessionScope.user.fullname}" name="fullname">
 
                                 </div>
                             </div>
