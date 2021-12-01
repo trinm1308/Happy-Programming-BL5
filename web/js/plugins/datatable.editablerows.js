@@ -72,14 +72,14 @@ class EditableRows {
                         return '<a class="list-item-heading body" href="#">' + data + '</a>';
                     },
                 },
-                // Adding Tag content as a span with a badge class
+                        // Adding Tag content as a span with a badge class
 //                {
 //                    targets: 4,
 //                    render: function (data, type, row, meta) {
 //                        return '<span class="badge bg-outline-primary">' + data + '</span>';
 //                    },
 //                },
-                // Adding checkbox for Check column
+                        // Adding checkbox for Check column
 //                {
 //                    targets: 7,
 //                    render: function (data, type, row, meta) {
@@ -280,4 +280,5 @@ class EditableRows {
         document.querySelectorAll('.delete-datatable').forEach((el) => el.classList.add('disabled'));
         document.querySelectorAll('.tag-datatable').forEach((el) => el.classList.add('disabled'));
     }
+
 }
