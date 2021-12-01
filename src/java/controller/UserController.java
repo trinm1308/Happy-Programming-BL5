@@ -41,23 +41,12 @@ public class UserController extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             response.setContentType("text/html;charset=UTF-8");
-
+            
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-
-            if (request.getParameter("action") != null) {
-                String action = request.getParameter("action");
-                switch (action) {
-                    case "demote":
-                        int id = Integer.parseInt(request.getParameter("id"));
-                        break;
-                    default:
-                        break;
-                }
-            }
-
+            
             ArrayList<User> users = ud.getUsers();
-
+            
             request.setAttribute("users", users);
             request.getRequestDispatcher("user_management.jsp").forward(request, response);
         } catch (SQLException ex) {
@@ -91,7 +80,55 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            
+            DBConnect dc = new DBConnect();
+            UserDAO ud = new UserDAO(dc);
+            
+            if (request.getParameter("action") != null) {
+                String action = request.getParameter("action");
+                switch (action) {
+                    case "add":
+                        String addFullName = request.getParameter("FullName");
+                        String addAccount = request.getParameter("Username");
+                        String addEmail = request.getParameter("Email");
+                        String addPhone = request.getParameter("Phone");
+                        boolean addGender = "Male".equals(request.getParameter("Gender"));
+                        String addAddress = request.getParameter("Address");
+                        
+                        ud.addUser(addFullName, addAccount, addEmail, addPhone, addGender, addAddress);
+                        break;
+                    case "edit":
+                        int id = Integer.parseInt(request.getParameter("ID"));
+                        String fullName = request.getParameter("FullName");
+                        String account = request.getParameter("Username");
+                        String email = request.getParameter("Email");
+                        String phone = request.getParameter("Phone");
+                        System.out.println(request.getParameter("Gender"));
+                        boolean gender = "Male".equals(request.getParameter("Gender"));
+                        System.out.println(gender);
+                        String address = request.getParameter("Address");
+                        
+                        ud.editUser(id, fullName, account, email, phone, gender, address);
+                        break;
+                    
+                    case "delete":
+                        String[] ids = request.getParameterValues("deleteIds");
+                        for (String s : ids) {
+                            ud.deleteUser(Integer.parseInt(s));
+                        }
+                    default:
+                        break;
+                }
+            }
+            
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**

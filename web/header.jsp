@@ -1,22 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- 
+    Document   : header
+    Created on : Oct 13, 2021, 11:22:42 PM
+    Author     : Tri
+--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--Custom CSS-->
+        <link rel="stylesheet" href="css/template.css" />
 
+        <title>Header</title>
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #272727; font-family: Nunito Sans, Arial, sans-serif;">
+            <button type="button" id="sidebarCollapse" class="btn-link" style="margin-right: 10px">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" style="margin-right: 4rem" href="homepage.jsp">Happy Programming</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<div id="root">
-    <div id="nav" class="nav-container d-flex">
-        <div class="nav-content d-flex">
-            <!-- Logo Start -->
-            <div class="logo position-relative">
-                <a href="${pageContext.request.contextPath}/home">
-                    <!-- Logo can be added directly -->
-                    <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" style="flex: auto; justify-content: space-between">
 
-                    <!-- Or added via css to provide different ones for different color themes -->
-                    <div class="img"></div>
-                </a>
-            </div>
-            <!-- Logo End -->
+                    <li class="nav-item dropdown">
+                        <c:if test="${sessionScope.user!=null}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <b>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.user.role==0}">Mentor</c:when>
+                                        <c:when test="${sessionScope.user.role==1}">Mentee</c:when>
+                                        <c:when test="${sessionScope.user.role==2}">Admin</c:when>
+                                    </c:choose>
+                                </b>
+                                actions
+                            </a>
 
             <!-- Language Switch Start -->
 

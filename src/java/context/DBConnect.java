@@ -26,7 +26,7 @@ public class DBConnect {
         //để kết nối đến cơ sở dữ liệu
         try {
             //get driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
             System.out.println("Connected");
         } catch (ClassNotFoundException | SQLException ex) {
