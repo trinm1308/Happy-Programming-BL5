@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -82,5 +84,50 @@ public class UserDAO {
             System.out.println(e);
         }
         return null;
+    }
+
+    public void editUser(int id, String fullName, String account, String email, String phone, boolean gender, String address) {
+        try {
+            String sql = "update user set full_name = ?, "
+                    + "account = ?, "
+                    + "email = ?, "
+                    + "phone = ?, "
+                    + "gender = ?, "
+                    + "address = ? "
+                    + "where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setString(2, account);
+            pre.setString(3, email);
+            pre.setString(4, phone);
+            pre.setBoolean(5, gender);
+            pre.setString(6, address);
+            pre.setInt(7, id);
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {
+        try {
+            String sql = "insert into user (full_name, account, email, phone, gender, address, role, password) values (?,?,?,?,?,?,?,?)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setString(2, account);
+            pre.setString(3, email);
+            pre.setString(4, phone);
+            pre.setBoolean(5, gender);
+            pre.setString(6, address);
+            pre.setInt(7, 0);
+            pre.setString(8, "12345678");
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
