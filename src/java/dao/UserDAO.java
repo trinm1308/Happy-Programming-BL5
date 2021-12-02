@@ -12,8 +12,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -155,6 +162,72 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void send(String to, String sub,
+            String msg, final String user, final String pass) {
+        //Tạo 1 Properties(key-value)
+        Properties props = new Properties();
+
+        //Thông số kết nối tới Smtp Server--> đăng nhập email
+        props.put("mail.smtp.host", "mail.hopestorex.com");
+        //below mentioned mail.smtp.port is optional
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        /* Pass Properties object(props) and Authenticator object   
+           for authentication to Session instance 
+         */
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, pass);
+            }
+        });
+
+        try {
+
+            /* Create an instance of MimeMessage, 
+ 	      it accept MIME types and headers 
+             */
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject(sub);
+            message.setText(msg);
+
+            /* Transport class is used to deliver the message to the recipients */
+            Transport.send(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public User checkExitsEmail(String email) {
+        try {
+            String sql = "select * from user where email=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String account = rs.getString("account");
+                String password = rs.getString("password");
+                String userEmail = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                return new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 
     public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {

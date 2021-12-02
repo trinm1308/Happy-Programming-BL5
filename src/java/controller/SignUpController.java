@@ -7,6 +7,7 @@ package controller;
 
 import context.DBConnect;
 import dao.UserDAO;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,16 +39,32 @@ public class SignUpController extends HttpServlet {
             if (request.getParameter("action") != null) {
                 String action = request.getParameter("action");
                 if (action.equals("Signup")) {
+                    HttpSession session = request.getSession();
                     String addFullName = request.getParameter("fullname");
                     String addAccount = request.getParameter("username");
                     String addEmail = request.getParameter("email");
                     String addPhone = request.getParameter("phone");
+                    String addDOB = request.getParameter("birthday");
                     boolean addGender = "Male".equals(request.getParameter("gender"));
                     String addAddress = request.getParameter("address");
                     String addPassword = request.getParameter("password");
-                    ud.registerUser(addFullName, addAccount, addPassword, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
-                    response.sendRedirect("/LoginController");
-                    return;
+                    User user = new User(0, addFullName, addAccount, addPassword, addEmail, addPhone, addGender, addAddress,0 ,"framwork");
+                    session.setAttribute("user", user);
+                    User existUser = ud.checkExitsEmail(addEmail);
+                    if (existUser == null) {
+                        ud.registerUser(addFullName, addAccount, addPassword, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
+                        String userfrom = "cango-no-reply@hopestorex.com";
+                        String passfrom = "qweQWE@123";
+                        String code = "http://localhost:8080/LoginController";
+                        String subject = "Welcome to Happy Programming";
+                        String message = ("Registered successfully. Welcome to Happy Programming: " + code);
+                        UserDAO.send(addEmail, subject, message, userfrom, passfrom);
+                        response.sendRedirect("/LoginController");
+                        return;
+                    } else {
+                        request.setAttribute("mess", "Email already register!!!");
+                        request.getRequestDispatcher("signup.jsp").forward(request, response);
+                    }
                 }
             }
             processRequest(request, response);
