@@ -58,21 +58,45 @@ public class UserDAO {
             System.out.println(e);
         }
         return null;
-    }   
+    }
 
- public User checkUser(String account, String password) {
+    public User showUserProfile(String account) {
+        try {
+            String sql = "select * from user where account=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                return new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
+    public User checkUser(String account, String password) {
         try {
             String sql = "select * from user where account=? and password =?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             ps.setString(2, password);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String fullName = rs.getString("full_name");
-                 account = rs.getString("account");
-                 password = rs.getString("password");
+                account = rs.getString("account");
+                password = rs.getString("password");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 boolean gender = rs.getBoolean("gender");

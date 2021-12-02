@@ -1,51 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html lang="en" data-footer="true" data-override='{"attributes": {"placement": "horizontal", "layout": "boxed" }, "storagePrefix": "service-provider"}'>
+<html lang="en" data-footer="true" data-override='{"attributes":{"layout": "boxed"}}'>
+<c:set var="context" value=""/>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>User Profile</title>
-    <meta name="description" content="Service Provider Settings" />
-
+    <title>Thông tin cá nhân</title>
+    <meta name="description" content="Settings Profile Page" />
     <!-- Favicon Tags Start -->
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/favicon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/favicon/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/favicon/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/favicon/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/favicon/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/favicon/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/favicon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/favicon/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="images/favicon/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="images/favicon/favicon-128.png" sizes="128x128" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/img/favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/favicon/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-128.png" sizes="128x128" />
     <meta name="application-name" content="&nbsp;" />
     <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="images/favicon/mstile-70x70.png" />
-    <meta name="msapplication-square150x150logo" content="images/favicon/mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="images/favicon/mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="images/favicon/mstile-310x310.png" />
+    <meta name="msapplication-TileImage" content="/img/favicon/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="/img/favicon/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="/img/favicon/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="/img/favicon/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="/img/favicon/mstile-310x310.png" />
     <!-- Favicon Tags End -->
     <!-- Font Tags Start -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="font/CS-Interface/style.css" />
+    <link rel="stylesheet" href="/font/CS-Interface/style.css" />
     <!-- Font Tags End -->
     <!-- Vendor Styles Start -->
-    <link rel="stylesheet" href="css/vendor/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/vendor/OverlayScrollbars.min.css" />
-    <link rel="stylesheet" href="css/vendor/select2.min.css" />
-    <link rel="stylesheet" href="css/vendor/select2-bootstrap4.min.css" />
+    <link rel="stylesheet" href="/resources/css/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="/resources/css/vendor/OverlayScrollbars.min.css" />
+    <link rel="stylesheet" href="/resources/css/vendor/select2.min.css" />
+    <link rel="stylesheet" href="/resources/css/vendor/select2-bootstrap4.min.css" />
+    <link rel="stylesheet" href="/resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
     <!-- Vendor Styles End -->
     <!-- Template Base Styles Start -->
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="/resources/css/styles.css" />
     <!-- Template Base Styles End -->
 
-    <link rel="stylesheet" href="css/main.css" />
-    <script src="js/base/loader.js"></script>
+    <link rel="stylesheet" href="/resources/css/main.css" />
+    <script src="/resources/js/base/loader.js"></script>
   </head>
 
   <body>
@@ -65,12 +70,12 @@
                 <div class="row">
                   <!-- Title Start -->
                   <div class="col">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Th�ng tin t�i kho?n</h1>
+                    <h1 class="mb-0 pb-0 display-4" id="title">Thông tin tài khoản</h1>
                     <nav class="breadcrumb-container d-inline-block" aria-label="breadcrumb">
                       <ul class="breadcrumb pt-0">
-                        <li class="breadcrumb-item"><a href="${context}/home">Trang ch?</a></li>
+                        <li class="breadcrumb-item"><a href="/home">Trang chủ</a></li>
      
-                        <li class="breadcrumb-item"><a href="${context}/profile">Th�ng tin t�i kho?n</a></li>
+                        <li class="breadcrumb-item"><a href="/profile">Thông tin tài khoản</a></li>
                       </ul>
                     </nav>
                   </div>
@@ -80,7 +85,7 @@
                   <div class="col-12 col-sm-auto d-flex align-items-start justify-content-end d-block d-lg-none">
                     <button type="button" class="btn btn-icon btn-icon-start btn-outline-primary w-100 w-sm-auto" data-bs-toggle="dropdown">
                       <i data-cs-icon="gear"></i>
-                      <span>C�i ??t</span>
+                      <span>Cài đặt</span>
                     </button>
                     <!-- Content of below will be moved to #settingsColumn or back in here based on the data-move-breakpoint attribute below -->
                     <!-- Content will be here if the screen size is smaller than lg -->
@@ -95,36 +100,36 @@
                       <div class="mb-2">
                         <a class="nav-link active px-0" href="#">
                           <i data-cs-icon="activity" class="me-2" data-cs-size="17"></i>
-                          <span class="align-middle">Th�ng tin c� nh�n</span>
+                          <span class="align-middle">Thông tin cá nhân</span>
                         </a>
                         <div>
                           <a class="nav-link active py-1 my-1 px-0" href="#">
                             <i class="me-2 sw-2 d-inline-block"></i>
-                            <span class="align-middle">C� nh�n</span>
+                            <span class="align-middle">Cá nhân</span>
                           </a>
                           <a class="nav-link py-1 my-1 px-0" href="#">
                             <i class="me-2 sw-2 d-inline-block"></i>
-                            <span class="align-middle">B?n b�</span>
+                            <span class="align-middle">Bạn bè</span>
                           </a>
                           <a class="nav-link py-1 my-1 px-0" href="#">
                             <i class="me-2 sw-2 d-inline-block"></i>
-                            <span class="align-middle">T�i kho?n</span>
+                            <span class="align-middle">Tài khoản</span>
                           </a>
                         </div>
                       </div>
                       <div class="mb-2">
                         <a class="nav-link px-0" href="#">
                           <i data-cs-icon="credit-card" class="me-2" data-cs-size="17"></i>
-                          <span class="align-middle">Thanh to�n</span>
+                          <span class="align-middle">Thanh toán</span>
                         </a>
                         <div>
                           <a class="nav-link py-1 my-1 px-0" href="#">
                             <i class="me-2 sw-2 d-inline-block"></i>
-                            <span class="align-middle">Ph??ng th?c</span>
+                            <span class="align-middle">Phương thức</span>
                           </a>
                           <a class="nav-link py-1 my-1 px-0" href="#">
                             <i class="me-2 sw-2 d-inline-block"></i>
-                            <span class="align-middle">Ho� ??n</span>
+                            <span class="align-middle">Hoá đơn</span>
                           </a>
                           
                         </div>
@@ -132,7 +137,7 @@
                       <div class="mb-2">
                         <a class="nav-link px-0" href="profile?action=chgpass">
                           <i data-cs-icon="shield" class="me-2" data-cs-size="17"></i>
-                          <span class="align-middle">B?o m?t</span>
+                          <span class="align-middle">Bảo mật</span>
                         </a>
                         <div>
                         
@@ -143,13 +148,13 @@
                       <div class="mb-2">
                         <a class="nav-link px-0" href="#">
                           <i data-cs-icon="notification" class="me-2" data-cs-size="17"></i>
-                          <span class="align-middle">Th�ng b�o</span>
+                          <span class="align-middle">Thông báo</span>
                         </a>
                       </div>
                       <div class="mb-2">
                         <a class="nav-link px-0" href="#">
                           <i data-cs-icon="tablet" class="me-2" data-cs-size="17"></i>
-                          <span class="align-middle">?ng d?ng</span>
+                          <span class="align-middle">Ứng dụng</span>
                         </a>
                       </div>
                     </div>
@@ -161,7 +166,7 @@
               <!-- Title and Top Buttons End -->
 
               <!-- Public Info Start -->
-              <h2 class="small-title">C?p nh?t th�ng tin </h2>
+              <h2 class="small-title">Cập nhật thông tin </h2>
               <div class="card mb-5">
                 <div class="card-body">
                   <form id="profileForm">
@@ -176,34 +181,34 @@
                     </div>
 
                     <div class="mb-3 row">
-                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">T�n</label>
+                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Tên</label>
                       <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input type="text" class="form-control" name="name" value="Nguy?n Minh ??c" />
+                        <input type="text" class="form-control" name="name" value="Nguyễn Minh Đức" />
                       </div>
                     </div>
 
                     <div class="mb-3 row">
-                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gi?i t�nh</label>
+                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Giới tính</label>
                       <div class="col-sm-8 col-md-9 col-lg-10">
                         <select class="select-single-no-search" name="gender" data-width="100%" id="genderSelect">
                           
-                          <option value="1" <c:if test="${sessionScope.AuthenticationUser.gender == 1}">selected</c:if>>Female</option>
-                          <option value="2" <c:if test="${sessionScope.AuthenticationUser.gender == 2}">selected</c:if>>Male</option>
-                          <option value="3" <c:if test="${sessionScope.AuthenticationUser.gender == 3}">selected</c:if>>Other</option>
+                          <option value="1">Female</option>
+                          <option value="2" selected>Male</option>
+                          <option value="3">Other</option>
                    
                         </select>
                       </div>
                     </div>
 
                     <div class="mb-3 row">
-                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Ng�y sinh</label>
+                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Ngày sinh</label>
                       <div class="col-sm-8 col-md-9 col-lg-10">
                         <input type="text" name="dob" class="form-control date-picker-close" id="birthday" value="28/10/1996" />
                       </div>
                     </div>
                  
                     <div class="mb-3 row">
-                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">?i?n tho?i</label>
+                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Điện thoại</label>
                       <div class="col-sm-8 col-md-9 col-lg-10">
                         <input type="text" name="phone" class="form-control" value="091234567"/>
                       </div>
@@ -211,7 +216,7 @@
                    
                   
                     <div class="mb-3 row">
-                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gi?i thi?u</label>
+                      <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Giới thiệu</label>
                       <div class="col-sm-8 col-md-9 col-lg-10">
                         <textarea class="form-control" name="bio" rows="3"> Hello</textarea>
                       </div>
@@ -219,7 +224,7 @@
                    
                     <div class="mb-3 row mt-5">
                       <div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-                        <button type="submit" class="btn btn-primary">C?p nh?t</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                         <a style="margin-left: 10px" id="message"></a>
                       </div>
                     </div>
@@ -262,28 +267,29 @@
     <!-- Search Modal End -->
 
     <!-- Vendor Scripts Start -->
-    <script src="js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="js/vendor/OverlayScrollbars.min.js"></script>
-    <script src="js/vendor/autoComplete.min.js"></script>
-    <script src="js/vendor/clamp.min.js"></script>
-    <script src="js/vendor/select2.full.min.js"></script>
-    <script src="js/vendor/singleimageupload.js"></script>
+    <script src="/resources/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="/resources/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/resources/js/vendor/OverlayScrollbars.min.js"></script>
+    <script src="/resources/js/vendor/autoComplete.min.js"></script>
+    <script src="/resources/js/vendor/clamp.min.js"></script>
+    <script src="/resources/js/vendor/movecontent.js"></script>
+    <script src="/resources/js/vendor/select2.full.min.js"></script>
+    <script src="/resources/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
     <!-- Vendor Scripts End -->
 
     <!-- Template Base Scripts Start -->
-    <script src="font/CS-Line/csicons.min.js"></script>
-    <script src="js/base/helpers.js"></script>
-    <script src="js/base/globals.js"></script>
-    <script src="js/base/nav.js"></script>
-    <script src="js/base/search.js"></script>
-    <script src="js/base/settings.js"></script>
-    <script src="js/base/init.js"></script>
+    <script src="/resources/font/CS-Line/csicons.min.js"></script>
+    <script src="/resources/js/base/helpers.js"></script>
+    <script src="/resources/js/base/globals.js"></script>
+    <script src="/resources/js/base/nav.js"></script>
+    <script src="/resources/js/base/search.js"></script>
+    <script src="/resources/js/base/settings.js"></script>
+    <script src="/resources/js/base/init.js"></script>
     <!-- Template Base Scripts End -->
     <!-- Page Specific Scripts Start -->
-    <script src="js/pages/account.settings.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="/resources/js/pages/profile.settings.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <script src="/resources/js/scripts.js"></script>
     <!-- Page Specific Scripts End -->
   </body>
 </html>

@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -66,7 +67,32 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            
+            DBConnect dc = new DBConnect();
+            UserDAO ud = new UserDAO(dc);
+            
+            if (request.getParameter("action") != null) {
+                String action = request.getParameter("action");
+                switch (action) {
+                    case "getProfile":
+                        String account = request.getParameter("user");
+                        User u = ud.showUserProfile(account);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("u", u);
+                        response.sendRedirect("profile.jsp");
+                    default:
+                        break;
+                }
+            }
+            
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
