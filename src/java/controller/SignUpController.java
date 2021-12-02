@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +34,6 @@ public class SignUpController extends HttpServlet {
 
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-
             if (request.getParameter("action") != null) {
                 String action = request.getParameter("action");
                 if (action.equals("Signup")) {
@@ -44,7 +45,8 @@ public class SignUpController extends HttpServlet {
                     String addAddress = request.getParameter("address");
                     String addPassword = request.getParameter("password");
                     ud.registerUser(addFullName, addAccount, addPassword, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    response.sendRedirect("/LoginController");
+                    return;
                 }
             }
             processRequest(request, response);
