@@ -65,21 +65,21 @@ public class UserDAO {
             System.out.println(e);
         }
         return null;
-    }   
+    }
 
- public User checkUser(String account, String password) {
+    public User checkUser(String account, String password) {
         try {
             String sql = "select * from user where account=? and password =?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             ps.setString(2, password);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String fullName = rs.getString("full_name");
-                 account = rs.getString("account");
-                 password = rs.getString("password");
+                account = rs.getString("account");
+                password = rs.getString("password");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 boolean gender = rs.getBoolean("gender");
@@ -145,7 +145,19 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public void changePassword(int id, String password) {
+        try {
+            String sql = "update user set password =? where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, password);
+            pre.setInt(2, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void registerUser(String fullName, String account, String password, String email, String phone, int gender, String address) {
         try {
             String sql = "insert into user (full_name, email, phone, gender, address, role, account, password) values (?,?,?,?,?,?,?,?)";
@@ -163,7 +175,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void send(String to, String sub,
             String msg, final String user, final String pass) {
         //Tạo 1 Properties(key-value)
@@ -203,7 +215,7 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    
+
     public User checkExitsEmail(String email) {
         try {
             String sql = "select * from user where email=?";

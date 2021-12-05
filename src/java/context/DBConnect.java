@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class DBConnect {
 
-    private static String DB_URL = "jdbc:mysql://localhost:3306/happy_programming?allowPublicKeyRetrieval=true&useSSL=false";
+    private static String DB_URL = "jdbc:mysql://localhost:3306/happyprogramming?allowPublicKeyRetrieval=true&useSSL=false";
     private static String USER_NAME = "root";
     private static String PASSWORD = "123456789";
     //class này quản lý các kết nối đến cơ sở dữ liệu

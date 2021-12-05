@@ -63,10 +63,6 @@
                     <div class="offset-0 col-12 d-none d-lg-flex offset-md-1 col-lg h-lg-100">
                         <div class="min-h-100 d-flex align-items-center">
                             <div class="w-100 w-lg-75 w-xxl-50">
-                                <div>
-                                    <div class="mb-5">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,42 +73,36 @@
                         <div class="sw-lg-70 min-h-100 bg-foreground d-flex justify-content-center align-items-center shadow-deep py-5 full-page-content-right-border">
                             <div class="sw-lg-50 px-5">
                                 <div class="mb-5">
-                                    <h2 class="cta-1 mb-0 text-primary">Welcome,</h2>
-                                    <h2 class="cta-1 text-primary">let's get started!</h2>
-                                </div>
-                                <div class="mb-5">
-                                    <p class="h6">Please use your credentials to login.</p>
-                                    <p class="h6">
-                                        If you are not a member, please
-                                        <a href="/signup.jsp">register</a>
-                                        .
-                                    </p>
+                                    <h2 class="cta-1 text-primary">Change your password</h2>
                                 </div>
                                 <div>
-                                   <form  action="LoginController" method="POST"  class="tooltip-end-bottom" >
-                                       <div class="mb-3 filled form-group tooltip-end-top">
-                                         <i data-cs-icon="email"></i>
-                                         <input class="form-control" placeholder="Account" name="username" />
-                                       </div>
-                                       <div class="mb-3 filled form-group tooltip-end-top">
-                                         <i data-cs-icon="lock-off"></i>
-                                         <input class="form-control pe-7" name="password" type="password" placeholder="Password" />
-                                         <a class="text-small position-absolute t-3 e-3" href="Pages.Authentication.ForgotPassword.html">Forgot?</a>
-                                       </div>
-                                       <br/>
-                                        <p style = "color: red"> ${mess} </p>
-                                       <input type="submit" class="btn btn-lg btn-primary" value = "Login" >
-                                     </form> 
+                                    <form  action="ChangePassController" method="POST"  class="tooltip-end-bottom" >
+                                        <div class="mb-3 filled form-group tooltip-end-top">
+                                            <i data-cs-icon="lock-off"></i>
+                                            <input class="form-control pe-7" name="oldPassword" type="password" placeholder="Enter your password"  value="${oldPassword}"/>
+                                            <a class="text-small position-absolute t-3 e-3" href="Pages.Authentication.ForgotPassword.html">Forgot?</a>
+                                        </div>
+                                        <div class="mb-3 filled form-group tooltip-end-top">
+                                            <i data-cs-icon="lock-off"></i>
+                                            <input class="form-control pe-7" name="newPassword" type="password" placeholder="Enter new Password"  value="${newPassword}"/>
+                                        </div>
+                                        <div class="mb-3 filled form-group tooltip-end-top">
+                                            <i data-cs-icon="lock-off"></i>
+                                            <input class="form-control pe-7" name="reNewPassword" type="password" placeholder="Re-Enter new Password"  value="${reNewPassword}"/>
+                                        </div>
+                                        <br/>
+                                        <div class="mb-5">
+                                            <h2 class="cta-1 mb-0 text-primary"> ${message}</h2>
+                                        </div>
+                                        <input type="submit" class="btn btn-lg btn-primary" value = "Login" >
+                                    </form> 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Right Side End -->
                 </div>
             </div>
         </div>
-
-        <!-- Theme Settings Modal Start -->
         <div
             class="modal fade modal-right scroll-out-negative"
             id="settings"
@@ -628,24 +618,5 @@
 
 
 <!---<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-       
-        <form action="LoginController" method="POST">
-            Username: <input type="text" name="username"  required />
-            <br/>
-            Password: <input type="password" name="password" required/>
-            <br/>
-            Remember<input type="checkbox" name="remember-me" value="ON" />   <br/>
-            <p style = "color: red"> ${mess} </p>
-                               <input type="submit" value="Login" />
-            <a href="fb.com">Forgot password</a>
-        </form> 
-    </body>
-</html> --->
+
 

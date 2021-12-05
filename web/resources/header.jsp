@@ -9,97 +9,56 @@
             <!-- Logo Start -->
             <div class="logo position-relative">
                 <a href="/home">
-                    <!-- Logo can be added directly -->
-                    <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
-
-                    <!-- Or added via css to provide different ones for different color themes -->
                     <div class="img"></div>
                 </a>
             </div>
-            <!-- Logo End -->
 
-            <!-- Language Switch Start -->
-
-            <!-- Language Switch End -->
-
-            <!-- User Menu Start -->
             <div class="user-container d-flex">
-                <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    
-                       
-                  
-                   
+                <c:if test="${sessionScope.user!=null}">
+                    <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+
                         <img class="profile" alt="profile" src="/resources/img/profile/default.jpg" />
                         <div class="name">Nguyễn Minh Đức</div>
-                   
-                </a>
-                <div class="dropdown-menu dropdown-menu-end user-menu wide">
-                    <div class="row mb-3 ms-0 me-0">
-                        <div class="col-12 ps-1 mb-2">
-                            <div class="text-extra-small text-primary">TÀI KHOẢN</div>
-                        </div>
-                        <div class="col-6 ps-1 pe-1">
-                            <ul class="list-unstyled">
-                                
-                                    <li> <a href="/profile?action=general">Thông tin</a></li>
-                                        
-                                        <li> <a href="/admin">Bảng quản trị</a></li>
-                                        
-                                  
-                                 
-                            </ul>
-                        </div>
 
-                    </div>
-                    
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end user-menu wide">
+                        <div class="row mb-3 ms-0 me-0">
+                            <div class="col-12 ps-1 mb-2">
+                                <div class="text-extra-small text-primary">Account</div>
+                            </div>
+                            <div class="col-6 ps-1 pe-1">
+                                <ul class="list-unstyled">
+                                    <li> <a href="/profile.jsp?action=general">Profile</a></li>
+                                    <c:if test="${sessionScope.user.role==2}">
+                                        <li> <a href="/admin.jsp">Admin Page</a></li>
+                                    </c:if>
+                                    
+                                </ul>
+                            </div>
+
+                        </div>
                         <div class="row mb-1 ms-0 me-0">
-                            <div class="col-12 p-1 mb-2 pt-2">
-                                <div class="text-extra-small text-primary">Danh sách</div>
+                            <div class="col-12 p-1 mb-3 pt-3">
+                                <div class="separator-light"></div>
                             </div>
                             <div class="col-6 ps-1 pe-1">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">Đang học</a>
+                                        <a href="#">
+                                            <i data-cs-icon="help" class="me-2" data-cs-size="17"></i>
+                                            <span class="align-middle">Trợ giúp</span>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="#">Chứng chỉ</a>
+                                        <a href="#">
+                                            <i data-cs-icon="file-text" class="me-2" data-cs-size="17"></i>
+                                            <span class="align-middle">Tài liệu</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-6 pe-1 ps-1">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">Wishlist</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Đã học</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                  
-                    <div class="row mb-1 ms-0 me-0">
-                        <div class="col-12 p-1 mb-3 pt-3">
-                            <div class="separator-light"></div>
-                        </div>
-                        <div class="col-6 ps-1 pe-1">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="#">
-                                        <i data-cs-icon="help" class="me-2" data-cs-size="17"></i>
-                                        <span class="align-middle">Trợ giúp</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i data-cs-icon="file-text" class="me-2" data-cs-size="17"></i>
-                                        <span class="align-middle">Tài liệu</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                      
+
                             <div class="col-6 pe-1 ps-1">
                                 <ul class="list-unstyled">
                                     <li>
@@ -116,9 +75,10 @@
                                     </li>
                                 </ul>
                             </div>
-                       
+
+                        </div>
                     </div>
-                </div>
+                </c:if>
             </div>
             <!-- User Menu End -->
 
@@ -137,32 +97,32 @@
                         <i data-cs-icon="light-off" class="dark" data-cs-size="18"></i>
                     </a>
                 </li>
-             
-                  
-                        <li class="list-inline-item">
-                            <a href="#" data-bs-toggle="dropdown" data-bs-target="#notifications" aria-haspopup="true" aria-expanded="false" class="notification-button">
-                                <div class="position-relative d-inline-flex">
-                                    <i data-cs-icon="heart" data-cs-size="18"></i>
-                                    <span class="position-absolute notification-dot rounded-xl"></span>
-                                </div>
-                            </a>
 
-                            <div class="dropdown-menu dropdown-menu-end wide notification-dropdown scroll-out" id="notifications">
-                                <div class="scroll">
-                                    <ul class="list-unstyled border-last-none">
-                                       
-                                            <li class="mb-3 pb-3 border-bottom border-separator-light d-flex">
-                                                <img src="" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="..." />
-                                                <div class="align-self-center">
-                                                    <a href="#"></a>
-                                                </div>
-                                            </li>
-                                       
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                   
+
+                <li class="list-inline-item">
+                    <a href="#" data-bs-toggle="dropdown" data-bs-target="#notifications" aria-haspopup="true" aria-expanded="false" class="notification-button">
+                        <div class="position-relative d-inline-flex">
+                            <i data-cs-icon="heart" data-cs-size="18"></i>
+                            <span class="position-absolute notification-dot rounded-xl"></span>
+                        </div>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end wide notification-dropdown scroll-out" id="notifications">
+                        <div class="scroll">
+                            <ul class="list-unstyled border-last-none">
+
+                                <li class="mb-3 pb-3 border-bottom border-separator-light d-flex">
+                                    <img src="" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="..." />
+                                    <div class="align-self-center">
+                                        <a href="#"></a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
             </ul>
             <!-- Icons Menu End -->
 
@@ -172,52 +132,31 @@
                     <li>
                         <a href="/home" data-href="#admin">
                             <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
-                            <span class="label">Trang chủ</span>
+                            <span class="label">Homepage</span>
                         </a>
 
                     </li>
-                  
+                    <c:if test="${sessionScope.user.role==2}">
                         <li>
                             <a href="./admin" data-href="#admin">
                                 <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
-                                <span class="label">Bảng quản trị</span>
+                                <span class="label">Admin Board</span>
                             </a>
 
                         </li>
-                    
+                    </c:if>
                     <li>
                         <a href="#course" data-href="#course">
                             <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                            <span class="label">Danh sách</span>
+                            <span class="label">Mentor List</span>
                         </a>
                         <ul id="apps">
                             <li>
                                 <a href="/course/list">
-                                    <span class="label">Danh sách khóa học</span>
+                                    <span class="label">Course List</span>
                                 </a>
                             </li>
 
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/quiz" data-href="#quiz">
-                            <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
-                            <span class="label">Quiz</span>
-                        </a>
-
-                    </li>
-                    <li>
-                        <a href="#teacher" data-href="#teacher">
-                            <i data-cs-icon="book" class="icon" data-cs-size="18"></i>
-                            <span class="label">Blog</span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="/blog/list" data-href="#hot">
-                                    <span class="label">HOT</span>
-                                </a>
-
-                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -271,5 +210,4 @@
             </div>
         </div>
     </footer>
-    <!-- Layout Footer End -->
 </div>
