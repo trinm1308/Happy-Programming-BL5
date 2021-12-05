@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,17 +42,18 @@ public class UserController extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             response.setContentType("text/html;charset=UTF-8");
-            
+
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-            
+
             ArrayList<User> users = ud.getUsers();
-            
+
             request.setAttribute("users", users);
             request.getRequestDispatcher("user_management.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,10 +85,10 @@ public class UserController extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             response.setContentType("text/html;charset=UTF-8");
-            
+
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-            
+
             if (request.getParameter("action") != null) {
                 String action = request.getParameter("action");
                 switch (action) {
@@ -97,7 +99,7 @@ public class UserController extends HttpServlet {
                         String addPhone = request.getParameter("Phone");
                         boolean addGender = "Male".equals(request.getParameter("Gender"));
                         String addAddress = request.getParameter("Address");
-                        
+
                         ud.addUser(addFullName, addAccount, addEmail, addPhone, addGender, addAddress);
                         break;
                     case "edit":
@@ -110,25 +112,46 @@ public class UserController extends HttpServlet {
                         boolean gender = "Male".equals(request.getParameter("Gender"));
                         System.out.println(gender);
                         String address = request.getParameter("Address");
-                        
+
                         ud.editUser(id, fullName, account, email, phone, gender, address);
                         break;
-                    
+
                     case "delete":
                         String[] ids = request.getParameterValues("deleteIds");
                         for (String s : ids) {
                             ud.deleteUser(Integer.parseInt(s));
                         }
+                    case "forgetPass":
+                        email = request.getParameter("email");
+                        User u = ud.checkExitsEmail(email);
+                        if (u != null) {
+                            String userfrom = "longnvhn41@gmail.com";
+                            String passfrom = "nguyenvanlong98";
+                            String code = ud.getRandom2(6);
+                            String subject = "Change Your Password";
+                            String message = ("Your authentic code to change your password: " + code);
+                            UserDAO.send(email, subject, message, userfrom, passfrom);
+                            HttpSession session = request.getSession();
+                            session.setMaxInactiveInterval(120);
+                            session.setAttribute("otp", code);
+                            session.setAttribute("account", u.getAccount());
+                            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+                        } else {
+                            request.setAttribute("thongbao", "Email not existed!!");
+                            request.getRequestDispatcher("forgetPass.jsp").forward(request, response);
+
+                        }
+
                     default:
                         break;
                 }
             }
-            
+
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**

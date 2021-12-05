@@ -1,15 +1,17 @@
 <%-- 
-    Document   : login
-    Created on : Nov 30, 2021, 5:11:03 PM
+    Document   : forgetpass
+    Created on : Dec 5, 2021, 10:57:21 PM
     Author     : admin
 --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <title>Acorn Admin Template | Login Page</title>
-        <meta name="description" content="Login Page" />
+        <title>Acorn Admin Template | Forgot Password Page</title>
+        <meta name="description" content="Forgot Password Page" />
         <!-- Favicon Tags Start -->
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png" />
@@ -91,45 +93,27 @@
                                     </a>
                                 </div>
                                 <div class="mb-5">
-                                    <h2 class="cta-1 mb-0 text-primary">Welcome,</h2>
-                                    <h2 class="cta-1 text-primary">let's get started!</h2>
+                                    <h2 class="cta-1 mb-0 text-primary">Password is gone?</h2>
+                                    <h2 class="cta-1 text-primary">Let's reset it!</h2>
                                 </div>
                                 <div class="mb-5">
-                                    <p class="h6">Please use your credentials to login.</p>
+                                    <p class="h6">Please enter your email to receive a link to reset your password.</p>
                                     <p class="h6">
-                                        If you are not a member, please
-                                        <a href="/signup.jsp">register</a>
+                                        If you are a member, please
+                                        <a href="Pages.Authentication.Login.html">login</a>
                                         .
                                     </p>
                                 </div>
                                 <div>
-                                   <form  action="LoginController" method="POST"  class="tooltip-end-bottom" >
-                                       <div class="mb-3 filled form-group tooltip-end-top">
-                                         <i data-cs-icon="email"></i>
-                                         <input class="form-control" placeholder="Account" name="username" />
-                                       </div>
-                                       <div class="mb-3 filled form-group tooltip-end-top">
-                                         <i data-cs-icon="lock-off"></i>
-                                         <input class="form-control pe-7" name="password" type="password" placeholder="Password" />
-                                         <a class="text-small position-absolute t-3 e-3" href="forgetpass.jsp">Forgot?</a>
-                                       </div>
-                                       <br/>
+                                    <form action="UserController" method="POST"  class="tooltip-end-bottom" >
+                                        <input type="text" name="action" value ="forgetPass" hidden readonly>
+                                        <div class="mb-3 filled form-group tooltip-end-top">
+                                            <i data-cs-icon="email"></i>
+                                            <input class="form-control" placeholder="Email" name="email" />
+                                        </div>
+                                        <button type="submit" class="btn btn-lg btn-primary">Send Reset Email</button>
                                         <p style = "color: red"> ${mess} </p>
-                                       <input type="submit" class="btn btn-lg btn-primary" value = "Login" >
-                                     </form> 
-                              <!---      <form action="LoginController" method="POST" id="loginForm" class="tooltip-end-bottom">
-                                        
-                                        Username: <input type="text" name="username"  required />
-                                        <br/>
-                                        Password: <input type="password" name="password" required/>
-                                        <br/>
-                                        Remember<input type="checkbox" name="remember-me" value="ON" />   <br/>
-                                        <p style = "color: red"> ${mess} </p>
-                                        <input type="submit" value="Login" />
-
-                                        <a href="fb.com">Forgot password</a>
-                                    </form> --->
-                                
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -645,34 +629,10 @@
         <script src="js/base/init.js"></script>
         <!-- Template Base Scripts End -->
         <!-- Page Specific Scripts Start -->
-        <script src="js/pages/auth.login.js"></script>
+        <script src="js/pages/auth.forgotpassword.js"></script>
         <script src="js/common.js"></script>
         <script src="js/scripts.js"></script>
         <!-- Page Specific Scripts End -->
     </body>
 </html>
-
-
-
-<!---<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-       
-        <form action="LoginController" method="POST">
-            Username: <input type="text" name="username"  required />
-            <br/>
-            Password: <input type="password" name="password" required/>
-            <br/>
-            Remember<input type="checkbox" name="remember-me" value="ON" />   <br/>
-            <p style = "color: red"> ${mess} </p>
-                               <input type="submit" value="Login" />
-            <a href="fb.com">Forgot password</a>
-        </form> 
-    </body>
-</html> --->
 

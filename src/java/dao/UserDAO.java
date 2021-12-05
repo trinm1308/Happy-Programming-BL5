@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
@@ -65,21 +66,21 @@ public class UserDAO {
             System.out.println(e);
         }
         return null;
-    }   
+    }
 
- public User checkUser(String account, String password) {
+    public User checkUser(String account, String password) {
         try {
             String sql = "select * from user where account=? and password =?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             ps.setString(2, password);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String fullName = rs.getString("full_name");
-                 account = rs.getString("account");
-                 password = rs.getString("password");
+                account = rs.getString("account");
+                password = rs.getString("password");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 boolean gender = rs.getBoolean("gender");
@@ -145,7 +146,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void registerUser(String fullName, String account, String password, String email, String phone, int gender, String address) {
         try {
             String sql = "insert into user (full_name, email, phone, gender, address, role, account, password) values (?,?,?,?,?,?,?,?)";
@@ -163,14 +164,14 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void send(String to, String sub,
             String msg, final String user, final String pass) {
         //Tạo 1 Properties(key-value)
         Properties props = new Properties();
 
         //Thông số kết nối tới Smtp Server--> đăng nhập email
-        props.put("mail.smtp.host", "mail.hopestorex.com");
+        props.put("mail.smtp.host", "smtp.gmail.com");
         //below mentioned mail.smtp.port is optional
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
@@ -203,7 +204,8 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    
+
+
     public User checkExitsEmail(String email) {
         try {
             String sql = "select * from user where email=?";
@@ -259,5 +261,44 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void updatePassUser(String account, String password) {
+
+        try {
+            String sql = "Update user SET password=? WHERE account=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public String getRandom2(int numberOfCharactor) {
+        String alpha = "abcdefghijklmnopqrstuvwxyz"; // a-z
+        String alphaUpperCase = alpha.toUpperCase(); // A-Z
+        String digits = "0123456789"; // 0-9
+        String ALPHA_NUMERIC = alpha + alphaUpperCase + digits;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numberOfCharactor; i++) {
+            int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
+            char ch = ALPHA_NUMERIC.charAt(number);
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    public String getRandom() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
+    }
+
+    public static int randomNumber(int min, int max) {
+        Random rnd = new Random();
+        return rnd.nextInt((max - min) + 1) + min;
     }
 }
