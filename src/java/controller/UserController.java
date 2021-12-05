@@ -152,7 +152,7 @@ public class UserController extends HttpServlet {
                         //id = Integer.parseInt(request.getParameter("ID"));
                         fullName = request.getParameter("name");
                         //account = request.getParameter("Username");
-                        email = request.getParameter("email");
+                        email = user.getEmail();
                         phone = request.getParameter("phone");
                         String avatar = request.getParameter("avatar");
                         System.out.println(request.getParameter("Gender"));
