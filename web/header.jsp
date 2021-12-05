@@ -30,7 +30,7 @@
                 <c:if test="${sessionScope.user!=null}">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-
+                            <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
                         <div class="name">Nguyễn Minh Đức</div>
 
                     </a>
@@ -142,7 +142,8 @@
             <div class="menu-container flex-grow-1">
                 <ul id="menu" class="menu">
                     <li>
-                        <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
+                        <a href="/home" data-href="#admin">
+                        
                             <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                             <span class="label">Homepage</span>
                         </a>
