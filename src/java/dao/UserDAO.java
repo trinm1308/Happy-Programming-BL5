@@ -138,14 +138,15 @@ public class UserDAO {
         return null;
     }
 
-    public void editUser(int id, String fullName, String account, String email, String phone, boolean gender, String address) {
+    public void editUser(int id, String fullName, String account, String email, String phone, boolean gender, String address, String ava) {
         try {
             String sql = "update user set full_name = ?, "
                     + "account = ?, "
                     + "email = ?, "
                     + "phone = ?, "
                     + "gender = ?, "
-                    + "address = ? "
+                    + "address = ?, "
+                    + "ava = ? "
                     + "where id = ?";
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, fullName);
@@ -154,7 +155,8 @@ public class UserDAO {
             pre.setString(4, phone);
             pre.setBoolean(5, gender);
             pre.setString(6, address);
-            pre.setInt(7, id);
+            pre.setString(7, ava);
+            pre.setInt(8, id);
 
             pre.executeUpdate();
 

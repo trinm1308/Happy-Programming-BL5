@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="root">
+    
+        <%
+            if(session.getAttribute("user") == null) {
+                response.sendRedirect("login.jsp");
+            }
+        %>
     <div id="nav" class="nav-container d-flex">
         <div class="nav-content d-flex">
             <!-- Logo Start -->
@@ -28,7 +31,6 @@
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
 
-                        <img class="profile" alt="profile" src="/resources/img/profile/default.jpg" />
                         <div class="name">Nguyễn Minh Đức</div>
 
                     </a>
@@ -140,7 +142,7 @@
             <div class="menu-container flex-grow-1">
                 <ul id="menu" class="menu">
                     <li>
-                        <a href="/home" data-href="#admin">
+                        <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
                             <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                             <span class="label">Homepage</span>
                         </a>
@@ -222,3 +224,4 @@
     </footer>
     <!-- Layout Footer End -->
 </div>
+                        <a href="/home.jsp" data-href="#admin">

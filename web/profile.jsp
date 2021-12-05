@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-footer="true" data-override='{"attributes":{"layout": "boxed"}}'>
     <c:set var="context" value=""/>
@@ -55,11 +53,17 @@
 
     <body>
         <%@include file="header.jsp" %>
+        <%
+            String mesage = request.getParameter("action");
+            if(mesage != null) {
+          %>
+          <script>alert('<%=mesage%>')</script>
+              
+        <%
+            }
+        %>
         <main>
             <div class="container">
-                <%
-                    //response.sendRedirect("UserController?action=getProfile");
-                %>
                 <div class="row">
                     <div class="col-auto d-none d-lg-flex">
                         <div class="nav flex-column sw-25 mt-n2" id="settingsColumn">
@@ -172,19 +176,23 @@
                         <h2 class="small-title">Cập nhật thông tin </h2>
                         <div class="card mb-5">
                             <div class="card-body">
-                                <form id="profileForm" class="d-flex flex-column mb-4">
-                                    <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
+                                 <form action="UploadController" method="POST" id="frmUpload" enctype="multipart/form-data">
+                                   <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
                                         <img
-                                            src="img/profile/profile-9.jpg"
+                                            src="images/${sessionScope.user.ava}"
                                             alt="user"
+                                            name="ava"
                                             class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
                                             id="contactThumbModal"
                                             />
                                         <button class="btn btn-sm btn-icon btn-icon-only btn-separator-light position-absolute rounded-xl e-0 b-0" type="button">
                                             <i data-cs-icon="upload"></i>
                                         </button>
-                                        <input class="file-upload d-none" type="file" accept="image/*" />
+                                        <input class="file-upload d-none" type="file" name="photo" accept="image/*" />
                                     </div>
+                                </form>
+                                <form id="profileForm" action="UserController?action=updateProfile" method="POST" class="d-flex flex-column mb-4">
+                                    <input type="hidden" name="avatar" value="${fileName}"/>
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
@@ -202,12 +210,9 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gender</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <select class="select-single-no-search" name="gender" data-width="100%" id="genderSelect" value="sessionScope.user.gender">
-
+                                            <select class="select-single-no-search form-control" name="gender" data-width="100%" id="genderSelect" value="sessionScope.user.gender">
+                                                <option value="0" selected>Male</option>
                                                 <option value="1">Female</option>
-                                                <option value="2" selected>Male</option>
-                                                <option value="3">Other</option>
-
                                             </select>
                                         </div>
                                     </div>
@@ -284,9 +289,8 @@
         <script src="/resources/js/vendor/OverlayScrollbars.min.js"></script>
         <script src="/resources/js/vendor/autoComplete.min.js"></script>
         <script src="/resources/js/vendor/clamp.min.js"></script>
-        <script src="/resources/js/vendor/movecontent.js"></script>
         <script src="/resources/js/vendor/select2.full.min.js"></script>
-        <script src="/resources/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
+        <script src="/resources/js/vendor/singleimageupload.js"></script>
         <!-- Vendor Scripts End -->
 
         <!-- Template Base Scripts Start -->
