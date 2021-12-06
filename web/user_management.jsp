@@ -930,19 +930,6 @@
 
                                         <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
                                             <div class="d-inline-block me-0 me-sm-3 float-start float-md-none">
-                                                <!-- Add Button Start -->
-                                                <button
-                                                    class="btn btn-icon btn-icon-only btn-foreground-alternate shadow add-datatable"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Add"
-                                                    type="button"
-                                                    data-bs-delay="0"
-                                                    >
-                                                    <i data-cs-icon="plus"></i>
-                                                </button>
-                                                <!-- Add Button End -->
-
                                                 <!-- Edit Button Start -->
                                                 <button
                                                     class="btn btn-icon btn-icon-only btn-foreground-alternate shadow edit-datatable disabled"
