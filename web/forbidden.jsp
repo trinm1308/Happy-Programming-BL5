@@ -56,8 +56,50 @@
             <%@include file="header_new.jsp" %>
 
             <!--Insert code here-->
-            <main>
+            <main style="padding-right: 0">
+                <!-- Background Start -->
+                <div class="fixed-background"></div>
+                <!-- Background End -->
 
+                <div class="container-fluid p-0 h-100 position-relative">
+                    <div class="row g-0 h-100">
+                        <!-- Left Side Start -->
+                        <div class="offset-0 col-12 d-none d-lg-flex offset-md-1 col-lg h-lg-100"></div>
+                        <!-- Left Side End -->
+
+                        <!-- Right Side Start -->
+                        <div class="col-12 col-lg-auto h-100 pb-4 px-4 pt-0 p-lg-0">
+                            <div class="sw-lg-80 min-h-100 bg-foreground d-flex justify-content-center align-items-center shadow-deep py-5 full-page-content-right-border">
+                                <div class="sw-lg-60 px-5">
+                                    <div class="sh-11">
+                                        <a href="/HappyProgramming">
+                                            <!-- Logo can be added directly -->
+                                            <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
+                                            <h1>Happy Programming</h1>
+                                            <!-- Or added via css to provide different ones for different color themes -->
+                                            <!--<div class="img"></div>-->
+                                        </a>
+                                    </div>
+                                    <div class="mb-5">
+                                        <h2 class="cta-1 mb-0 text-primary">Forbidden Resources</h2>
+                                        <h2 class="display-2 text-primary">Error 403</h2>
+                                    </div>
+                                    <div class="mb-5">
+                                        <p class="h6">It looks like the page you are looking for is not available.</p>
+                                        <p class="h6">If you think that is a mistake, please contact us.</p>
+                                    </div>
+                                    <div>
+                                        <a href="/HappyProgramming" class="btn btn-icon btn-icon-start btn-primary">
+                                            <i data-cs-icon="arrow-left"></i>
+                                            <span>Back to Home</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Side End -->
+                    </div>
+                </div>
             </main>
 
             <!-- Layout Footer Start -->
@@ -75,7 +117,6 @@
         <script src="js/vendor/autoComplete.min.js"></script>
         <script src="js/vendor/clamp.min.js"></script>
         <script src="js/vendor/bootstrap-submenu.js"></script>
-        <script src="js/vendor/datatables.min.js"></script>
         <script src="js/vendor/mousetrap.min.js"></script>
         <!-- Vendor Scripts End -->
 
