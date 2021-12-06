@@ -45,7 +45,7 @@
                                     <c:if test="${sessionScope.user.role==2}">
                                         <li> <a href="/admin.jsp">Admin Page</a></li>
                                     </c:if>
-                                    
+                                     <li> <a href="RequestController?service=createRequest">Create Mentee Request</a></li>
                                 </ul>
                             </div>
 
