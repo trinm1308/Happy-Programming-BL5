@@ -44,8 +44,8 @@ public class ForgetPassController extends HttpServlet {
             String email = request.getParameter("email");
             User u = ud.checkExitsEmail(email);
             if (u != null) {
-                String userfrom = "longnvhn41@gmail.com";
-                String passfrom = "nguyenvanlong98";
+                String userfrom = "quantahe151524@fpt.edu.vn";
+                String passfrom = "Quan280701";
                 String code = ud.getRandom2(6);
                 String subject = "Change Your Password";
                 String message = ("Your authentic code to change your password: " + code);
