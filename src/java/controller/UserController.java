@@ -156,7 +156,7 @@ public class UserController extends HttpServlet {
                         phone = request.getParameter("phone");
                         String avatar = request.getParameter("avatar");
                         System.out.println(request.getParameter("Gender"));
-                        gender = "Male".equals(request.getParameter("gender"));
+                        gender = "1".equals(request.getParameter("gender"));
                         System.out.println(gender);
                         address = request.getParameter("address");
                         
