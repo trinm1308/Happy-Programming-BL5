@@ -301,4 +301,36 @@ public class UserDAO {
         Random rnd = new Random();
         return rnd.nextInt((max - min) + 1) + min;
     }
+
+    
+    public ArrayList<User> getMentors() {
+        try {
+            ArrayList<User> users = new ArrayList<>();
+
+            String sql = "select * from user where role = 0";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String account = rs.getString("account");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                User u = new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+
+                users.add(u);
+            }
+
+            return users;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }   
+
 }
