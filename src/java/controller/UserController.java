@@ -121,26 +121,7 @@ public class UserController extends HttpServlet {
                         for (String s : ids) {
                             ud.deleteUser(Integer.parseInt(s));
                         }
-                    case "forgetPass":
-                        email = request.getParameter("email");
-                        User u = ud.checkExitsEmail(email);
-                        if (u != null) {
-                            String userfrom = "longnvhn41@gmail.com";
-                            String passfrom = "nguyenvanlong98";
-                            String code = ud.getRandom2(6);
-                            String subject = "Change Your Password";
-                            String message = ("Your authentic code to change your password: " + code);
-                            UserDAO.send(email, subject, message, userfrom, passfrom);
-                            HttpSession session = request.getSession();
-                            session.setMaxInactiveInterval(120);
-                            session.setAttribute("otp", code);
-                            session.setAttribute("account", u.getAccount());
-                            request.getRequestDispatcher("homepage.jsp").forward(request, response);
-                        } else {
-                            request.setAttribute("thongbao", "Email not existed!!");
-                            request.getRequestDispatcher("forgetPass.jsp").forward(request, response);
 
-                        }
 
                     default:
                         break;

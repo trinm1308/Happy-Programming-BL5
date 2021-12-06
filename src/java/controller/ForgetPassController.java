@@ -1,10 +1,9 @@
-package controller;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package controller;
 
 import context.DBConnect;
 import dao.UserDAO;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +21,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author GHC
+ * @author admin
  */
-public class LoginController extends HttpServlet {
+public class ForgetPassController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +36,33 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            DBConnect dc = new DBConnect();
+            UserDAO ud = new UserDAO(dc);
+            String email = request.getParameter("email");
+            User u = ud.checkExitsEmail(email);
+            if (u != null) {
+                String userfrom = "longnvhn41@gmail.com";
+                String passfrom = "nguyenvanlong98";
+                String code = ud.getRandom2(6);
+                String subject = "Change Your Password";
+                String message = ("Your authentic code to change your password: " + code);
+                UserDAO.send(email, subject, message, userfrom, passfrom);
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(120);
+                session.setAttribute("otp", code);
+                session.setAttribute("account", u.getAccount());
+                request.getRequestDispatcher("home.jsp").forward(request, response);
+            } else {
+                request.setAttribute("mess", "Email not existed!!");
+                request.getRequestDispatcher("forgetpass.jsp").forward(request, response);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ForgetPassController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,7 +77,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -67,36 +91,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{ 
-            PrintWriter out = response.getWriter();
-            DBConnect dc = new DBConnect();
-            UserDAO ud = new UserDAO(dc);
-            String acc = request.getParameter("username");
-            String password = request.getParameter("password");
-            User u = ud.checkUser(acc, password);
-            if(u == null){
-                HttpSession session =request.getSession();
-               request.setAttribute("mess", "Wrong username or password ");
-               request.getRequestDispatcher("login.jsp").forward(request, response);
-            }else{
-                Cookie usernameC = new Cookie("userC", acc);
-                Cookie passwordC = new Cookie("passC", password);
-                usernameC.setMaxAge(30);
-                if(request.getParameter("remember-me") != null){
-                    passwordC.setMaxAge(30);
-                }else{
-                    passwordC.setMaxAge(0);
-                }
-                response.addCookie(usernameC);
-                response.addCookie(passwordC);
-                HttpSession session = request.getSession();
-                session.setAttribute("user", u);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-       
-        }
+        processRequest(request, response);
     }
 
     /**

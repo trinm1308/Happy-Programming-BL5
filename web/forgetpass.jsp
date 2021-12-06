@@ -105,7 +105,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <form action="UserController" method="POST"  class="tooltip-end-bottom" >
+                                    <form action="ForgetPassController" method="POST"  class="tooltip-end-bottom" >
                                         <input type="text" name="action" value ="forgetPass" hidden readonly>
                                         <div class="mb-3 filled form-group tooltip-end-top">
                                             <i data-cs-icon="email"></i>
