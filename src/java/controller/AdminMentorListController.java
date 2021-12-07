@@ -9,7 +9,6 @@ import context.DBConnect;
 import dao.UserDAO;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -112,14 +111,16 @@ public class AdminMentorListController extends HttpServlet {
                         System.out.println(gender);
                         String address = request.getParameter("Address");
 
-                        ud.editUser(id, fullName, account, email, phone, gender, address);
+                        ud.editUser(id, fullName, account, email, phone, gender, address, "a");
                         break;
 
-                    case "delete":
-                        String[] ids = request.getParameterValues("deleteIds");
+                    case "demote":
+                        String[] ids = request.getParameterValues("selectedIds");
                         for (String s : ids) {
-                            ud.deleteUser(Integer.parseInt(s));
+                            ud.demoteMentor(Integer.parseInt(s));
                         }
+                        break;
+
                     default:
                         break;
                 }

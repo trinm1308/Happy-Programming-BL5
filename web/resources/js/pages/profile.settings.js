@@ -1,8 +1,8 @@
 /**
  *
- * ProfileSettings
+ * AccountSettings
  *
- * Pages.Profile.Settings.html page content scripts. Initialized from scripts.js file.
+ * Account.Settings.html page content scripts. Initialized from scripts.js file.
  *
  *
  */
@@ -10,86 +10,39 @@
 class ProfileSettings {
   constructor() {
     // Initialization of the page plugins
-    this._initMoveContent();
-    this._initGenderSelect();
-    this._initBirthdayDatePicker();
-    this._initForm();
+    this._singleImageUploadExample = null;
+    if (typeof SingleImageUpload !== 'undefined') {
+      this._initSingleImageUpload();
+    } else {
+      console.error('[CS] SingleImageUpload is undefined.');
+    }
+
+    if (jQuery().select2) {
+      this._initSelect2();
+    } else {
+      console.error('[CS] select2 is undefined.');
+    }
+  }
+  // Check all button initialization
+  _initSelect2() {
+    jQuery('.select-single-no-search-filled').select2({minimumResultsForSearch: Infinity});
   }
 
-  // Moving menu for responsive sizes
-  _initMoveContent() {
-    if (document.querySelector('#settingsMoveContent') && typeof MoveContent !== 'undefined') {
-      const menuMove = document.querySelector('#settingsMoveContent');
-      const targetSelectorMenu = menuMove.getAttribute('data-move-target');
-      const moveBreakpointMenu = menuMove.getAttribute('data-move-breakpoint');
-      const menuMoveContent = new MoveContent(menuMove, {
-        targetSelector: targetSelectorMenu,
-        moveBreakpoint: moveBreakpointMenu,
+  // Single Image Upload initialization
+  _initSingleImageUpload() {
+    this._singleImageUploadExample = document.getElementById('singleImageUploadExample');
+    if (this._singleImageUploadExample) {
+      const singleImageUpload = new SingleImageUpload(this._singleImageUploadExample, {
+        fileSelectCallback: (image) => {
+          console.log(image);
+          // how to :
+          // Upload the file with fetch method
+//           let formData = new FormData();
+//           formData.append("file", image.file);
+//           fetch('/UploadControlller', { method: "POST", body: formData });
+        $('#frmUpload').submit();
+        }
       });
     }
   }
-
-  // Gender select2
-  _initGenderSelect() {
-    if (document.getElementById('genderSelect') !== null && jQuery().select2) {
-      jQuery('#genderSelect').select2({minimumResultsForSearch: Infinity, placeholder: ''});
-    }
-  }
-
-  // Birthday date picker
-  _initBirthdayDatePicker() {
-    if (document.getElementById('birthday') !== null && jQuery().datepicker) {
-      jQuery('#birthday').datepicker({
-        autoclose: true,
-      });
-    }
-  }
-  _initForm() {
-        const form = document.getElementById('profileForm');
-        if (!form) {
-            return;
-        }
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-          
-                const formValues = {
-                    action: "chginfo",
-                    email: form.querySelector('[name="email"]').value,
-                    name: form.querySelector('[name="name"]').value,
-                    gender: form.querySelector('[name="gender"]').value,
-                    dob: form.querySelector('[name="dob"]').value,
-                    phone: form.querySelector('[name="phone"]').value,
-                    bio: form.querySelector('[name="bio"]').value,
-                };
-                $.ajax({
-                   
-                    type: "POST",
-                    data: formValues,
-                    success: function (response) {
-                        if (response == "Success") {
-                            updateSuccess()
-                        } else {
-                            updateFailed()
-                        }
-                    }
-
-                });
-                return;
-            
-        });
-
-        async function updateSuccess(response) {
-            document.getElementById("message").style.color = "green";
-            document.getElementById("message").innerHTML = "Cập nhật thành công!";
-            setTimeout(function () {
-                window.location.href = "profile?action=general";
-            }, 1000);
-        }
-
-        function updateFailed(response) {
-            document.getElementById("message").style.color = "red";
-            document.getElementById("message").innerHTML = "Cập nhật thất bại";
-        }
-    }
 }

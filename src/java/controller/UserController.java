@@ -68,7 +68,32 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            
+            DBConnect dc = new DBConnect();
+            UserDAO ud = new UserDAO(dc);
+            
+            if (request.getParameter("action") != null) {
+                String action = request.getParameter("action");
+                switch (action) {
+                    case "getProfile":
+                        String account = request.getParameter("user");
+                        User u = ud.showUserProfile(account);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("u", u);
+                        response.sendRedirect("profile.jsp");
+                    default:
+                        break;
+                }
+            }
+            
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -113,7 +138,9 @@ public class UserController extends HttpServlet {
                         System.out.println(gender);
                         String address = request.getParameter("Address");
 
-                        ud.editUser(id, fullName, account, email, phone, gender, address);
+
+                        ud.editUser(id, fullName, account, email, phone, gender, address, null);
+
                         break;
 
                     case "delete":
@@ -121,14 +148,35 @@ public class UserController extends HttpServlet {
                         for (String s : ids) {
                             ud.deleteUser(Integer.parseInt(s));
                         }
-
-
+                        break;
+                    case "updateProfile":
+                        HttpSession session =request.getSession();
+                        User user =  (User)session.getAttribute("user");
+                        //id = Integer.parseInt(request.getParameter("ID"));
+                        fullName = request.getParameter("name");
+                        //account = request.getParameter("Username");
+                        email = user.getEmail();
+                        phone = request.getParameter("phone");
+                        String avatar = request.getParameter("avatar");
+                        System.out.println(request.getParameter("Gender"));
+                        gender = "Male".equals(request.getParameter("gender"));
+                        System.out.println(gender);
+                        address = request.getParameter("address");
+                        
+                        ud.editUser(user.getId(), fullName, user.getAccount(), email, phone, gender, address, avatar);
+                       User newUser = ud.getUserById(user.getId());
+                       session.setAttribute("user", newUser);
+                        request.setAttribute("result", "success");
+        
+                        response.sendRedirect("profile.jsp?action=success");
+                        break;
                     default:
                         break;
                 }
             }
 
             processRequest(request, response);
+er
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

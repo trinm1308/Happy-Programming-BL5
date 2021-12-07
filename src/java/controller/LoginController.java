@@ -91,7 +91,8 @@ public class LoginController extends HttpServlet {
                 response.addCookie(passwordC);
                 HttpSession session = request.getSession();
                 session.setAttribute("user", u);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                response.sendRedirect("home.jsp");
+                //request.getRequestDispatcher("home.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
