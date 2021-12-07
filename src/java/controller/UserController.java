@@ -53,6 +53,7 @@ public class UserController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -137,7 +138,9 @@ public class UserController extends HttpServlet {
                         System.out.println(gender);
                         String address = request.getParameter("Address");
 
+
                         ud.editUser(id, fullName, account, email, phone, gender, address, null);
+
                         break;
 
                     case "delete":
@@ -172,7 +175,8 @@ public class UserController extends HttpServlet {
                 }
             }
 
-            //processRequest(request, response);
+            processRequest(request, response);
+er
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

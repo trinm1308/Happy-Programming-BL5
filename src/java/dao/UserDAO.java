@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
@@ -67,6 +68,7 @@ public class UserDAO {
         }
         return null;
     }
+
     
     public User showUserProfile(String account) {
         try {
@@ -205,6 +207,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
     public User checkExitsEmail(String email) {
         try {
@@ -286,7 +289,7 @@ public class UserDAO {
         Properties props = new Properties();
 
         //Thông số kết nối tới Smtp Server--> đăng nhập email
-        props.put("mail.smtp.host", "mail.hopestorex.com");
+        props.put("mail.smtp.host", "smtp.gmail.com");
         //below mentioned mail.smtp.port is optional
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
@@ -358,6 +361,46 @@ public class UserDAO {
         } catch (Exception e) {
         }
     }
+
+    public void updatePassUser(String account, String password) {
+
+        try {
+            String sql = "Update user SET password=? WHERE account=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public String getRandom2(int numberOfCharactor) {
+        String alpha = "abcdefghijklmnopqrstuvwxyz"; // a-z
+        String alphaUpperCase = alpha.toUpperCase(); // A-Z
+        String digits = "0123456789"; // 0-9
+        String ALPHA_NUMERIC = alpha + alphaUpperCase + digits;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numberOfCharactor; i++) {
+            int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
+            char ch = ALPHA_NUMERIC.charAt(number);
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    public String getRandom() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
+    }
+
+    public static int randomNumber(int min, int max) {
+        Random rnd = new Random();
+        return rnd.nextInt((max - min) + 1) + min;
+    }
+
     
     public void addRequestMentor(int userid, int sid, String intro, int status) {
         String sql = "insert into request_mentor_skill(userid, skillid, introduce, status) values (?,?,?,?)";
