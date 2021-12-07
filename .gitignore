@@ -16,3 +16,4 @@ src/java/dao/DBContext.java
 nbproject/project.properties
 nbproject/private/private.properties
 nbproject/ant-deploy.xml
+/nbproject/private/

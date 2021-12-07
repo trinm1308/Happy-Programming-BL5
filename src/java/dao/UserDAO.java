@@ -6,6 +6,7 @@
 package dao;
 
 import context.DBConnect;
+import entity.Skill;
 import entity.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,6 +67,30 @@ public class UserDAO {
         }
         return null;
     }
+    
+    public User showUserProfile(String account) {
+        try {
+            String sql = "select * from user where account=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                return new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
 
     public User checkUser(String account, String password) {
         try {
@@ -121,14 +146,15 @@ public class UserDAO {
         return null;
     }
 
-    public void editUser(int id, String fullName, String account, String email, String phone, boolean gender, String address) {
+    public void editUser(int id, String fullName, String account, String email, String phone, boolean gender, String address, String ava) {
         try {
             String sql = "update user set full_name = ?, "
                     + "account = ?, "
                     + "email = ?, "
                     + "phone = ?, "
                     + "gender = ?, "
-                    + "address = ? "
+                    + "address = ?, "
+                    + "ava = ? "
                     + "where id = ?";
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, fullName);
@@ -137,13 +163,73 @@ public class UserDAO {
             pre.setString(4, phone);
             pre.setBoolean(5, gender);
             pre.setString(6, address);
-            pre.setInt(7, id);
+            pre.setString(7, ava);
+            pre.setInt(8, id);
 
             pre.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {
+        try {
+            String sql = "insert into user (full_name, account, email, phone, gender, address, role, password) values (?,?,?,?,?,?,?,?)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setString(2, account);
+            pre.setString(3, email);
+            pre.setString(4, phone);
+            pre.setBoolean(5, gender);
+            pre.setString(6, address);
+            pre.setInt(7, 0);
+            pre.setString(8, "12345678");
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteUser(int id) {
+        try {
+            String sql = "delete from user where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, id);
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public User checkExitsEmail(String email) {
+        try {
+            String sql = "select * from user where email=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String account = rs.getString("account");
+                String password = rs.getString("password");
+                String userEmail = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                return new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 
     public void registerUser(String fullName, String account, String password, String email, String phone, int gender, String address) {
@@ -162,6 +248,36 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList<User> getMentors() {
+        try {
+            ArrayList<User> users = new ArrayList<>();
+
+            String sql = "select * from user where role = 0 order by id DESC";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("full_name");
+                String account = rs.getString("account");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                boolean gender = rs.getBoolean("gender");
+                String address = rs.getString("address");
+                int role = rs.getInt("role");
+                String ava = rs.getString("ava");
+                User u = new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+
+                users.add(u);
+            }
+
+            return users;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     public static void send(String to, String sub,
@@ -203,88 +319,74 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-
-    public User checkExitsEmail(String email) {
+    
+    public Skill nameSkill(int IDSkill) {
         try {
-            String sql = "select * from user where email=?";
+            String sql = "select * from skill where id=?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
+            ps.setInt(1, IDSkill);
             ResultSet rs = ps.executeQuery();
             rs = ps.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String fullName = rs.getString("full_name");
-                String account = rs.getString("account");
-                String password = rs.getString("password");
-                String userEmail = rs.getString("email");
-                String phone = rs.getString("phone");
-                boolean gender = rs.getBoolean("gender");
-                String address = rs.getString("address");
-                int role = rs.getInt("role");
-                String ava = rs.getString("ava");
-                return new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+                return new Skill(rs.getInt(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
-
         }
+
         return null;
     }
-
-    public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {
+    
+    public void updateFramework(String frame, int IdUSer) {
+        String sql = "UPDATE user SET framework =? WHERE id=?";
         try {
-            String sql = "insert into user (full_name, account, email, phone, gender, address, role, password) values (?,?,?,?,?,?,?,?)";
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setString(1, fullName);
-            pre.setString(2, account);
-            pre.setString(3, email);
-            pre.setString(4, phone);
-            pre.setInt(5, 0);
-            pre.setString(6, address);
-            pre.setInt(7, 0);
-            pre.setString(8, "12345678");
-            pre.executeUpdate();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, frame);
+            ps.setInt(1, IdUSer);
+            ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void deleteUser(int id) {
+    
+    public void changeRoleforUser(int role, int userid) {
+        String sql = "Update user SET role=? WHERE id=?";
         try {
-            String sql = "delete from user where id = ?";
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, id);
-
-            pre.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, role);
+            ps.setInt(2, userid);
+            ps.executeUpdate();
+        } catch (Exception e) {
         }
     }
-
-    public ArrayList<User> getMentors() {
+    
+    public void addRequestMentor(int userid, int sid, String intro, int status) {
+        String sql = "insert into request_mentor_skill(userid, skillid, introduce, status) values (?,?,?,?)";
         try {
-            ArrayList<User> users = new ArrayList<>();
-
-            String sql = "select * from user where role = 0 order by id DESC";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userid);
+            ps.setInt(2, sid);
+            ps.setString(3, intro);
+            ps.setInt(4, status);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
+    public ArrayList<Skill> getSkills() {
+        try {
+            ArrayList<Skill> skills = new ArrayList<>();
+            String sql = "select * from skill";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String fullName = rs.getString("full_name");
-                String account = rs.getString("account");
-                String password = rs.getString("password");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                boolean gender = rs.getBoolean("gender");
-                String address = rs.getString("address");
-                int role = rs.getInt("role");
-                String ava = rs.getString("ava");
-                User u = new User(id, fullName, account, password, email, phone, gender, address, role, ava);
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                Skill k = new Skill(id, name, description);
 
-                users.add(u);
+                skills.add(k);
             }
-
-            return users;
+            return skills;
         } catch (SQLException e) {
             System.out.println(e);
         }
