@@ -7,6 +7,7 @@ package controller;
 
 import context.DBConnect;
 import dao.UserDAO;
+import entity.Skill;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author HELLO
  */
-@WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
-public class SignUpController extends HttpServlet {
+@WebServlet(name = "MentorRegister", urlPatterns = {"/MentorRegister"})
+public class MentorRegister extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,38 +45,25 @@ public class SignUpController extends HttpServlet {
 
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-            if (request.getParameter("action") != null) {
-                String action = request.getParameter("action");
-                if (action.equals("Signup")) {
-                    HttpSession session = request.getSession();
-                    String addFullName = request.getParameter("fullname");
-                    String addAccount = request.getParameter("username");
-                    String addEmail = request.getParameter("email");
-                    String addPhone = request.getParameter("phone");
-                    boolean addGender = "Male".equals(request.getParameter("gender"));
-                    String addAddress = request.getParameter("address");
-                    String addPassword = request.getParameter("password");
-                    User user = new User(0, addFullName, addAccount, addPassword, addEmail, addPhone, addGender, addAddress,0 ,"framwork");
-                    session.setAttribute("user", user);
-                    User existUser = ud.checkExitsEmail(addEmail);
-                    if (existUser == null) {
-                        ud.registerUser(addFullName, addAccount, addPassword, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
-                        out.println("<script type=\"text/javascript\">");
-                        out.println("alert('Register success!');");
-                        out.println("</script>");
-                        response.sendRedirect("/login.jsp");
-                        return;
-                    } else {
-                        request.setAttribute("mess", "Email already register!!!");
-                        request.getRequestDispatcher("signup.jsp").forward(request, response);
-                    }
-                }
+            String service = request.getParameter("service");
+            if (service.equals("addRequestMentor")) {
+                int userid = Integer.parseInt(request.getParameter("id"));
+                int sid = Integer.parseInt(request.getParameter("nameSkill"));
+                Skill skill = ud.nameSkill(sid);
+                String nameSkill = skill.getName();
+                ud.updateFramework(nameSkill, userid);
+                String intro = request.getParameter("introduce");
+                int status = 0;
+                int role = 3;
+                ud.changeRoleforUser(role, userid);
+                ud.addRequestMentor(userid, sid, intro, status);
+                response.sendRedirect("home.jsp");
+                return;
             }
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

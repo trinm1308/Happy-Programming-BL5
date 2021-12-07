@@ -111,7 +111,7 @@ public class AdminMentorListController extends HttpServlet {
                         System.out.println(gender);
                         String address = request.getParameter("Address");
 
-                        ud.editUser(id, fullName, account, email, phone, gender, address);
+                        ud.editUser(id, fullName, account, email, phone, gender, address, "a");
                         break;
 
                     case "demote":
