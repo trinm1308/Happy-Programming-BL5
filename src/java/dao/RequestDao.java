@@ -51,7 +51,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -116,7 +116,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -148,7 +148,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -180,7 +180,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -211,7 +211,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -236,7 +236,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -262,7 +262,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -289,7 +289,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -315,7 +315,7 @@ public class RequestDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {

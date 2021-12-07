@@ -50,7 +50,7 @@ public class RequestSkillDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class RequestSkillDao {
             } catch (Exception e) {
             }
             try {
-                con.close();
+                
             } catch (Exception e) {
             }
         } catch (SQLException e) {

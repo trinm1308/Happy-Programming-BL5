@@ -89,6 +89,7 @@ public class UserController extends HttpServlet {
             }
             
             processRequest(request, response);
+            dc.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,6 +174,7 @@ public class UserController extends HttpServlet {
             }
 
             //processRequest(request, response);
+            dc.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

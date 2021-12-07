@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,10 +51,12 @@ public class RequestController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-         DBConnect dc = new DBConnect();
+        DBConnect dc = new DBConnect();
         RequestHandleDao dao1 = new RequestHandleDao(dc);
         RequestDao dao = new RequestDao(dc);
         SkillDao Sdao = new SkillDao(dc);
+        
+                RequestSkillDao rSDao = new RequestSkillDao(dc);
         //InvitationDao Idao = new InvitationDao(dc);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -66,8 +69,9 @@ public class RequestController extends HttpServlet {
                 dao1.addRequest(id, mess, status);
                 response.sendRedirect("homepage.jsp");
             }
+            List<Skill> listSkill = Sdao.getSkillList();
             if (service.equals("createRequest")) {
-                List<Skill> listSkill = Sdao.getSkillList();
+
                 request.setAttribute("listSkill", listSkill);
                 request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
             }
@@ -90,7 +94,7 @@ public class RequestController extends HttpServlet {
 
                 String[] skill = request.getParameterValues("skill");
                 if (skill.length > 3) {
-                    List<Skill> listSkill = Sdao.getSkillList();
+
                     request.setAttribute("listSkill", listSkill);
                     request.setAttribute("title", title);
                     request.setAttribute("deadline", deadline);
@@ -99,9 +103,9 @@ public class RequestController extends HttpServlet {
                     request.setAttribute("alertMess1", "Không được chọn quá 3 kỹ năng");
                     request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
                 } else {
-                    RequestSkillDao rSDao = new RequestSkillDao(dc);
                     java.util.Date currentDate = new java.util.Date();
-                    Request r = new Request(userId, content, title, deadline, currentDate, status, deadlineHour) {};
+                    Request r = new Request(userId, content, title, deadline, currentDate, status, deadlineHour) {
+                    };
                     dao.createRequest(r);
                     int Rid = dao.getMaxRequestId();
                     for (String s : skill) {
@@ -109,10 +113,12 @@ public class RequestController extends HttpServlet {
                         rSDao.createRequestSkill(rs);
                     }
                     request.setAttribute("msg", "Add request successfully");
-                    request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
+                    request.setAttribute("listSkill", listSkill);
+                    response.sendRedirect("RequestController?service=createRequest");
+                    //request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
                     //response.sendRedirect("RequestController?service=createRequest");
                 }
-//            }
+            }
 //            if (service.equals("updateRequest")) {
 //                HttpSession ses = request.getSession();
 //                User user = (User) ses.getAttribute("user");
@@ -131,41 +137,41 @@ public class RequestController extends HttpServlet {
 //
 //                request.getRequestDispatcher("menteeUpdateRequest.jsp").forward(request, response);
 //            }
-//            if (service.equals("updateRequestAfter")) {
-//                HttpSession session = request.getSession();
-//                User user = (User) session.getAttribute("user");
-//                int requestId = Integer.parseInt(request.getParameter("requestId"));
-//                Request requestByMentee = dao.getRequestById(requestId);
-//                List<Skill> listSkill = Sdao.getSkillList();
-//                List<Skill> listSkillRequest = Sdao.getSkillRequest(requestId);
-//                String title = request.getParameter("title");
-//                java.util.Date deadline = null;
-//                try {
-//                    deadline = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("deadline"));
-//                } catch (Exception e) {
-//
-//                }
-//                float deadlineHour = Float.parseFloat(request.getParameter("deadlineHours"));
-//                String content = request.getParameter("content");
-//                String[] skill = request.getParameterValues("skill");
-//                if (skill.length > 3) {
-//                    request.setAttribute("requestByMentee", requestByMentee);
-//                    request.setAttribute("listSkill", listSkill);
-//                    request.setAttribute("listSkillRequest", listSkillRequest);
-//                    request.setAttribute("alertMess1", "Không được chọn quá 3 kỹ năng");
-//                    request.getRequestDispatcher("menteeUpdateRequest.jsp").forward(request, response);
-//                } else {
-//                    RequestSkillDao rSDao = new RequestSkillDao();
-//                    dao.updateRequestByMentee(requestId, content, 1, deadlineHour, title, deadline, null);
-//                    
-//                    rSDao.deleteSkillByRequestId(requestId);
-//                    for (String s : skill) {
-//                        RequestSkill rs = new RequestSkill(requestId, Integer.parseInt(s));
-//                        rSDao.createRequestSkill(rs);
-//                    }
-//                    response.sendRedirect("menteeRequestList.jsp");
-//                }
-//            }
+            if (service.equals("updateRequestAfter")) {
+                User user = (User) request.getSession().getAttribute("user");
+                int requestId = Integer.parseInt(request.getParameter("requestId"));
+                Request requestByMentee = dao.getRequestById(requestId);
+                listSkill = Sdao.getSkillList();
+                List<Skill> listSkillRequest = Sdao.getSkillRequest(requestId);
+                String title = request.getParameter("title");
+                java.util.Date deadline = null;
+                try {
+                    deadline = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("deadline"));
+                } catch (Exception e) {
+
+                }
+                float deadlineHour = Float.parseFloat(request.getParameter("deadlineHours"));
+                String content = request.getParameter("content");
+                String[] skill = request.getParameterValues("skill");
+                if (skill.length > 3) {
+                    request.setAttribute("requestByMentee", requestByMentee);
+                    request.setAttribute("listSkill", listSkill);
+                    request.setAttribute("listSkillRequest", listSkillRequest);
+                    request.setAttribute("alertMess1", "Không được chọn quá 3 kỹ năng");
+                    request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
+                } else {
+                    dao.updateRequestByMentee(requestId, content, 1, deadlineHour, title, deadline, null);
+                    rSDao.deleteSkillByRequestId(requestId);
+                    for (String s : skill) {
+                        RequestSkill rs = new RequestSkill(requestId, Integer.parseInt(s));
+                        rSDao.createRequestSkill(rs);
+                    }
+                    request.setAttribute("msg", "Update request successfully");
+                    request.setAttribute("listSkill", listSkill);
+                    response.sendRedirect("RequestController?service=createRequest");
+                    //request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
+                }
+            }
 //            if (service.equals("statisticRequestAfter")) {
 //                HttpSession session = request.getSession();
 //                User user = (User) session.getAttribute("user");
@@ -196,7 +202,7 @@ public class RequestController extends HttpServlet {
 //                request.setAttribute("totalHour", hours);
 //                request.getRequestDispatcher("menteeDashBoard.jsp").forward(request, response); 
 
-            }if(service.equals("mentorRequestList")){
+            if (service.equals("mentorRequestList")) {
                 response.sendRedirect("mentorRequestList.jsp");
             }
 //            if(service.equals("mentorFinish")){
@@ -220,7 +226,7 @@ public class RequestController extends HttpServlet {
 //                Idao.updateInvitationCancelStatus("Cancel", requestId);
 //                response.sendRedirect("menteeRequestList.jsp");
 //            }
-
+            dc.close();
         }
     }
 

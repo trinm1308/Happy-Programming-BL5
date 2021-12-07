@@ -1,3 +1,10 @@
+<%@page import="entity.Skill"%>
+<%@page import="dao.SkillDao"%>
+<%@page import="context.DBConnect"%>
+<%@page import="java.util.List"%>
+<%@page import="entity.Request"%>
+<%@page import="entity.User"%>
+<%@page import="dao.RequestDao"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -42,6 +49,7 @@
         <link rel="stylesheet" href="resources/css/vendor/select2.min.css" />
         <link rel="stylesheet" href="resources/css/vendor/select2-bootstrap4.min.css" />
         <link rel="stylesheet" href="resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
         <link rel="stylesheet" href="resources/css/styles.css" />
@@ -52,7 +60,25 @@
     </head>
 
     <body>
-        
+        <%
+            DBConnect dc = new DBConnect();
+            RequestDao dao = new RequestDao(dc);
+            User user = (User) session.getAttribute("user");
+            List<Request> requestsByMentee = dao.getListRequestById(user.getId());
+            String requestId = request.getParameter("requestId");
+            if (requestId != null) {
+                for (Request item : requestsByMentee) {
+                    if (item.getId() == Integer.parseInt(requestId)) {
+                        request.setAttribute("title", item.getTitle());
+                        request.setAttribute("content", item.getMess());
+                        request.setAttribute("deadline", item.getDeadline());
+                        request.setAttribute("deadlineHours", item.getDeadlineHour());
+//                    request.setAttribute("title", item.get());
+                    }
+                }
+            }
+
+        %>
         <c:if test="${msg != null}">
             <script>alert('${msg}')</script>
         </c:if>
@@ -189,6 +215,7 @@
                                 <div class="w-100 d-md-none"></div>
                                 <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                                     <button
+                                        id="btnAdd"
                                         type="button"
                                         class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                                         data-bs-toggle="modal"
@@ -197,290 +224,68 @@
                                         <i data-cs-icon="plus"></i>
                                         <span>Add Mentee request</span>
                                     </button>
-                                    <div class="dropdown d-inline-block d-xl-none">
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-primary btn-icon btn-icon-only ms-1"
-                                            data-bs-toggle="dropdown"
-                                            data-bs-auto-close="outside"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            >
-                                            <i data-cs-icon="sort"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end custom-sort">
-                                            <a class="dropdown-item sort" data-sort="code" href="#">Code</a>
-                                            <a class="dropdown-item sort" data-sort="type" href="#">Type</a>
-                                            <a class="dropdown-item sort" data-sort="date" href="#">Date</a>
-                                            <a class="dropdown-item sort" data-sort="usage" href="#">Usage</a>
-                                            <a class="dropdown-item sort" data-sort="status" href="#">Status</a>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group ms-1 check-all-container">
-                                        <div class="btn btn-outline-primary btn-custom-control p-0 ps-3 pe-2" data-target="#checkboxTable">
-                                            <span class="form-check float-end">
-                                                <input type="checkbox" class="form-check-input" id="checkAll" />
-                                            </span>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                                            data-bs-offset="0,3"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            ></button>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <button class="dropdown-item" id="deleteChecked" type="button">Delete</button>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- Top Buttons End -->
                                 <div class="row">
-                                    <div class="col-12 mb-5">
-                                        <div class="card mb-2 bg-transparent no-shadow d-none d-lg-block">
-                                            <div class="card-body pt-0 pb-0 sh-3">
-                                                <div class="row g-0 h-100 align-content-center">
-                                                    <div class="col-12 col-lg-2 d-flex align-items-center mb-2 mb-lg-0 text-muted text-small">CODE</div>
-                                                    <div class="col-6 col-lg-2 d-flex align-items-center text-alternate text-medium text-muted text-small">TYPE</div>
-                                                    <div class="col-6 col-lg-4 d-flex align-items-center text-alternate text-medium text-muted text-small">DATE</div>
-                                                    <div class="col-6 col-lg-2 d-flex align-items-center text-alternate text-medium text-muted text-small">USAGE</div>
-                                                    <div class="col-6 col-lg-1 d-flex align-items-center text-alternate text-medium text-muted text-small">STATUS</div>
-                                                </div>
-                                            </div>
-                                        </div>
-<!--                                        <div id="checkboxTable">
-                                            <div class="card mb-2">
-                                                <div class="card-body py-4 py-lg-0 sh-lg-8">
-                                                    <div class="row g-0 h-100 align-content-center">
-                                                        <div class="col-11 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-1 order-lg-1 h-lg-100 position-relative">
-                                                            <div class="text-muted text-small d-lg-none">Code</div>
-                                                            <a href="#" class="text-truncate h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#discountDetailModal">
-                                                                SUMMERSALE
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-3 order-lg-2">
-                                                            <div class="text-muted text-small d-lg-none">Type</div>
-                                                            <div class="text-alternate">Fixed Amount</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-4 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-4 order-lg-3">
-                                                            <div class="text-muted text-small d-lg-none">Date</div>
-                                                            <div class="text-alternate">01.06.2021 - 01.07.2021</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-5 order-lg-4">
-                                                            <div class="text-muted text-small d-lg-none">Usage</div>
-                                                            <div class="text-alternate">532/1000</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-1 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-last order-lg-5">
-                                                            <div class="text-muted text-small d-lg-none">Status</div>
-                                                            <div>
-                                                                <span class="badge rounded-pill bg-outline-primary">ACTIVE</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-1 col-lg-1 d-flex flex-column justify-content-center align-items-lg-end mb-2 mb-lg-0 order-2 text-end order-lg-last">
-                                                            <label class="form-check float-end pe-none mt-1">
-                                                                <input type="checkbox" class="form-check-input" />
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card mb-2">
-                                                <div class="card-body py-4 py-lg-0 sh-lg-8">
-                                                    <div class="row g-0 h-100 align-content-center">
-                                                        <div class="col-11 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-1 order-lg-1 h-lg-100 position-relative">
-                                                            <div class="text-muted text-small d-lg-none">Code</div>
-                                                            <a
-                                                                href="#"
-                                                                class="text-truncate h-100 d-flex align-items-center muted-link"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#discountDetailModal"
-                                                                >
-                                                                15OFF
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-3 order-lg-2">
-                                                            <div class="text-muted text-small d-lg-none">Type</div>
-                                                            <div class="text-muted">Percentage</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-4 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-4 order-lg-3">
-                                                            <div class="text-muted text-small d-lg-none">Date</div>
-                                                            <div class="text-muted">14.04.2021 - 21.04.2021</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-5 order-lg-4">
-                                                            <div class="text-muted text-small d-lg-none">Usage</div>
-                                                            <div class="text-muted">4562</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-1 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-last order-lg-5">
-                                                            <div class="text-muted text-small d-lg-none">Status</div>
-                                                            <div>
-                                                                <span class="badge rounded-pill bg-outline-muted">EXPIRED</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-1 col-lg-1 d-flex flex-column justify-content-center align-items-lg-end mb-2 mb-lg-0 order-2 text-end order-lg-last">
-                                                            <label class="form-check float-end pe-none mt-1">
-                                                                <input type="checkbox" class="form-check-input" />
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card mb-2">
-                                                <div class="card-body py-4 py-lg-0 sh-lg-8">
-                                                    <div class="row g-0 h-100 align-content-center">
-                                                        <div class="col-11 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-1 order-lg-1 h-lg-100 position-relative">
-                                                            <div class="text-muted text-small d-lg-none">Code</div>
-                                                            <a
-                                                                href="#"
-                                                                class="text-truncate h-100 d-flex align-items-center muted-link"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#discountDetailModal"
-                                                                >
-                                                                25OFF
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-3 order-lg-2">
-                                                            <div class="text-muted text-small d-lg-none">Type</div>
-                                                            <div class="text-muted">Percentage</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-4 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-4 order-lg-3">
-                                                            <div class="text-muted text-small d-lg-none">Date</div>
-                                                            <div class="text-muted">01.02.2021 - 01.03.2021</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-5 order-lg-4">
-                                                            <div class="text-muted text-small d-lg-none">Usage</div>
-                                                            <div class="text-muted">792</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-1 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-last order-lg-5">
-                                                            <div class="text-muted text-small d-lg-none">Status</div>
-                                                            <div>
-                                                                <span class="badge rounded-pill bg-outline-muted">EXPIRED</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-1 col-lg-1 d-flex flex-column justify-content-center align-items-lg-end mb-2 mb-lg-0 order-2 text-end order-lg-last">
-                                                            <label class="form-check float-end pe-none mt-1">
-                                                                <input type="checkbox" class="form-check-input" />
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card mb-2">
-                                                <div class="card-body py-4 py-lg-0 sh-lg-8">
-                                                    <div class="row g-0 h-100 align-content-center">
-                                                        <div class="col-11 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-1 order-lg-1 h-lg-100 position-relative">
-                                                            <div class="text-muted text-small d-lg-none">Code</div>
-                                                            <a
-                                                                href="#"
-                                                                class="text-truncate h-100 d-flex align-items-center muted-link"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#discountDetailModal"
-                                                                >
-                                                                NEWYEAR
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-3 order-lg-2">
-                                                            <div class="text-muted text-small d-lg-none">Type</div>
-                                                            <div class="text-muted">Percentage</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-4 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-4 order-lg-3">
-                                                            <div class="text-muted text-small d-lg-none">Date</div>
-                                                            <div class="text-muted">21.12.2020 - 07.01.2021</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-2 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-5 order-lg-4">
-                                                            <div class="text-muted text-small d-lg-none">Usage</div>
-                                                            <div class="text-muted">3814/5000</div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-1 d-flex flex-column justify-content-center mb-2 mb-lg-0 order-last order-lg-5">
-                                                            <div class="text-muted text-small d-lg-none">Status</div>
-                                                            <div>
-                                                                <span class="badge rounded-pill bg-outline-muted">EXPIRED</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-1 col-lg-1 d-flex flex-column justify-content-center align-items-lg-end mb-2 mb-lg-0 order-2 text-end order-lg-last">
-                                                            <label class="form-check float-end pe-none mt-1">
-                                                                <input type="checkbox" class="form-check-input" />
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
+                                    <div class="col-12 mb-5">                   
+                                        <table id="tblRequest" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Title</th>
+                                                    <th>Deadline</th>
+                                                    <th>Content</th>
+                                                    <th>Hour</th>
+                                                    <th>Skills</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%                                                    for (Request req : requestsByMentee) {
+                                                %>
+                                                <tr>
+                                                    <%
+                                                        request.setAttribute("o", req);
+                                                    %>
+                                                    <td>${o.id}</td>
+                                                    <td>${o.title}</td>
+                                                    <td>${o.deadline}</td>
+                                                    <td style="white-space: pre-wrap;">${o.mess}</td>
+                                                    <td>${o.deadlineHour}</td>
+                                                    <td>
+                                                        <%
+                                                            SkillDao skillDAO = new SkillDao(dc);
+                                                            List<Skill> listSkill = skillDAO.getSkillListByRequestId(req.getId());
+                                                            request.setAttribute("listSkillItem", listSkill);
+                                                        %>
+                                                        <c:forEach items="${listSkillItem}" var="i">
+                                                            ${i.name}<br/>
+                                                        </c:forEach>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${o.status == 1}">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" data-id="${o.id}"  type="button" value="Edit">
+
+                                                            <form action="RequestController?service=cancelRequest" method="post">
+                                                                <input type="hidden" value="${o.id}" name="requestId">
+                                                                <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
+                                                            </form>
+                                                        </c:if>
+                                                        <c:if test="${o.status == 0}">
+                                                            Finish Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
+                                                        </c:if>
+                                                        <c:if test="${o.status == 3}">
+                                                Cancelled Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
+                                            </c:if>
+                                            </td>
+                                            </tr>
+                                            <%
+                                                }
+                                            %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <!-- Discount List End -->
-<!--                                <div class="modal modal-right fade" id="discountDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Discount Detail</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Code</label>
-                                                        <input type="text" class="form-control" value="SUMMERSALE" />
-                                                        <input type="text" class="form-control" value="SUMMERSALE" />
-                                                    </div>
-                                                    <div class="mb-3 w-100">
-                                                        <label class="form-label">Type</label>
-                                                        <select class="select-single-no-search">
-                                                            <option label="&nbsp;"></option>
-                                                            <option value="Fixed Amount">Fixed Amount</option>
-                                                            <option value="Free Shipping">Free Shipping</option>
-                                                            <option value="Percentage" selected>Percentage</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Start</label>
-                                                        <input type="text" class="form-control date-picker-close" value="06/01/2020" />
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">End</label>
-                                                        <input type="text" class="form-control date-picker-close" value="07/01/2020" />
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Limit</label>
-                                                        <input type="text" class="form-control" value="5000" />
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Usage</label>
-                                                        <input type="text" class="form-control" value="2723" readonly />
-                                                    </div>
-                                                    <div class="mb-3 w-100">
-                                                        <label class="form-label">Status</label>
-                                                        <select class="select-single-no-search">
-                                                            <option label="&nbsp;"></option>
-                                                            <option value="Active" selected>Active</option>
-                                                            <option value="Inactive">Inactive</option>
-                                                            <option value="Expired">Expired</option>
-                                                        </select>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer border-0">
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary"
-                                                    data-delay='{"show":"500", "hide":"0"}'
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Delete"
-                                                    data-bs-dismiss="modal"
-                                                    >
-                                                    <i data-cs-icon="bin"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-icon btn-icon-end btn-primary" data-bs-dismiss="modal">
-                                                    <span>Save</span>
-                                                    <i data-cs-icon="save"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
-                                <!-- Discount Detail Modal End -->
-
                                 <!-- Discount Add Modal Start -->
                                 <div class="modal modal-right fade" id="discountAddModal" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -490,32 +295,34 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="RequestController?service=createRequestAfter" method="POST">
+                                                <form action="RequestController?service=createRequestAfter" id="frmForm" method="POST">
+
+                                                    <input type="hidden" value="<%=requestId%>" name="requestId" id="currentRequestId"/>
                                                     <div class="menter-register__body">
                                                         <p style="color:red; text-align:center" >${alertMess1}</p>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Title:
                                                             </label>
-                                                            <input type="text" name="title" class="form-control" value="${title}" required> 
+                                                            <input type="text" name="title" class="form-control" id="txtTitle" value="${title}" required> 
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Deadline:
                                                             </label>
-                                                            <input type="date" name="deadline" class="form-control" value="${deadline}" required>
+                                                            <input type="date" name="deadline" class="form-control" id="txtDeadline" value="${deadline}" required>
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Content:
                                                             </label>
-                                                            <input type="text" name="content" class="form-control" value="${content}" required> 
+                                                            <input type="text" name="content" class="form-control" id="txtContent" value="${content}" required> 
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="skill" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Choose Skill:
                                                             </label>
-                                                            <select name="skill" class="form-control" multiple="true" size="6" multiple required>
+                                                            <select name="skill" class="form-control" multiple="true" id="cboSkill" size="6" multiple required>
                                                                 <c:forEach items="${listSkill}" var="i">                                                   
                                                                     <option value="${i.id}" >${i.name}</option>
                                                                 </c:forEach>
@@ -525,14 +332,14 @@
                                                             <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Deadline Hours:
                                                             </label>
-                                                            <input type="number" min="0" step=".01" name="deadlineHours" class="form-control" value="${deadlineHours}" required> 
+                                                            <input type="number" min="0" step=".01" name="deadlineHours" id="txtDeadline" class="form-control" value="${deadlineHours}" required> 
                                                         </div>
                                                         <div> 
                                                             <input style="margin-left: 350px" type="submit" value="Create" />
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer border-0">
-                                                        <button href="#" class="btn btn-icon btn-icon-end btn-primary" type="submit" >
+                                                        <button href="#" class="btn btn-icon btn-icon-end btn-primary" type="submit" id="btnModify">
                                                             <span>Add</span>
                                                             <i data-cs-icon="send"></i>
                                                             </a>
@@ -586,6 +393,7 @@
     <script src="resources/js/vendor/clamp.min.js"></script>
     <script src="resources/js/vendor/select2.full.min.js"></script>
     <script src="resources/js/vendor/singleimageupload.js"></script>
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <!-- Vendor Scripts End -->
 
     <!-- Template Base Scripts Start -->
@@ -601,6 +409,22 @@
     <script src="resources/js/pages/profile.settings.js"></script>
     <script src="resources/js/common.js"></script>
     <script src="resources/js/scripts.js"></script>
+    <script>
+                                                                    $(document).ready(function () {
+                                                                        $('#tblRequest').DataTable();
+                                                                        $('.btnEdit').click(function () {
+                                                                            location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
+                                                                        });
+                                                                        if ($('#currentRequestId').val() && $('#currentRequestId').val() !== 'null') {
+                                                                            $('#btnAdd').click();
+                                                                            $('#btnModify span').text('Update');
+                                                                            $("#frmForm").attr('action', "RequestController?service=updateRequestAfter");
+                                                                        } else {
+                                                                            $('#btnModify span').text('Update');
+                                                                            $("#frmForm").attr('action', "RequestController?service=createRequestAfter");
+                                                                        }
+                                                                    });
+    </script>
     <!-- Page Specific Scripts End -->
 </body>
 </html>
