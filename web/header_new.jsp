@@ -16,7 +16,7 @@
             <div class="nav-content d-flex">
                 <!-- Logo Start -->
                 <div class="logo position-relative">
-                    <a href="/">
+                    <a href="/HappyProgramming">
                         <!-- Logo can be added directly -->
                         <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
                         <h1>Happy Programming</h1>
@@ -93,7 +93,7 @@
                     <c:if test="${sessionScope.user!=null}">
                         <ul id="menu" class="menu">                        
                             <li>
-                                <a href="#dashboards" data-href="Dashboards.html">
+                                <a href="/HappyProgramming" data-href="Dashboards.html">
                                     <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                                     <span class="label">
                                         <c:choose>
@@ -125,7 +125,7 @@
                                     <c:when test="${sessionScope.user.role==2}">
                                         <ul id="dashboards">
                                             <li>
-                                                <a href="Dashboards.Default.html">
+                                                <a href="AdminMentorList">
                                                     <span class="label">Mentor List</span>
                                                 </a>
                                             </li>

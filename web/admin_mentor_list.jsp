@@ -81,7 +81,7 @@
                                         <!-- Add New Button Start -->
                                         <button type="button" class="btn btn-outline-primary btn-icon btn-icon-start w-100 w-md-auto add-datatable" data-toggle="modal" data-target="#addUserModal">
                                             <i data-cs-icon="plus"></i>
-                                            <span>Add New</span>
+                                            <span>Add New Mentor</span>
                                         </button>
                                         <!-- Add New Button End -->
 
@@ -101,8 +101,9 @@
                                                 aria-expanded="false"
                                                 data-submenu
                                                 ></button>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <button class="dropdown-item disabled delete-datatable" type="button" onclick="document.getElementById('deleteForm').submit();">Delete</button>
+                                            <div class="dropdown-menu dropdown-menu-end">                                                
+                                                <button class="dropdown-item disabled delete-datatable" type="button" onclick="$('#demoteMentorConfirm').modal('show');">Demote Mentors</button>
+
                                             </div>
                                         </div>
                                         <!-- Check Button End -->
@@ -114,7 +115,7 @@
 
                             <!-- Content Start -->
                             <div class="data-table-rows slim">
-                                <form id="deleteForm" method="POST" action="AdminMentorList?action=delete">
+                                <form id="deleteForm" method="POST" action="AdminMentorList?action=demote">
                                     <!-- Controls Start -->
                                     <div class="row">
                                         <!-- Search Start -->
@@ -145,21 +146,6 @@
                                                     <i data-cs-icon="edit"></i>
                                                 </button>
                                                 <!-- Edit Button End -->
-
-                                                <!-- Delete Button Start -->
-                                                <button
-                                                    class="btn btn-icon btn-icon-only btn-foreground-alternate shadow disabled delete-datatable"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Delete"
-                                                    type="button"
-                                                    data-bs-delay="0"
-                                                    onclick="document.getElementById('deleteForm').submit();"
-                                                    >
-                                                    <i data-cs-icon="bin"></i>
-                                                </button>
-
-                                                <!-- Delete Button End -->
                                             </div>
                                             <div class="d-inline-block">
                                                 <!-- Length Start -->
@@ -221,7 +207,7 @@
                                                         <td>${user.address}</td>
                                                         <td>
                                                             <div class="form-check float-end mt-1">
-                                                                <input name="deleteIds" value="${user.id}" type="checkbox" class="form-check-input"/>
+                                                                <input name="selectedIds" value="${user.id}" type="checkbox" class="form-check-input"/>
                                                             </div>
                                                         </td>
                                                         <!--<td></td>-->                                                  
@@ -238,7 +224,7 @@
 
                             <!-- Edit Modal Start -->
                             <div class="modal modal-right fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog" style="max-width: fit-content">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="modalTitle">Edit User</h5>
@@ -290,7 +276,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>                                            
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>                                           
                                             <input type="submit" class="btn btn-primary" id="addEditConfirmButton" value="Update">  
                                         </div>
                                         </form>
@@ -305,7 +291,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="modalTitle">Add New User</h5>
+                                            <h5 class="modal-title" id="modalTitle">Add New Mentor</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -333,7 +319,7 @@
                                                     <label class="form-label">Gender</label>
                                                     <div>
                                                         <div class="form-check">
-                                                            <input type="radio" id="male" name="Gender" value="true" class="form-check-input" />
+                                                            <input type="radio" id="male" name="Gender" value="true" class="form-check-input" checked="true"/>
                                                             <label class="form-check-label" for="male">Male</label>
                                                         </div>
                                                         <div class="form-check">
@@ -350,7 +336,27 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                                            <input type="submit" class="btn btn-primary" value="Add New User">
+                                            <input type="submit" class="btn btn-primary" value="Add New Mentor">
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add User Modal End --> 
+                            <!-- Confirm Modal --> 
+                            <div class="modal fade" id="demoteMentorConfirm" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Demote Confirmation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure want to demote these mentors ?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-danger" type="button" onclick="document.getElementById('deleteForm').submit();">Demote Mentors</button>
                                         </div>
                                         </form>
                                     </div>
@@ -394,7 +400,7 @@
         <!-- Template Base Scripts End -->
         <!-- Page Specific Scripts Start -->
         <script src="js/cs/datatable.extend.js"></script>
-        <script src="js/plugins/datatable.editablerows.js"></script>
+        <script src="js/plugins/datatable.admin_mentor_list.js"></script>
         <script src="js/common.js"></script>
         <script src="js/scripts.js"></script>
         <!-- Page Specific Scripts End -->
