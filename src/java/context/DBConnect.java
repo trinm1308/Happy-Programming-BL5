@@ -52,4 +52,12 @@ public class DBConnect {
     public static void main(String[] args) throws SQLException {
         new DBConnect();
     }
+    
+    public void close() {
+        try {
+            this.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
