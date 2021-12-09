@@ -15,23 +15,27 @@ import java.util.ArrayList;
 
 public class SkillDao {
 
-    
     PreparedStatement ps;
     ResultSet rs;
-    
+
     private Connection con;
-    
+
     private DBConnect dbConn = null;
+
     public SkillDao(DBConnect dbconn) {
         con = dbconn.con;
         this.dbConn = dbconn;
     }
 //----------------------------------------------------------------------SKILL----------------------------------------------------------
 
+    public SkillDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getHighestSkillID() {
         String query = "SELECT MAX(id) FROM skill;";
         try {
-            
+
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -47,7 +51,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (Exception e) {
@@ -60,7 +64,7 @@ public class SkillDao {
     public Skill getSkill(int id) {
         String query = "select * from skill where id = ? ";
         try {
-            
+
             ps = con.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -78,7 +82,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (Exception e) {
@@ -93,9 +97,8 @@ public class SkillDao {
         ArrayList<Skill> skillList = new ArrayList<>();
         String query = "select * from skill";
 
-
         try {
-            
+
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -112,7 +115,39 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
+            } catch (Exception e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return skillList;
+    }
+    
+    public ArrayList<Skill> getTopSkill() {
+
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "select * from skill limit 4";
+
+        try {
+
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("image"), 0));
+            }
+
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -126,7 +161,7 @@ public class SkillDao {
         String query = "insert into skill values (?,?,?)";
 
         try {
-            
+
             ps = con.prepareStatement(query);
             ps.setInt(1, skill.getId());
             ps.setString(2, skill.getName());
@@ -142,7 +177,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -156,7 +191,6 @@ public class SkillDao {
 
         try {
 
-            
             ps = con.prepareStatement(query);
             ps.setString(1, skill.getName());
             ps.setString(2, skill.getStatus());
@@ -172,7 +206,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -189,7 +223,7 @@ public class SkillDao {
                 + "on rs.request_id = r.id "
                 + "where r.id = (?) ";
         try {
-            
+
             ps = con.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -205,7 +239,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -224,7 +258,7 @@ public class SkillDao {
                 + "on r.id = rs.request_id "
                 + "where r.id = ?";
         try {
-            
+
             ps = con.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -240,7 +274,7 @@ public class SkillDao {
             } catch (Exception e) {
             }
             try {
-                
+
             } catch (Exception e) {
             }
         } catch (SQLException e) {
@@ -249,6 +283,35 @@ public class SkillDao {
         return skillList;
     }
 
-    
+    public ArrayList<Skill> getSkillHaveManyRequest() {
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "SELECT A.*, COUNT(B.ID) AS COUNT_REQUEST FROM skill A LEFT JOIN request_skill B\n"
+                + "ON A.id = B.skill_id\n"
+                + "GROUP BY A.id\n"
+                + "ORDER BY COUNT_REQUEST DESC\n"
+                + "LIMIT 4;";
+        try {
 
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("image"), rs.getInt("COUNT_REQUEST")));
+            }
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return skillList;
+    }
 }
