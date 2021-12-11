@@ -19,29 +19,61 @@ public class MentorDAO {
 
     Connection conn = null;
 
-    public List<MentorEntity> getAllMentor() throws SQLException {
+    public List<MentorEntity> getAllMentor(int pagaeIndex, int maxPage, String name) throws SQLException {
         List<MentorEntity> mes = new ArrayList<>();
         DBConnect bConnect = new DBConnect();
         conn = bConnect.con;
-        String sql = "select * from user";
+        String sql = "select u.id, u.full_name, u.description, u.framework, u.ava, r.rate from user u join rating r\n"
+                + "on u.id = r.mentor_id and u.role = 1 and u.full_name like ? LIMIT ? OFFSET ?";
         PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ps.setInt(2, maxPage);
+        ps.setInt(3, pagaeIndex * maxPage);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
             String fullName = rs.getString("full_name");
-            String account = rs.getString("account");
-            String password = rs.getString("password");
-            String email = rs.getString("email");
-            String phone = rs.getString("phone");
-            boolean gender = rs.getBoolean("gender");
-            String address = rs.getString("address");
             String description = rs.getString("description");
-            int role = rs.getInt("role");
             String ava = rs.getString("ava");
-            MentorEntity mentorEntity = new MentorEntity(id, fullName, account, password, email, phone, gender, address, role, ava, description);
+            int rate = rs.getInt("rate");
+            MentorEntity mentorEntity = new MentorEntity(id, fullName, ava, description, rate);
             mes.add(mentorEntity);
         }
         return mes;
     }
 
+    public MentorEntity getMentorByID(int idMentor) throws SQLException {
+        List<MentorEntity> mes = new ArrayList<>();
+        DBConnect bConnect = new DBConnect();
+        conn = bConnect.con;
+        String sql = "select u.id, u.full_name, u.description, u.framework, u.ava, r.rate from user u join rating r\n"
+                + "on u.id = r.mentor_id and u.role = 1 and u.id = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, idMentor);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String fullName = rs.getString("full_name");
+            String description = rs.getString("description");
+            String ava = rs.getString("ava");
+            int rate = rs.getInt("rate");
+            return new MentorEntity(id, fullName, ava, description, rate);
+        }
+        return null;
+    }
+
+    public int getTotalRecord(String name) throws SQLException {
+        List<MentorEntity> mes = new ArrayList<>();
+        DBConnect bConnect = new DBConnect();
+        conn = bConnect.con;
+        String sql = "select count(*) as count from (select u.id, u.full_name, u.description, u.framework, u.ava, r.rate from user u join rating r\n"
+                + "on u.id = r.mentor_id and u.role = 1 and full_name like ?) as a;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count");
+        }
+        return 0;
+    }
 }

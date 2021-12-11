@@ -22,6 +22,7 @@ public class MentorEntity {
     String description;
     int role;
     String ava;
+    int rate;
 
     public MentorEntity() {
     }
@@ -39,6 +40,15 @@ public class MentorEntity {
         this.ava = ava;
         this.description = description;
     }
+    
+        public MentorEntity(int id, String fullName,  String ava, String description, int rate) {
+        this.id = id;
+        this.fullName = fullName;
+        this.ava = ava;
+        this.description = description;
+        this.rate = rate;
+    }
+    
 
     public int getId() {
         return id;
@@ -127,5 +137,14 @@ public class MentorEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+    
 
 }

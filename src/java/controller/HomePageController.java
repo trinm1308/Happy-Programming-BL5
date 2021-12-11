@@ -5,11 +5,13 @@
  */
 package controller;
 
-import dao.MentorDAO;
-import entity.MentorEntity;
+import dao.HomePageDAO;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Dao Van Do
  */
-public class MentorListController extends HttpServlet {
+public class HomePageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,30 +34,23 @@ public class MentorListController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        int maxPage = 5;
-        int pageIndex = request.getParameter("index") == null ? 1
-                : Integer.parseInt(request.getParameter("index"));
-        String code = request.getParameter("searchCode");
-        code = code == null ? "" : code;
-        MentorDAO mentorDAO = new MentorDAO();
-        List<MentorEntity> getAllMentor = new ArrayList<>();
+        response.setContentType("text/html;charset=UTF-8"); 
+        
+        HomePageDAO homePageDAO = new HomePageDAO();
+        
         try {
-            getAllMentor = mentorDAO.getAllMentor(pageIndex - 1, maxPage, code);
-            int totalRecord = mentorDAO.getTotalRecord(code);
-            request.setAttribute("totalRecord", totalRecord);
-        } catch (Exception e) {
-            e.printStackTrace();
+            List<String> listSkill = homePageDAO.getAllSkill();
+            request.setAttribute("list", listSkill);
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (getAllMentor.isEmpty()) {
-            request.setAttribute("message", "Not found");
-        }
-        request.setAttribute("pageIndex", pageIndex);
-        request.setAttribute("searchCode", code);
-        request.setAttribute("maxPage", maxPage);
-        request.setAttribute("listMentor", getAllMentor);
-        request.getRequestDispatcher("mentorlist.jsp").forward(request, response);
-
+        
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
