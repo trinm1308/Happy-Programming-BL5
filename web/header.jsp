@@ -30,7 +30,7 @@
                 <c:if test="${sessionScope.user!=null}">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                            <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
+                        <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
                         <div class="name">Nguyễn Minh Đức</div>
 
                     </a>
@@ -63,9 +63,9 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="changepass.jsp">
                                             <i data-cs-icon="file-text" class="me-2" data-cs-size="17"></i>
-                                            <span class="align-middle">Tài liệu</span>
+                                            <span class="align-middle">Change pass</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -80,7 +80,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/auth?action=logout">
+                                        <a href="LogoutController">
                                             <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
                                             <span class="align-middle">Logout</span>
                                         </a>
@@ -165,14 +165,10 @@
                         </a>
                         <ul id="apps">
                             <li>
-                                <a href="/course/list">
-                                    <span class="label">Course List</span>
-                                </a>
-                                <a href="/mentorRegister.jsp">
-                                    <span class="label">Mentor Register</span>
+                                <a href="MentorListController">
+                                    <span class="label">Mentor List</span>
                                 </a>
                             </li>
-
                         </ul>
                     </li>
                 </ul>
@@ -228,4 +224,4 @@
     </footer>
     <!-- Layout Footer End -->
 </div>
-                        <a href="/home.jsp" data-href="#admin">
+<a href="/home.jsp" data-href="#admin">

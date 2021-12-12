@@ -93,7 +93,18 @@ public class UserDAO {
         }
         return null;
     }
-
+    public void changePassword(int id, String password) {
+        try {
+            String sql = "update user set password =? where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, password);
+            pre.setInt(2, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public User checkUser(String account, String password) {
         try {
             String sql = "select * from user where account=? and password =?";
