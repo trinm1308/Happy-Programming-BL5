@@ -24,6 +24,9 @@ public class Skill {
         this.status = status;
     }
 
+    public Skill() {
+    }
+
     public Skill(int id, String name, String status, int countRequest) {
         this.id = id;
         this.name = name;

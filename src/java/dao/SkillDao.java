@@ -103,27 +103,22 @@ public class SkillDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                skillList.add(new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description")));
+                Skill s = new Skill();
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                skillList.add(s);
             }
 
-            try {
-                rs.close();
-            } catch (Exception e) {
-            }
             try {
                 ps.close();
-            } catch (Exception e) {
-            }
-            try {
-
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
         return skillList;
     }
-    
+
     public ArrayList<Skill> getTopSkill() {
 
         ArrayList<Skill> skillList = new ArrayList<>();

@@ -125,18 +125,13 @@
                                     <c:when test="${sessionScope.user.role==2}">
                                         <ul id="dashboards">
                                             <li>
+                                                <a href="AdminDashboardController">
+                                                    <span class="label">Admin Dashboard</span>
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="AdminMentorList">
                                                     <span class="label">Mentor List</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="Dashboards.Visual.html">
-                                                    <span class="label">Visual</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="Dashboards.Analytic.html">
-                                                    <span class="label">Analytic</span>
                                                 </a>
                                             </li>
                                         </ul>
