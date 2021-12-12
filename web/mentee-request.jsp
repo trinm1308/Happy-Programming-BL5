@@ -263,21 +263,8 @@
                                                         </c:forEach>
                                                     </td>
                                                     <td>
-                                                        <c:if test="${o.status == 1}">
-                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" data-id="${o.id}"  type="button" value="Edit">
-
-                                                            <form action="RequestController?service=cancelRequest" method="post">
-                                                                <!--<input type="hidden" value="${o.id}" name="requestId">-->
-                                                                <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
-                                                            </form>
-                                                        </c:if>
-                                                        <c:if test="${o.status == 0}">
-                                                            Finish Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
-                                                        </c:if>
-                                                        <c:if test="${o.status == 3}">
-                                                Cancelled Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
-                                            </c:if>
-                                            </td>
+                                                        
+                                                    </td>
                                             </tr>
                                             <%
                                                 }

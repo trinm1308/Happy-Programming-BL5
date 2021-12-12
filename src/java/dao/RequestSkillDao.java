@@ -32,7 +32,7 @@ public class RequestSkillDao {
 //----------------------------------------------------------------------RequestSkill----------------------------------------------------------
 
     public void createRequestSkill(RequestSkill rSkill) {
-        String query = "insert into request_skill values (?,?)";
+        String query = "insert into request_skill (request_id, skill_id) values (?,?)";
 
         try {
             
