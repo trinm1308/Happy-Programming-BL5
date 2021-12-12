@@ -171,6 +171,9 @@
                                 <a href="MentorListController">
                                     <span class="label">Mentor List</span>
                                 </a>
+                                <a href="/MentorSuggestion">
+                                    <span class="label">Mentor Suggestion</span>
+                                </a>
                             </li>
                         </ul>
                     </li>

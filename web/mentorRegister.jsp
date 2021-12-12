@@ -34,19 +34,19 @@
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Full Name: </label>
-                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.fullName}"> 
+                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.fullName}" disabled="disabled"> 
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Email: </label>
-                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.email}"> 
+                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.email}" disabled="disabled"> 
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Phone Number: </label>
-                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.phone}"> 
+                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.phone}" disabled="disabled"> 
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Address</label>
-                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.address}"> 
+                        <input type="" id="link-linkedin" class="mentor-register__input" value="${sessionScope.user.address}" disabled="disabled"> 
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Introduction: </label>

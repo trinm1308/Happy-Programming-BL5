@@ -6,6 +6,7 @@
 package dao;
 
 import context.DBConnect;
+import entity.Mentor;
 import entity.Skill;
 import entity.User;
 import java.sql.Connection;
@@ -459,5 +460,29 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<Mentor> getSuggestMentor() {
+        try {
+            ArrayList<Mentor> mentors = new ArrayList();
+            String sql = "select user.id, user.full_name, user.phone, user.email, skill.name, user.gender, rating.rate from user inner join rating on user.id = rating.mentor_id inner join request_mentor_skill on user.id = request_mentor_skill.userid inner join skill on request_mentor_skill.skillid = skill.id where rate >= 4;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("full_name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String skillName = rs.getString("name");
+                String gender = rs.getInt("gender") == 0 ? "male" : "Female";
+                int rate = rs.getInt("rate");
+                Mentor m = new Mentor(id, name, phone, email, skillName, gender, rate);
+                mentors.add(m);
+            }
+            return mentors;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
