@@ -88,7 +88,7 @@
                                     <div class="d-flex align-items-center flex-column mb-4">
                                         <div class="d-flex align-items-center flex-column">
                                             <div class="sw-13 position-relative mb-3">
-                                                <img src=${requestScope.mentor.ava ? requestScope.mentor.ava :"img/profile/profile-2.jpg"} class="img-fluid rounded-xl" alt="thumb" />
+                                                <img src=${requestScope.mentor.ava ? requestScope.mentor.ava :"img/profile/profile-10.jpg"} class="img-fluid rounded-xl" alt="thumb" />
                                             </div>
                                             <div class="h5 mb-0">${requestScope.mentor.fullName}</div>
                                             <div class="text-muted">HappyProgramming Exclusive Mentor</div>

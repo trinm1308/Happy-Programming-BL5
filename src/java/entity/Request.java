@@ -22,6 +22,35 @@ public class Request {
     Date finishDate;
     int status;
     float deadlineHour;
+    
+    //extra
+    String menteeName;
+    String mentorName;
+    String requestDate;
+
+    public String getMenteeName() {
+        return menteeName;
+    }
+
+    public void setMenteeName(String menteeName) {
+        this.menteeName = menteeName;
+    }
+
+    public String getMentorName() {
+        return mentorName;
+    }
+
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
+    }
+
+    public String getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(String requestDate) {
+        this.requestDate = requestDate;
+    }
 
     public Request(int mentee_id, String mess, String title, Date deadline, Date creationDate, int status, float deadlineHour) {
         this.mentee_id = mentee_id;
