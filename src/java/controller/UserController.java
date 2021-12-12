@@ -159,7 +159,7 @@ public class UserController extends HttpServlet {
                         phone = request.getParameter("phone");
                         String avatar = request.getParameter("avatar");
                         System.out.println(request.getParameter("Gender"));
-                        gender = "Male".equals(request.getParameter("gender"));
+                        gender = "0".equals(request.getParameter("gender"));
                         System.out.println(gender);
                         address = request.getParameter("address");
                         
@@ -169,14 +169,13 @@ public class UserController extends HttpServlet {
                         request.setAttribute("result", "success");
         
                         response.sendRedirect("profile.jsp?action=success");
-                        break;
+                        return;
                     default:
                         break;
                 }
             }
 
             processRequest(request, response);
-er
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

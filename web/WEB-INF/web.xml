@@ -4,7 +4,7 @@
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
     </servlet>
-      <servlet>
+    <servlet>
         <servlet-name>ForgetPassController</servlet-name>
         <servlet-class>controller.ForgetPassController</servlet-class>
     </servlet>
@@ -35,6 +35,14 @@
     <servlet>
         <servlet-name>HomePageController</servlet-name>
         <servlet-class>controller.HomePageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SkillController</servlet-name>
+        <servlet-class>controller.SkillController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestController</servlet-name>
+        <servlet-class>controller.RequestController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -71,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>HomePageController</servlet-name>
         <url-pattern>/HomePageController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SkillController</servlet-name>
+        <url-pattern>/SkillController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestController</servlet-name>
+        <url-pattern>/RequestController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

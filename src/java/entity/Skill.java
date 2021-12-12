@@ -7,18 +7,49 @@ package entity;
 
 /**
  *
- * @author HELLO
+ * @author Nguyen Van Long
  */
 public class Skill {
 
     private int id;
     private String name;
     private String status;
+    private String image;
+    private int countRequest;
+    private String content;
 
     public Skill(int id, String name, String status) {
         this.id = id;
         this.name = name;
         this.status = status;
+    }
+
+    public Skill(int id, String name, String status, int countRequest) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.countRequest = countRequest;
+    }
+
+    public Skill(int id, String name, String status, String image, int countRequest) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.image = image;
+        this.countRequest = countRequest;
+    }
+
+    public Skill(int id, String name, String status, String image, int countRequest, String content) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.image = image;
+        this.countRequest = countRequest;
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public int getId() {
@@ -45,9 +76,17 @@ public class Skill {
         this.status = status;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     @Override
     public String toString() {
         return "Skill{" + "id=" + id + ", name=" + name + ", status=" + status + '}';
+    }
+
+    public int getCountRequest() {
+        return countRequest;
     }
 
     @Override

@@ -28,7 +28,7 @@
                 <c:forEach items="${listMentor}" var="i">
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <img src="${i.ava}" class="card-img-top" alt="...">
+                            <img src="images/${i.ava}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title m-0">${i.fullName}</h5>
                                 <p class="card-text text-secondary">${i.description}</p>
