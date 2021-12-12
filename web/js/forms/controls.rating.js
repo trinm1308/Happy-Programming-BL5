@@ -42,11 +42,10 @@ class RatingControls {
   _initCSSIconRating() {
     jQuery('#ratingCSSIconInteractive').barrating();
 
-    jQuery('#ratingCSSIconReadonly').barrating({
-      initialRating: jQuery('#ratingCSSIconReadonly').data('initialRating'),
-      readonly: jQuery('#ratingCSSIconReadonly').data('readonly'),
-      showValues: jQuery('#ratingCSSIconReadonly').data('showValues'),
-      showSelectedRating: jQuery('#ratingCSSIconReadonly').data('showSelectedRating'),
+    jQuery("#ratingCSSIconReadonly").barrating({
+      initialRating: null,
+      readonly: true,
+      showSelectedRating: true,
     });
   }
 
