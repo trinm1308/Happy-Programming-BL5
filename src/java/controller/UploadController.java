@@ -42,8 +42,13 @@ public class UploadController extends HttpServlet {
             throws ServletException, IOException {
 
         request.setAttribute("fileName", uploadFile(request));
+        String redirectPage = request.getParameter("page");
+        if(redirectPage == null) {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher(redirectPage).forward(request, response);
+        }
         
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
     
     private String uploadFile(HttpServletRequest request) throws IOException, ServletException{

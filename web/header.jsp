@@ -46,14 +46,14 @@
                                         <li> <a href="/admin.jsp">Admin Page</a></li>
                                     </c:if>
                                     <c:if test="${sessionScope.user.role!=2}">
-                                       <li> <a href="RequestController?service=createRequest">Create Mentee Request</a></li>
+                                       <li> <a href="RequestController?service=createRequest">My Request</a></li>
                                     </c:if>
                                     
                                 </ul>
                             </div>
 
                         </div>
-                        <div class="row mb-1 ms-0 me-0">
+                        <div class="row mb-1 ms-s0 me-0">
                             <div class="col-12 p-1 mb-3 pt-3">
                                 <div class="separator-light"></div>
                             </div>
@@ -171,7 +171,7 @@
                                 <a href="MentorListController">
                                     <span class="label">Mentor List</span>
                                 </a>
-                                <a href="/MentorSuggestion">
+                                <a href="MentorSuggestion">
                                     <span class="label">Mentor Suggestion</span>
                                 </a>
                             </li>
