@@ -24,18 +24,18 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="stylesheet" href="/resources/css/vendor/bootstrap.min.css" />
-        <link rel="stylesheet" href="/resources/css/vendor/OverlayScrollbars.min.css" />
-        <link rel="stylesheet" href="/resources/css/vendor/select2.min.css" />
-        <link rel="stylesheet" href="/resources/css/vendor/select2-bootstrap4.min.css" />
-        <link rel="stylesheet" href="/resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
+        <link rel="stylesheet" href="resources/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" href="resources/css/vendor/OverlayScrollbars.min.css" />
+        <link rel="stylesheet" href="resources/css/vendor/select2.min.css" />
+        <link rel="stylesheet" href="resources/css/vendor/select2-bootstrap4.min.css" />
+        <link rel="stylesheet" href="resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
-        <link rel="stylesheet" href="/resources/css/styles.css" />
+        <link rel="stylesheet" href="resources/css/styles.css" />
         <!-- Template Base Styles End -->
 
-        <link rel="stylesheet" href="/resources/css/main.css" />
-        <script src="/resources/js/base/loader.js"></script>
+        <link rel="stylesheet" href="resources/css/main.css" />
+        <script src="resources/js/base/loader.js"></script>
 
 
         <title>JSP Page</title>
@@ -43,7 +43,7 @@
     <body id="page-top">
         <%@include file="header.jsp" %>
         <div class="container-margin-top">
-            <div class="container mt-5 mb-3 page-section portfolio" id="portfolio"">
+            <div class="container mt-5 mb-3 page-section portfolio" id="portfolio">
                 <div class="row">
 
                     <c:forEach items="${mentors}" var="mentor">
@@ -87,16 +87,16 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 <!-- Template Base Scripts Start -->
-<script src="/resources/font/CS-Line/csicons.min.js"></script>
-<script src="/resources/js/base/helpers.js"></script>
-<script src="/resources/js/base/globals.js"></script>
-<script src="/resources/js/base/nav.js"></script>
-<script src="/resources/js/base/search.js"></script>
-<script src="/resources/js/base/settings.js"></script>
-<script src="/resources/js/base/init.js"></script>
+<script src="resources/font/CS-Line/csicons.min.js"></script>
+<script src="resources/js/base/helpers.js"></script>
+<script src="resources/js/base/globals.js"></script>
+<script src="resources/js/base/nav.js"></script>
+<script src="resources/js/base/search.js"></script>
+<script src="resources/js/base/settings.js"></script>
+<script src="resources/js/base/init.js"></script>
 <!-- Template Base Scripts End -->
 <!-- Page Specific Scripts Start -->
-<script src="/resources/js/pages/profile.settings.js"></script>
-<script src="/resources/js/common.js"></script>
-<script src="/resources/js/scripts.js"></script>
+<script src="resources/js/pages/profile.settings.js"></script>
+<script src="resources/js/common.js"></script>
+<script src="resources/js/scripts.js"></script>
 </html>
