@@ -6,12 +6,15 @@
 package controller;
 
 import context.DBConnect;
+import dao.SkillDao;
 import dao.UserDAO;
 import entity.Skill;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -45,18 +48,21 @@ public class MentorRegister extends HttpServlet {
 
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
+            SkillDao Sdao = new SkillDao(dc);
             String service = request.getParameter("service");
-            if (service.equals("addRequestMentor")) {
+            if (service == null) {
+                List<Skill> listSkill = Sdao.getSkillList();
+                request.setAttribute("listSkill", listSkill);
+                request.getRequestDispatcher("mentorRegister.jsp").forward(request, response);;
+            } else if (service.equals("addRequestMentor")) {
                 int userid = Integer.parseInt(request.getParameter("id"));
-                int sid = Integer.parseInt(request.getParameter("nameSkill"));
-                Skill skill = ud.nameSkill(sid);
-                String nameSkill = skill.getName();
-                ud.updateFramework(nameSkill, userid);
-                String intro = request.getParameter("introduce");
-                int status = 0;
-                int role = 3;
-                ud.changeRoleforUser(role, userid);
-                ud.addRequestMentor(userid, sid, intro, status);
+                String[] skillValue = request.getParameterValues("nameSkill");
+                for (String s : skillValue) {
+                    Skill skill = ud.nameSkill(Integer.parseInt(s));
+                    String intro = request.getParameter("introduce");
+                    int status = 0;
+                    ud.addRequestMentor(userid, Integer.parseInt(s), intro, status);
+                }
                 response.sendRedirect("home.jsp");
                 return;
             }

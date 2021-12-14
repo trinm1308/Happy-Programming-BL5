@@ -4,17 +4,22 @@
     Author     : HELLO
 --%>
 
+<%@page import="dao.SkillDao"%>
 <%@page import="dao.UserDAO"%>
 <%@page import="context.DBConnect"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.Skill"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%
-    DBConnect dc = new DBConnect();
-     UserDAO ud = new UserDAO(dc);
-     ArrayList<Skill> list = ud.getSkills();
-    %>
+                DBConnect dc = new DBConnect();
+                SkillDao dao = new SkillDao(dc);
+                List<Skill> skillPopular = dao.getSkillHaveManyRequest();
+                List<Skill> skillList = dao.getSkillList();
+                List<Skill> topSkill = dao.getTopSkill();
+
+            %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,6 +28,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Mentor Register</title>
         <link href="css/mentorRegister.css" rel="stylesheet" type="text/css"/>
+        <script>
+            var count=30;
+            var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+            function timer() {
+                count=count-1;
+                if (count <= 0){
+                clearInterval(counter);
+                //counter ended, do something here
+                return;
+                }
+                //Do code for showing the number of seconds here
+            }
+        </script>
     </head>
     <body>
         <form action="MentorRegister?service=addRequestMentor&id=${sessionScope.user.id == null ? 1 : sessionScope.user.id}" method="POST">
@@ -62,17 +81,19 @@
                         <div class="menter-register__item">
                             <label for="skill" class="menter-register__label">
                                 <p class="red-star">*</p>
-                                Skills:
-                            </label>
+                                Skill:
+                            </label>    
                             <select name="nameSkill" class="mentor-register__input" multiple="true" size="6" multiple required>
-                                <c:forEach var="o" items="${list}">
-                                    <option value="1">skill1</option>
-                                    <option value="2">skill2</option>
-                                </c:forEach>
-
+                                <%
+                                                for (Skill item : skillList) {
+                                            %>
+                                            <option value="<%=item.getId()%>" ><%=item.getName()%></option>
+                                            <%}%>
+                                </c:forEach>>
                             </select>
                         </div>
                         <div> 
+                            <span id="timer"></span>
                             <input style="margin-left: 260px" class="btn btn--radius-2 btn--blue" type="submit" value="Register" />
                         </div>
                     </div>

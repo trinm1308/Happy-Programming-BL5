@@ -56,6 +56,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.svg">
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.ttf">
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.woff">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
         <link rel="stylesheet" href="resources/css/styles.css" />
@@ -74,10 +75,15 @@
                 List<Skill> skillPopular = dao.getSkillHaveManyRequest();
                 List<Skill> skillList = dao.getSkillList();
                 List<Skill> topSkill = dao.getTopSkill();
+                String service = request.getParameter("service");
+                String message = request.getParameter("message");
 
             %>
             <%@include file="header.jsp" %>
             <div class="container" style="max-width: 1340px;">
+                <input type="hidden" id="txtService" value="<%=service%>" />
+                <input type="hidden" id="txtMessage" value="<%=message%>" />
+                <input type="hidden" id="txtId" value="<%=request.getParameter("id")%>" />
                 <div class="row">
                     <div class="col-auto d-none d-lg-flex">
                         <!--                        <div class="col-auto d-none d-lg-flex">
@@ -205,11 +211,80 @@
                                 <!-- Title End -->
                                 <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                                     <c:if test="${sessionScope.user!=null && sessionScope.user.role==2}">
-                                    <button type="button" class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-plus"><path d="M10 17 10 3M3 10 17 10"></path></svg>
-                                        <span>Add Skill</span>
-                                    </button>
+                                        <button type="button" class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" id="btnAddSkill" data-bs-toggle="modal"
+                                                data-bs-target="#discountAddModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-plus"><path d="M10 17 10 3M3 10 17 10"></path></svg>
+                                            <span>Add Skill</span>
+                                        </button>
                                     </c:if>
+                                </div>
+                                <div class="modal modal-right fade" id="discountAddModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add Skill</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="d-flex flex-column mb-4" action="UploadController?page=skill.jsp?service=addSkill" method="POST" id="frmUpload" enctype="multipart/form-data">
+                                                    <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
+
+                                                        <img
+                                                            src="images/${fileName}"
+                                                            alt="user"
+                                                            name="ava"
+                                                            class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
+                                                            id="contactThumbModal"
+                                                            />
+
+                                                        <button class="btn btn-sm btn-icon btn-icon-only btn-separator-light position-absolute rounded-xl e-0 b-0" type="button">
+                                                            <i data-cs-icon="upload"></i>
+                                                        </button>
+                                                        <input class="file-upload d-none" type="file" name="photo" accept="image/*" />
+                                                    </div>
+                                                </form>
+                                                <form action="SkillController?service=addSkill" id="frmForm" method="POST">
+                                                    <c:if test="${fileName != null}">
+                                                        <input type="hidden" name="image" value="${fileName}" id="txtImage" />
+                                                    </c:if>
+                                                    <div class="menter-register__body">
+                                                        <p style="color:red; text-align:center" >${alertMess1}</p>
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Name
+                                                            </label>
+                                                            <input type="text" name="name" class="form-control" value="${skill.name}" id="txtName" required> 
+                                                        </div>
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Description
+                                                            </label>
+                                                            <textarea name="description" value="${skill.content}" class="form-control" id="txtDes">${skill.content}
+                                                            </textarea>
+                                                        </div>
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Status:
+                                                            </label>
+                                                            <select class="select-single-no-search form-control" value="${skill.status}" name="status" data-width="100%" id="cboStatus">
+                                                                <option value="Active" selected>Active</option>
+                                                                <option value="Deactive" >Deactive</option>
+                                                            </select>
+                                                        </div>
+                                                        <div> 
+                                                            <input style="margin-left: 350px" type="submit" value="Create" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button href="#" class="btn btn-icon btn-icon-end btn-primary" type="submit" id="btnModify">
+                                                            <span>Add</span>
+                                                            <i data-cs-icon="send"></i>
+                                                            </a>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -279,43 +354,54 @@
 
                             </div>
                             <div class="col-xl-6">
-                                <div class="card mb-2 bg-transparent no-shadow d-none d-md-block">
-                                    <div class="card-body pt-0 pb-0 sh-3">
-                                        <div class="row g-0 h-100 align-content-center">
-                                            <div class="col-12 col-md-2 d-flex align-items-center mb-2 mb-md-0 text-muted text-small">ID</div>
-                                            <div class="col-6 col-md-3 d-flex align-items-center text-alternate text-medium text-muted text-small">NAME</div>
-                                            <div class="col-6 col-md-2 d-flex align-items-center text-alternate text-medium text-muted text-small">DESCRIPTION</div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div id="checkboxTable">
-                                    <%
-                                        for (Skill item : skillList) {
-                                    %>
-                                    <div class="card mb-2">
-                                        <div class="card-body pt-0 pb-0 sh-21 sh-md-8">
-                                            <div class="row g-0 h-100 align-content-center">
-                                                <div class="col-11 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                                                    <div class="text-muted text-small d-md-none">Id</div>
-                                                    <a href="SkillController?service=showDetail&id=<%=item.getId()%>" class="text-truncate h-100 d-flex align-items-center"><%=item.getId()%></a>
-                                                </div>
-                                                <div class="col-6 col-md-3 d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                                    <div class="text-muted text-small d-md-none"><%=item.getName()%></div>
-                                                    <div class="text-alternate"><%=item.getName()%></div>
-                                                </div>
-                                                <div class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                                    <div class="text-muted text-small d-md-none"></div>
-                                                    <div class="text-alternate">
-                                                        <span>
-                                                            <!--<span class="text-small">$</span>-->
-                                                            <%=item.getStatus()%>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <%}%>
+                                    <table id="tblRequest" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for (Skill item : skillList) {
+                                            %>
+                                            <tr>
+                                                <td><%=item.getId()%></td>
+                                                <td><a href="SkillController?service=showDetail&id=<%=item.getId()%>"><%=item.getName()%></a></td>
+                                                <td><%=item.getContent()%></td>
+                                                <td><%=item.getStatus()%></td>
+                                                <td>
+                                                    <c:if test="${sessionScope.user.role==2}">
+                                                    <%
+                                                        if ("Active".equals(item.getStatus())) {
+                                                    %>
+                                                    <form action="SkillController?service=changeStatus&status=Deactive&id=<%=item.getId()%>" method="post">
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success" type="submit" value="Deactive">
+                                                    </form>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                    <form action="SkillController?service=changeStatus&status=Active&id=<%=item.getId()%>" method="post">
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success"  type="submit" value="Active">
+                                                    </form>
+                                                    <%
+                                                        }
+                                                    %>
+                                                    
+                                                        <form action="SkillController?service=editSkill&id=<%=item.getId()%>" method="post">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
+                                                        </form>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <%}%>
+                                        </tbody>
+                                    </table>
+
                                 </div>
                             </div>
 
@@ -356,17 +442,28 @@
     <script>
         $(document).ready(function () {
             $('#tblRequest').DataTable();
-            $('.btnEdit').click(function () {
-                location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
-            });
-            if ($('#currentRequestId').val() && $('#currentRequestId').val() !== 'null') {
-                $('#btnAdd').click();
-                $('#btnModify span').text('Update');
-                $("#frmForm").attr('action', "RequestController?service=updateRequestAfter");
-            } else {
-                $('#btnModify span').text('Update');
-                $("#frmForm").attr('action', "RequestController?service=createRequestAfter");
+            if ($("#txtService").val() === 'addSkill') {
+                $('#btnAddSkill').click();
             }
+            if ($("#txtService").val() === 'edit') {
+                $('#btnAddSkill').click();
+                $('#discountAddModal modal-title').text('Edit Skill');
+                $('#btnModify').text('Update');
+                $('#frmForm').attr('action', 'SkillController?service=adminUpdateSkillAfter&id=' + $('#txtId').val());
+                var link = 'SkillController?service=editSkill&id=' + $('#txtId').val();
+                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=editSkill&id='+ $('#txtId').val());
+            }
+            if ($('#txtMessage').val() === 'success') {
+                alert('Action success');
+            }
+            $('#btnAddSkill').click(function() {
+                if ($("#txtService").val() !== 'edit') {
+                $('#discountAddModal modal-title').text('Add Skill');
+                $('#btnModify').text('Add');
+                $('#frmForm').attr('action', 'SkillController?service=addSkill');
+                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=addSkill');
+            }
+            });
         });
     </script>
     <!-- Page Specific Scripts End -->
