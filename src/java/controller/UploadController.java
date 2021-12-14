@@ -63,7 +63,7 @@ public class UploadController extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            return;
         }
         if (redirectPage == null) {
             request.getRequestDispatcher("profile.jsp").forward(request, response);

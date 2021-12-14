@@ -375,6 +375,7 @@
                                                 <td><%=item.getContent()%></td>
                                                 <td><%=item.getStatus()%></td>
                                                 <td>
+                                                    <c:if test="${sessionScope.user.role==2}">
                                                     <%
                                                         if ("Active".equals(item.getStatus())) {
                                                     %>
@@ -390,7 +391,7 @@
                                                     <%
                                                         }
                                                     %>
-                                                    <c:if test="${sessionScope.user.role==2}">
+                                                    
                                                         <form action="SkillController?service=editSkill&id=<%=item.getId()%>" method="post">
                                                             <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
                                                         </form>
@@ -456,10 +457,12 @@
                 alert('Action success');
             }
             $('#btnAddSkill').click(function() {
+                if ($("#txtService").val() !== 'edit') {
                 $('#discountAddModal modal-title').text('Add Skill');
                 $('#btnModify').text('Add');
                 $('#frmForm').attr('action', 'SkillController?service=addSkill');
                 $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=addSkill');
+            }
             });
         });
     </script>

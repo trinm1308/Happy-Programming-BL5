@@ -127,13 +127,14 @@
                                         </a>
                                     </div>
                                           </c:if>  
+                                                <c:if test="${sessionScope.user.role==2}">
                                     <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                                         <form action="SkillController?service=editSkill&id=<%=request.getParameter("id")%>" method="post">
                                           
-                                           >
                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
                                         </form>
                                     </div>
+                                        </c:if>
                                     <!-- Basic End -->
 
                                 </div>

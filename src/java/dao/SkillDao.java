@@ -107,6 +107,9 @@ public class SkillDao {
                 s.setId(rs.getInt("id"));
                 s.setName(rs.getString("name"));
                 s.setContent(rs.getString("content"));
+                if(s.getContent() != null && s.getContent().length() > 30) {
+                    s.setContent(s.getContent().substring(30));
+                }
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
                 skillList.add(s);
