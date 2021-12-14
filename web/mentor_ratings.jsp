@@ -717,8 +717,19 @@
 
                                     </c:if>
                                 </c:if>
+                                <div style="display: flex; justify-content: space-between">
+                                    <h2 class="small-title">Other Ratings</h2>
+                                    <div class="br-wrapper br-theme-css-stars">
+                                        <select name="other-rating" autocomplete="off" data-readonly="true" id="avg">
+                                            <option value="1" ${averageStars==1?'selected':''}>1</option>
+                                            <option value="2" ${averageStars==2?'selected':''}>2</option>
+                                            <option value="3" ${averageStars==3?'selected':''}>3</option>
+                                            <option value="4" ${averageStars==4?'selected':''}>4</option>
+                                            <option value="5" ${averageStars==5?'selected':''}>5</option>
+                                        </select>
+                                    </div> 
+                                </div>
 
-                                <h2 class="small-title">Other Ratings</h2>
                                 <c:forEach items="${requestScope.ratings}" var="rating">
                                     <div class="card mb-5">
                                         <div class="card-body">
@@ -872,6 +883,11 @@
                                                     const editModal = new bootstrap.Modal(document.getElementById('editModal'));
                                                     jQuery('#ratingCSSIconInteractive').barrating();
                                                     jQuery('#ratingCSSIconInteractivez').barrating();
+                                                    jQuery('#avg').barrating({
+                                                        initialRating: null,
+                                                        readonly: true,
+                                                        showSelectedRating: true
+                                                    });
                                                     jQuery("#ratingCSSIconReadonly").barrating({
                                                         initialRating: null,
                                                         readonly: true,

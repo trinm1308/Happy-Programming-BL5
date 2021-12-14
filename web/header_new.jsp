@@ -59,7 +59,7 @@
                                 <div class="col-12 pe-1 ps-1">
                                     <ul class="list-unstyled">                                   
                                         <li>
-                                            <a href="#">
+                                            <a href="LogoutController">
                                                 <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
                                                 <span class="align-middle">Logout</span>
                                             </a>
