@@ -1,0 +1,23 @@
+div.error:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    top: 33px;
+    left: -2.5px;
+    margin-left: 50%;
+    width: 10px;
+    height: 5px;
+    border-top: solid 5px var(--primary);
+    border-left: solid 5px transparent;
+    border-right: solid 5px transparent;
+}
+
+div.error::before {
+    display: none;
+}
+
+.invalid-tooltip,
+.valid-tooltip,
+div.error {
+    margin-top: -4.5rem !important;
+}
