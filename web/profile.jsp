@@ -302,6 +302,15 @@
                                                 id="contactThumbModal"
                                                 />
                                         </c:if>
+                                        <c:if test="${fileName == null && sessionScope.user.ava == null}">
+                                            <img
+                                                src="images/"
+                                                alt="user"
+                                                name="ava"
+                                                class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
+                                                id="contactThumbModal"
+                                                />
+                                        </c:if>
 
                                         <button class="btn btn-sm btn-icon btn-icon-only btn-separator-light position-absolute rounded-xl e-0 b-0" type="button">
                                             <i data-cs-icon="upload"></i>

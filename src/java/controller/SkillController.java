@@ -86,18 +86,27 @@ public class SkillController extends HttpServlet {
             }
             return;
             
-            case "changeStatus":  {
+            case "editSkill": {
+                try {
+                    editSkill(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SkillController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return;
+
+            case "changeStatus": {
                 String status = request.getParameter("status");
                 String id = request.getParameter("id");
                 SkillDao skillDao;
-            try {
-                skillDao = new SkillDao(new DBConnect());
-                skillDao.updateStatus(id, status);
-                response.sendRedirect("SkillController?service=showSkill&message=success");
-            } catch (SQLException ex) {
-                Logger.getLogger(SkillController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
+                try {
+                    skillDao = new SkillDao(new DBConnect());
+                    skillDao.updateStatus(id, status);
+                    response.sendRedirect("SkillController?service=showSkill&message=success");
+                } catch (SQLException ex) {
+                    Logger.getLogger(SkillController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
             return;
 
@@ -114,6 +123,18 @@ public class SkillController extends HttpServlet {
         request.setAttribute("listSkill", all);
         request.setAttribute("skillPopular", d.getSkillHaveManyRequest());
         request.getRequestDispatcher("skill.jsp").forward(request, response);
+    }
+    
+    public void editSkill(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        request.setCharacterEncoding("UTF-8");
+        DBConnect dc = new DBConnect();
+        SkillDao d = new SkillDao(dc);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Skill skill  = d.getSkill(id);
+        request.setAttribute("fileName", skill.getImage());
+        request.setAttribute("skill", skill);
+        request.getRequestDispatcher("skill.jsp?service=edit").forward(request, response);
     }
 
     // TÌM KỸ NĂNG THEO ID VÀ CHUYỂN TỚI TRANG UPDATE ĐỂ CẬP NHẬT
@@ -133,15 +154,17 @@ public class SkillController extends HttpServlet {
     public void adminUpdateSkillAfter(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         request.setCharacterEncoding("UTF-8");
-        SkillDao d = new SkillDao();
+        SkillDao d = new SkillDao(new DBConnect());
 
-        int id = Integer.parseInt(request.getParameter("editID"));
-        String skillName = request.getParameter("editSkillName");
-        String status = request.getParameter("editStatus");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String skillName = request.getParameter("name");
+        String status = request.getParameter("status");
+        String description = request.getParameter("description");
+        String image = request.getParameter("image");
+        Skill s = new Skill(id, skillName, status, image, 0, description);
+        d.updateSkill(s);
 
-        d.updateSkill(new Skill(id, skillName, status));
-
-        response.sendRedirect("SkillController?action=adminSkillList");
+        response.sendRedirect("SkillController?service=showSkill&message=success");
     }
 
     // TẠO KỸ NĂNG MỚI

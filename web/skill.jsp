@@ -83,6 +83,7 @@
             <div class="container" style="max-width: 1340px;">
                 <input type="hidden" id="txtService" value="<%=service%>" />
                 <input type="hidden" id="txtMessage" value="<%=message%>" />
+                <input type="hidden" id="txtId" value="<%=request.getParameter("id")%>" />
                 <div class="row">
                     <div class="col-auto d-none d-lg-flex">
                         <!--                        <div class="col-auto d-none d-lg-flex">
@@ -209,7 +210,7 @@
                                 </div>
                                 <!-- Title End -->
                                 <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                                    <c:if test="${sessionScope.user!=null && sessionScope.user.role==0}">
+                                    <c:if test="${sessionScope.user!=null && sessionScope.user.role==2}">
                                         <button type="button" class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" id="btnAddSkill" data-bs-toggle="modal"
                                                 data-bs-target="#discountAddModal">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-plus"><path d="M10 17 10 3M3 10 17 10"></path></svg>
@@ -243,27 +244,29 @@
                                                     </div>
                                                 </form>
                                                 <form action="SkillController?service=addSkill" id="frmForm" method="POST">
-                                                    <input type="hidden" name="image" value="${fileName}"/>
+                                                    <c:if test="${fileName != null}">
+                                                        <input type="hidden" name="image" value="${fileName}" id="txtImage" />
+                                                    </c:if>
                                                     <div class="menter-register__body">
                                                         <p style="color:red; text-align:center" >${alertMess1}</p>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Name
                                                             </label>
-                                                            <input type="text" name="name" class="form-control" id="txtName" required> 
+                                                            <input type="text" name="name" class="form-control" value="${skill.name}" id="txtName" required> 
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Description
                                                             </label>
-                                                            <textarea name="description" class="form-control" id="txtDes">
+                                                            <textarea name="description" value="${skill.content}" class="form-control" id="txtDes">${skill.content}
                                                             </textarea>
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Status:
                                                             </label>
-                                                            <select class="select-single-no-search form-control" name="status" data-width="100%" id="genderSelect">
+                                                            <select class="select-single-no-search form-control" value="${skill.status}" name="status" data-width="100%" id="cboStatus">
                                                                 <option value="Active" selected>Active</option>
                                                                 <option value="Deactive" >Deactive</option>
                                                             </select>
@@ -351,15 +354,6 @@
 
                             </div>
                             <div class="col-xl-6">
-<!--                                <div class="card mb-2 bg-transparent no-shadow d-none d-md-block">
-                                    <div class="card-body pt-0 pb-0 sh-3">
-                                        <div class="row g-0 h-100 align-content-center">
-                                            <div class="col-12 col-md-2 d-flex align-items-center mb-2 mb-md-0 text-muted text-small">ID</div>
-                                            <div class="col-6 col-md-3 d-flex align-items-center text-alternate text-medium text-muted text-small">NAME</div>
-                                            <div class="col-6 col-md-2 d-flex align-items-center text-alternate text-medium text-muted text-small">DESCRIPTION</div>
-                                        </div>
-                                    </div>
-                                </div>-->
                                 <div id="checkboxTable">
                                     <table id="tblRequest" class="display" style="width:100%">
                                         <thead>
@@ -377,25 +371,30 @@
                                             %>
                                             <tr>
                                                 <td><%=item.getId()%></td>
-                                                <td><%=item.getName()%></td>
+                                                <td><a href="SkillController?service=showDetail&id=<%=item.getId()%>"><%=item.getName()%></a></td>
                                                 <td><%=item.getContent()%></td>
                                                 <td><%=item.getStatus()%></td>
                                                 <td>
                                                     <%
-                                                        if("Active".equals(item.getStatus())) {
+                                                        if ("Active".equals(item.getStatus())) {
                                                     %>
                                                     <form action="SkillController?service=changeStatus&status=Deactive&id=<%=item.getId()%>" method="post">
-                                                    <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" type="submit" value="Deactive">
-</form>
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success" type="submit" value="Deactive">
+                                                    </form>
                                                     <%
                                                     } else {
                                                     %>
                                                     <form action="SkillController?service=changeStatus&status=Active&id=<%=item.getId()%>" method="post">
-                                                    <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Active">
-</form>
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success"  type="submit" value="Active">
+                                                    </form>
                                                     <%
                                                         }
                                                     %>
+                                                    <c:if test="${sessionScope.user.role==2}">
+                                                        <form action="SkillController?service=editSkill&id=<%=item.getId()%>" method="post">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
+                                                        </form>
+                                                    </c:if>
                                                 </td>
                                             </tr>
                                             <%}%>
@@ -445,9 +444,23 @@
             if ($("#txtService").val() === 'addSkill') {
                 $('#btnAddSkill').click();
             }
+            if ($("#txtService").val() === 'edit') {
+                $('#btnAddSkill').click();
+                $('#discountAddModal modal-title').text('Edit Skill');
+                $('#btnModify').text('Update');
+                $('#frmForm').attr('action', 'SkillController?service=adminUpdateSkillAfter&id=' + $('#txtId').val());
+                var link = 'SkillController?service=editSkill&id=' + $('#txtId').val();
+                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=editSkill&id='+ $('#txtId').val());
+            }
             if ($('#txtMessage').val() === 'success') {
                 alert('Action success');
             }
+            $('#btnAddSkill').click(function() {
+                $('#discountAddModal modal-title').text('Add Skill');
+                $('#btnModify').text('Add');
+                $('#frmForm').attr('action', 'SkillController?service=addSkill');
+                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=addSkill');
+            });
         });
     </script>
     <!-- Page Specific Scripts End -->

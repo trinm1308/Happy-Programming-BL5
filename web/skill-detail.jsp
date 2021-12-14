@@ -56,6 +56,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.svg">
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.ttf">
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/fonts/fontawesome-webfont.woff">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
         <link rel="stylesheet" href="resources/css/styles.css" />
@@ -109,18 +110,29 @@
                                             <a href="#" class="lightbox">
                                                 <img src="images/<%=skillDetail.getImage()%>" class="card-img-top sh-50" alt="card image" />
                                             </a>
-                                            <div class="card-body"><%=skillDetail.getContent()%>
+                                            <div class="card-body">
+                                                <h4 class="mb-3"><%=skillDetail.getName()%></h4>
+                                                <div><%=skillDetail.getContent()%></div>
                                             </div>
                                         </div>
                                     </section>
+                                                <c:if test="${sessionScope.user.role!=2}">
                                     <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                                         <a href="RequestController?service=createRequest"
-                                            id="btnAdd"
-                                            class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                                            >
+                                           id="btnAdd"
+                                           class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                                           >
                                             <i data-cs-icon="plus"></i>
                                             <span>Add Mentee request</span>
                                         </a>
+                                    </div>
+                                          </c:if>  
+                                    <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                                        <form action="SkillController?service=editSkill&id=<%=request.getParameter("id")%>" method="post">
+                                          
+                                           >
+                                           <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
+                                        </form>
                                     </div>
                                     <!-- Basic End -->
 
@@ -129,43 +141,47 @@
 
                             </div>
                             <div class="col-xl-6">
-                                <div class="card mb-2 bg-transparent no-shadow d-none d-md-block">
-                                    <div class="card-body pt-0 pb-0 sh-3">
-                                        <div class="row g-0 h-100 align-content-center">
-                                            <div class="col-12 col-md-2 d-flex align-items-center mb-2 mb-md-0 text-muted text-small">ID</div>
-                                            <div class="col-6 col-md-3 d-flex align-items-center text-alternate text-medium text-muted text-small">NAME</div>
-                                            <div class="col-6 col-md-2 d-flex align-items-center text-alternate text-medium text-muted text-small">DESCRIPTION</div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div id="checkboxTable">
-                                    <%                                        for (Skill item : skillList) {
-                                    %>
-                                    <div class="card mb-2">
-                                        <div class="card-body pt-0 pb-0 sh-21 sh-md-8">
-                                            <div class="row g-0 h-100 align-content-center">
-                                                <div class="col-11 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                                                    <div class="text-muted text-small d-md-none">Id</div>
-                                                    <a href="SkillController?service=showDetail&id=<%=item.getId()%>" class="text-truncate h-100 d-flex align-items-center"><%=item.getId()%></a>
-                                                </div>
-                                                <div class="col-6 col-md-3 d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                                    <!--<div class="text-muted text-small d-md-none"><%=item.getName()%></div>-->
-                                                    <a href="SkillController?service=showDetail&id=<%=item.getId()%>" class="text-truncate h-100 d-flex align-items-center"><%=item.getName()%></a>
-
-                                                </div>
-                                                <div class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                                    <div class="text-muted text-small d-md-none"></div>
-                                                    <div class="text-alternate">
-                                                        <span>
-                                                            <!--<span class="text-small">$</span>-->
-                                                            <%=item.getStatus()%>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <%}%>
+                                    <table id="tblRequest" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for (Skill item : skillList) {
+                                            %>
+                                            <tr>
+                                                <td><%=item.getId()%></td>
+                                                <td><a href="SkillController?service=showDetail&id=<%=item.getId()%>"><%=item.getName()%></a></td>
+                                                <td><%=item.getContent()%></td>
+                                                <td><%=item.getStatus()%></td>
+                                                <td>
+                                                    <%
+                                                        if ("Active".equals(item.getStatus())) {
+                                                    %>
+                                                    <form action="SkillController?service=changeStatus&status=Deactive&id=<%=item.getId()%>" method="post">
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" type="submit" value="Deactive">
+                                                    </form>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                    <form action="SkillController?service=changeStatus&status=Active&id=<%=item.getId()%>" method="post">
+                                                        <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Active">
+                                                    </form>
+                                                    <%
+                                                        }
+                                                    %>
+                                                </td>
+                                            </tr>
+                                            <%}%>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 

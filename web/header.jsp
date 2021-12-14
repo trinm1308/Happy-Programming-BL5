@@ -31,7 +31,7 @@
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
                         <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
-                        <div class="name">Nguyễn Minh Đức</div>
+                        <div class="name">${sessionScope.user.fullName}</div>
 
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-6 ps-1 pe-1">
                                 <ul class="list-unstyled">
-                                    <li> <a href="/profile.jsp">Profile</a></li>
+                                    <li> <a href="profile.jsp">Profile</a></li>
                                     <c:if test="${sessionScope.user.role==2}">
                                         <li> <a href="/admin.jsp">Admin Page</a></li>
                                     </c:if>

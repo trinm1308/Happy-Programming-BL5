@@ -192,14 +192,16 @@ public class SkillDao {
 
     // Cập nhật Skill theo id
     public void updateSkill(Skill skill) {
-        String query = "update skill set skill_name = ? ,status = ? where id = ? ";
+        String query = "update skill set name = ?, description=? ,image = ?, content=? where id = ? ";
 
         try {
 
             ps = con.prepareStatement(query);
             ps.setString(1, skill.getName());
             ps.setString(2, skill.getStatus());
-            ps.setInt(3, skill.getId());
+            ps.setString(3, skill.getImage());
+            ps.setString(4, skill.getContent());
+            ps.setInt(5, skill.getId());
             ps.executeUpdate();
 
             try {
