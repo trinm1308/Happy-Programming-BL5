@@ -75,7 +75,7 @@ public class RequestController extends HttpServlet {
             List<Skill> listSkill = Sdao.getSkillList();
             if (service.equals("createRequest")) {
 
-                request.setAttribute("listSkill", listSkill);
+                request.setAttribute("listSkill", Sdao.getActiveSkillList());
                 request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
             }
             if (service.equals("createRequestAfterSuggestion")) {
