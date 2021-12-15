@@ -318,7 +318,7 @@
                                         <input class="file-upload d-none" type="file" name="photo" accept="image/*" />
                                     </div>
                                 </form>
-                                <form id="profileForm" action="UserController?action=updateProfile" method="POST" class="d-flex flex-column mb-4">
+                                <form id="profileForm" action="ProfileController?action=updateProfile" method="POST" class="d-flex flex-column mb-4">
                                     <c:if test="${fileName == null && sessionScope.user.ava != null}">
                                         <input type="hidden" name="avatar" value="${sessionScope.user.ava}"/>
                                     </c:if>
@@ -343,16 +343,17 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gender</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <select class="select-single-no-search form-control" name="gender" data-width="100%" id="genderSelect" value="${sessionScope.user.gender}">
-                                                <c:if test="${sessionScope.user.gender}">
-                                                    <option value="0">Male</option>
-                                                    <option value="1" selected>Female</option>
-                                                </c:if>
+                                            <c:if test="${sessionScope.user.gender}">
+                                                 <label class="radio-inline"><input type="radio" name="gender" >Male</label>
+                                                <label class="radio-inline" style="margin-left: 30px"><input type="radio" name="gender" checked>Female</label>
+
+                                            </c:if>
                                                 <c:if test="${!sessionScope.user.gender}">
-                                                    <option value="0" selected>Male</option>
-                                                    <option value="1">Female</option>
-                                                </c:if>
-                                            </select>
+                                                 <label class="radio-inline"><input type="radio" name="gender" checked>Male</label>
+                                                <label class="radio-inline" style="margin-left: 30px"><input type="radio" name="gender" >Female</label>
+
+                                            </c:if>
+                                           
                                         </div>
                                     </div>
 
@@ -366,7 +367,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Phone</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="text" name="phone" class="form-control" value="${sessionScope.user.phone}"/>
+                                            <input type="number" name="phone" class="form-control" value="${sessionScope.user.phone}"/>
                                         </div>
                                     </div>
 

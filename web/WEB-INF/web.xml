@@ -56,6 +56,10 @@
         <servlet-name>MentorRequestStatistics</servlet-name>
         <servlet-class>controller.MentorRequestStatistics</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfileController</servlet-name>
+        <servlet-class>controller.ProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>MentorRequestStatistics</servlet-name>
         <url-pattern>/MentorRequestStatistics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileController</servlet-name>
+        <url-pattern>/ProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

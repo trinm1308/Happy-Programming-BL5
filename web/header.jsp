@@ -148,7 +148,7 @@
             <div class="menu-container flex-grow-1">
                 <ul id="menu" class="menu">
                     <li>
-                        <a href="/home" data-href="#admin">
+                        <a href="home.jsp" data-href="#admin">
 
                             <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                             <span class="label">Homepage</span>

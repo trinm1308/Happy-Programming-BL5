@@ -72,7 +72,7 @@
                 DBConnect dc = new DBConnect();
                 SkillDao dao = new SkillDao(dc);
                 String skillId = request.getParameter("id");
-                List<Skill> skillList = dao.getSkillList();
+                List<Skill> skillList = dao.getRelatedSkill(Integer.valueOf(skillId));
                 Skill skillDetail = dao.getSkill(Integer.valueOf(skillId));
 
             %>
@@ -116,25 +116,25 @@
                                             </div>
                                         </div>
                                     </section>
-                                                <c:if test="${sessionScope.user.role!=2}">
-                                    <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                                        <a href="RequestController?service=createRequest"
-                                           id="btnAdd"
-                                           class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                                           >
-                                            <i data-cs-icon="plus"></i>
-                                            <span>Add Mentee request</span>
-                                        </a>
-                                    </div>
-                                          </c:if>  
-                                                <c:if test="${sessionScope.user.role==2}">
-                                    <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                                        <form action="SkillController?service=editSkill&id=<%=request.getParameter("id")%>" method="post">
-                                          
-                                           <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
-                                        </form>
-                                    </div>
-                                        </c:if>
+                                    <c:if test="${sessionScope.user.role!=2}">
+                                        <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                                            <a href="RequestController?service=createRequest"
+                                               id="btnAdd"
+                                               class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                                               >
+                                                <i data-cs-icon="plus"></i>
+                                                <span>Add Mentee request</span>
+                                            </a>
+                                        </div>
+                                    </c:if>  
+                                    <c:if test="${sessionScope.user.role==2}">
+                                        <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                                            <form action="SkillController?service=editSkill&id=<%=request.getParameter("id")%>" method="post">
+
+                                                <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
+                                            </form>
+                                        </div>
+                                    </c:if>
                                     <!-- Basic End -->
 
                                 </div>
@@ -222,7 +222,7 @@
     <script src="resources/js/scripts.js"></script>
     <script>
         $(document).ready(function () {
-            $('#tblRequest').DataTable();
+            $('#tblRequest').DataTable({"pageLength": 5});
             $('.btnEdit').click(function () {
                 location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
             });

@@ -271,6 +271,12 @@
                                                                 <option value="Deactive" >Deactive</option>
                                                             </select>
                                                         </div>
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Category
+                                                            </label>
+                                                            <input type="text" name="category" class="form-control" value="${skill.category}" id="txtCategory" required> 
+                                                        </div>
                                                         <div> 
                                                             <input style="margin-left: 350px" type="submit" value="Create" />
                                                         </div>
@@ -361,6 +367,7 @@
                                                 <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
+                                                <th>Category</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -373,6 +380,7 @@
                                                 <td><%=item.getId()%></td>
                                                 <td><a href="SkillController?service=showDetail&id=<%=item.getId()%>"><%=item.getName()%></a></td>
                                                 <td><%=item.getContent()%></td>
+                                                <td><%=item.getCategory()%></td>
                                                 <td><%=item.getStatus()%></td>
                                                 <td>
                                                     <c:if test="${sessionScope.user.role==2}">
