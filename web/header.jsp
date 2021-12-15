@@ -171,7 +171,7 @@
                                 <a href="MentorListController">
                                     <span class="label">Mentor List</span>
                                 </a>
-                                <a href="MentorRegister">
+                                <a href="mentorRegister.jsp">
                                     <span class="label">Mentor Register</span>
                                 </a>
                                 <a href="MentorSuggestion">
