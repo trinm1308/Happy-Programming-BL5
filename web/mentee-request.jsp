@@ -365,7 +365,7 @@
                                                     </td>
                                                     <td>
                                                         <c:if test="${o.status == 1}">
-                                                            <input id="myBtn" style="width: 100px;" class="mb-1 btn btn-success" data-id="${o.id}"  type="button" value="Edit">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success myBtn" data-id="${o.id}"  type="button" value="Edit">
                                                             <form action="RequestController?service=cancelRequest&requestId=${o.id}" method="post">
                                                                 <!--<input type="hidden" value="${o.id}" name="requestId">-->
                                                                 <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
@@ -553,13 +553,12 @@
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
-btn.onclick = function(e) {
+$(".myBtn").on('click', function(e) {
   modal.style.display = "block";
   console.log($(this).parent().siblings()[0].innerText);
   document.getElementById('txtETitle').value = $(this).parent().siblings()[1].innerText
@@ -567,7 +566,7 @@ btn.onclick = function(e) {
   document.getElementById('txtEContent').value = $(this).parent().siblings()[3].innerText
   document.getElementById('txtENumDeadline').value = $(this).parent().siblings()[4].innerText
   $("#editForm").attr('action', 'RequestController?service=EditRequest&requestId=' + $(this).parent().siblings()[0].innerText);
-}
+})
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
