@@ -108,7 +108,7 @@
                                         <h2 class="small-title">Basic</h2>
                                         <div class="card mb-5">
                                             <a href="#" class="lightbox">
-                                                <img src="images/<%=skillDetail.getImage()%>" class="card-img-top sh-50" alt="card image" />
+                                                <img src="<%=skillDetail.getImage()%>" class="card-img-top sh-50" alt="card image" />
                                             </a>
                                             <div class="card-body">
                                                 <h4 class="mb-3"><%=skillDetail.getName()%></h4>

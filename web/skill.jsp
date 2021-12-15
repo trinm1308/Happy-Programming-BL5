@@ -230,7 +230,7 @@
                                                     <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
 
                                                         <img
-                                                            src="images/${fileName}"
+                                                            src="${fileName}"
                                                             alt="user"
                                                             name="ava"
                                                             class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
@@ -305,7 +305,7 @@
                                                     <div class="col-auto pe-3">
                                                         <div class="col-auto">
                                                             <!--<i class="fa fa-user-circle" aria-hidden="true"></i>-->
-                                                            <img src="images/<%=item.getImage()%>" alt="user" class="card-img card-img-horizontal sw-11" />
+                                                            <img src="<%=item.getImage()%>" alt="user" class="card-img card-img-horizontal sw-11" />
                                                         </div>
                                                     </div>
                                                     <div class="col">
@@ -332,7 +332,7 @@
                                                 <div class="row g-0 sh-14 sh-md-10">
                                                     <div class="col-auto">
                                                         <a href="SkillController?service=showDetail&id=<%=item.getId()%>">
-                                                            <img src="images/<%=item.getImage()%>" alt="user" class="card-img card-img-horizontal sw-11" />
+                                                            <img src="<%=item.getImage()%>" alt="user" class="card-img card-img-horizontal sw-11" />
                                                         </a>
                                                     </div>
                                                     <div class="col">

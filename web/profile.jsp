@@ -286,7 +286,7 @@
                                     <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
                                         <c:if test="${fileName == null && sessionScope.user.ava != null}">
                                             <img
-                                                src="images/${sessionScope.user.ava}"
+                                                src="${sessionScope.user.ava}"
                                                 alt="user"
                                                 name="ava"
                                                 class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
@@ -295,7 +295,7 @@
                                         </c:if>
                                         <c:if test="${fileName != null}">
                                             <img
-                                                src="images/${fileName}"
+                                                src="${fileName}"
                                                 alt="user"
                                                 name="ava"
                                                 class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
@@ -304,7 +304,7 @@
                                         </c:if>
                                         <c:if test="${fileName == null && sessionScope.user.ava == null}">
                                             <img
-                                                src="images/"
+                                                src=""
                                                 alt="user"
                                                 name="ava"
                                                 class="rounded-xl border border-separator-light border-4 sw-12 sh-12"

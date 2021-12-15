@@ -30,7 +30,7 @@
                 <c:if test="${sessionScope.user!=null}">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                        <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
+                        <img class="profile" alt="profile" src="${sessionScope.user.ava}" />
                         <div class="name">${sessionScope.user.fullName}</div>
 
                     </a>

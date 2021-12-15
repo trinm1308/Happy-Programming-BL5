@@ -8,16 +8,19 @@ package controller;
 import context.DBConnect;
 import dao.SkillDao;
 import entity.Skill;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +44,23 @@ public class UploadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("image/jpeg");
+        ServletOutputStream out;
+        out = response.getOutputStream();
+        String filename = request.getParameter("source");
+        FileInputStream fin = new FileInputStream(UPLOAD_DIR + File.separator + filename);
 
+        BufferedInputStream bin = new BufferedInputStream(fin);
+        BufferedOutputStream bout = new BufferedOutputStream(out);
+        int ch = 0;;
+        while ((ch = bin.read()) != -1) {
+            bout.write(ch);
+        }
+
+        bin.close();
+        fin.close();
+        bout.close();
+        out.close();
     }
 
     @Override
@@ -60,8 +79,10 @@ public class UploadController extends HttpServlet {
                 Skill skill = d.getSkill(id);
                 request.setAttribute("skill", skill);
                 request.getRequestDispatcher("skill.jsp?service=edit").forward(request, response);
+
             } catch (SQLException ex) {
-                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UploadController.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
             return;
         }
@@ -76,10 +97,10 @@ public class UploadController extends HttpServlet {
     private String uploadFile(HttpServletRequest request) throws IOException, ServletException {
         String fileName = "";
         try {
+            new File(UPLOAD_DIR).mkdir();
             Part filePart = request.getPart("photo");
             fileName = (String) getFileName(filePart);
-            String applicationPath = request.getServletContext().getRealPath("");
-            String basePath = applicationPath + File.separator + UPLOAD_DIR + File.separator;
+            String basePath = UPLOAD_DIR + File.separator;
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
@@ -106,7 +127,7 @@ public class UploadController extends HttpServlet {
         } catch (Exception e) {
             fileName = "";
         }
-        return fileName;
+        return "UploadController?source=" + fileName;
     }
 
     private String getFileName(Part part) {
