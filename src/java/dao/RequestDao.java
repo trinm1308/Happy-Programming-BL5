@@ -62,19 +62,21 @@ public class RequestDao {
     }
 
     public void createRequest(Request request) {
-        String query = "INSERT INTO `request` (`mentee_id`, `mentor_id`, `message`, `deadline_date`, `creation_date`, `finish_date`, `status`, `hours`, `title`) VALUES (?, null, ?, ?, ?, ?, ?, ?, ?);";
+
+        String query = "INSERT INTO `request` (`mentee_id`, `mentor_id`, `message`, `deadline_date`, `creation_date`, `finish_date`, `status`, `hours`, `title`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try {
 
             ps = con.prepareStatement(query);
             ps.setInt(1, request.getMentee_id());
-            ps.setString(2, request.getMess());
-            ps.setDate(3, request.getDeadline() == null ? null : new java.sql.Date(request.getDeadline().getTime()));
-            ps.setDate(4, request.getCreationDate() == null ? null : new java.sql.Date(request.getCreationDate().getTime()));
-            ps.setDate(5, request.getFinishDate() == null ? null : new java.sql.Date(request.getFinishDate().getTime()));
-            ps.setInt(6, request.getStatus());
-            ps.setFloat(7, request.getDeadlineHour());
-            ps.setString(8, request.getTitle());
+            ps.setInt(2, request.getMentor_id());
+            ps.setString(3, request.getMess());
+            ps.setDate(4, request.getDeadline() == null ? null : new java.sql.Date(request.getDeadline().getTime()));
+            ps.setDate(5, request.getCreationDate() == null ? null : new java.sql.Date(request.getCreationDate().getTime()));
+            ps.setDate(6, request.getFinishDate() == null ? null : new java.sql.Date(request.getFinishDate().getTime()));
+            ps.setInt(7, request.getStatus());
+            ps.setFloat(8, request.getDeadlineHour());
+            ps.setString(9, request.getTitle());
             ps.executeUpdate();
 
             try {

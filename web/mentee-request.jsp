@@ -65,18 +65,18 @@
             RequestDao dao = new RequestDao(dc);
             User user = (User) session.getAttribute("user");
             List<Request> requestsByMentee = dao.getListRequestById(user.getId());
-//            String requestId = request.getParameter("requestId");
-//            if (requestId != null) {
-//                for (Request item : requestsByMentee) {
-//                    if (item.getId() == Integer.parseInt(requestId)) {
-//                        request.setAttribute("title", item.getTitle());
-//                        request.setAttribute("content", item.getMess());
-//                        request.setAttribute("deadline", item.getDeadline());
-//                        request.setAttribute("deadlineHours", item.getDeadlineHour());
-////                    request.setAttribute("title", item.get());
-//                    }
-//                }
-//            }
+            String requestId = request.getParameter("requestId");
+            if (requestId != null) {
+                for (Request item : requestsByMentee) {
+                    if (item.getId() == Integer.parseInt(requestId)) {
+                        request.setAttribute("title", item.getTitle());
+                        request.setAttribute("content", item.getMess());
+                        request.setAttribute("deadline", item.getDeadline());
+                        request.setAttribute("deadlineHours", item.getDeadlineHour());
+//                    request.setAttribute("title", item.get());
+                    }
+                }
+            }
 
         %>
         <c:if test="${msg != null}">
@@ -238,6 +238,7 @@
                                                     <th>Hour</th>
                                                     <th>Skills</th>
                                                     <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -263,7 +264,28 @@
                                                         </c:forEach>
                                                     </td>
                                                     <td>
-                                                        
+                                                        <c:if test="${o.status == 1}">
+                                                            Active
+                                                        </c:if>
+                                                        <c:if test="${o.status != 1}">
+                                                            Deactive
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${o.status == 1}">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" data-id="${o.id}"  type="button" value="Edit">
+
+                                                            <form action="RequestController?service=cancelRequest" method="post">
+                                                                <!--<input type="hidden" value="${o.id}" name="requestId">-->
+                                                                <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
+                                                            </form>
+                                                        </c:if>
+                                                        <c:if test="${o.status == 0}">
+                                                            Finish Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
+                                                        </c:if>
+                                                        <c:if test="${o.status == 3}">
+                                                Cancelled Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${o.finishDate}"/>
+                                            </c:if>
                                                     </td>
                                             </tr>
                                             <%
@@ -313,6 +335,19 @@
                                                                     <option value="${i.id}" >${i.name}</option>
                                                                 </c:forEach>
                                                             </select>
+                                                        </div>
+                                                        
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Input Mentor ID:
+                                                            </label>
+                                                            <input type="text" name="mentor" class="form-control" id="txtMentor" value="${mentor}" required>
+                                                            <br />
+                                                            <span>
+                                                                <input type="checkbox" id="suggestion" onclick='handleClick(this);' name="suggestion" value="isSuggestion">
+                                                                <label for="suggestion"> I need suggestion mentor!!!</label><br>
+                                                            </span>
+                                                            
                                                         </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
@@ -398,18 +433,27 @@
     <script>
                                                                     $(document).ready(function () {
                                                                         $('#tblRequest').DataTable();
-//                                                                        $('.btnEdit').click(function () {
-//                                                                            location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
-//                                                                        });
-//                                                                        if ($('#currentRequestId').val() && $('#currentRequestId').val() !== 'null') {
-//                                                                            $('#btnAdd').click();
-//                                                                            $('#btnModify span').text('Update');
-//                                                                            $("#frmForm").attr('action', "RequestController?service=updateRequestAfter");
-//                                                                        } else {
-//                                                                            $('#btnModify span').text('Update');
-//                                                                            $("#frmForm").attr('action', "RequestController?service=createRequestAfter");
-//                                                                        }
+                                                                        $('.btnEdit').click(function () {
+                                                                            location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
+                                                                        });
+                                                                        if ($('#currentRequestId').val() && $('#currentRequestId').val() !== 'null') {
+                                                                            $('#btnAdd').click();
+                                                                            $('#btnModify span').text('Update');
+                                                                            $("#frmForm").attr('action', "RequestController?service=updateRequestAfter");
+                                                                        } else {
+                                                                            $('#btnModify span').text('Update');
+                                                                            $("#frmForm").attr('action', "RequestController?service=createRequestAfter");
+                                                                        }
                                                                     });
+                                                                    function handleClick(cb) {
+  if (cb.checked) {
+      document.getElementById('txtMentor').value = "need suggestion"
+      document.getElementById("txtMentor").disabled = true;
+  } else {
+      document.getElementById('txtMentor').value = ""
+      document.getElementById("txtMentor").disabled = false;
+  }
+}
     </script>
     <!-- Page Specific Scripts End -->
 </body>

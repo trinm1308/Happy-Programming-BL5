@@ -34,6 +34,14 @@ public class Skill {
         this.countRequest = countRequest;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Skill(int id, String name, String status, String image, int countRequest) {
         this.id = id;
         this.name = name;

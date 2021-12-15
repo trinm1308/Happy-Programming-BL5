@@ -39,7 +39,7 @@ public class MentorSuggestion extends HttpServlet {
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
             
-            ArrayList<Mentor> mentors = ud.getSuggestMentor();
+            ArrayList<Mentor> mentors = ud.getSuggestMentor(30);
 
             request.setAttribute("mentors", mentors);
             request.getRequestDispatcher("mentor_suggestion.jsp").forward(request, response);

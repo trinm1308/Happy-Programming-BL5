@@ -106,6 +106,12 @@ public class SkillDao {
                 Skill s = new Skill();
                 s.setId(rs.getInt("id"));
                 s.setName(rs.getString("name"));
+                s.setContent(rs.getString("content"));
+                if(s.getContent() != null && s.getContent().length() > 30) {
+                    s.setContent(s.getContent().substring(30));
+                }
+                s.setImage(rs.getString("image"));
+                s.setStatus(rs.getString("description"));
                 skillList.add(s);
             }
 
@@ -153,14 +159,21 @@ public class SkillDao {
 
     // Đưa Skill mới vào database
     public void createSkill(Skill skill) {
-        String query = "insert into skill values (?,?,?)";
+        String query = "INSERT INTO `skill`\n" +
+"(" +
+"`name`,\n" +
+"`description`,\n" +
+"`image`,\n" +
+"`content`)\n" +
+"VALUES (?, ?, ?, ?)";
 
         try {
 
             ps = con.prepareStatement(query);
-            ps.setInt(1, skill.getId());
-            ps.setString(2, skill.getName());
-            ps.setString(3, skill.getStatus());
+            ps.setString(1, skill.getName());
+            ps.setString(2, skill.getStatus());
+            ps.setString(3, skill.getImage());
+            ps.setString(4, skill.getContent());
             ps.executeUpdate();
 
             try {
@@ -182,14 +195,16 @@ public class SkillDao {
 
     // Cập nhật Skill theo id
     public void updateSkill(Skill skill) {
-        String query = "update skill set skill_name = ? ,status = ? where id = ? ";
+        String query = "update skill set name = ?, description=? ,image = ?, content=? where id = ? ";
 
         try {
 
             ps = con.prepareStatement(query);
             ps.setString(1, skill.getName());
             ps.setString(2, skill.getStatus());
-            ps.setInt(3, skill.getId());
+            ps.setString(3, skill.getImage());
+            ps.setString(4, skill.getContent());
+            ps.setInt(5, skill.getId());
             ps.executeUpdate();
 
             try {
@@ -308,5 +323,32 @@ public class SkillDao {
             System.out.println(e);
         }
         return skillList;
+    }
+
+    public void updateStatus(String id, String status) {
+         String query = "update skill set description = ? where id = ?";
+
+        try {
+
+            ps = con.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, Integer.parseInt(id));
+            ps.executeUpdate();
+
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }
