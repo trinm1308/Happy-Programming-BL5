@@ -32,7 +32,7 @@ public class Authorization implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    private final String[] AdminPermissions = {"/UserController","/AdminMentorList","/AdminDashboardController"};
+    private final String[] AdminPermissions = {"/AdminMentorList","/AdminDashboardController"};
     private final String[] MentorPermissions = {};
     private final String[] MenteePermissions = {};
 

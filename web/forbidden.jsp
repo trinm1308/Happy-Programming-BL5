@@ -53,7 +53,7 @@
 
     <body>
         <div id="root">
-            <%@include file="header_new.jsp" %>
+            <%@include file="header.jsp" %>
 
             <!--Insert code here-->
             <main style="padding-right: 0">

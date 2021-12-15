@@ -124,6 +124,39 @@ public class SkillDao {
         }
         return skillList;
     }
+    
+    public ArrayList<Skill> getActiveSkillList() {
+
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "select * from skill where description = 'Active'";
+
+        try {
+
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Skill s = new Skill();
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                s.setContent(rs.getString("content"));
+                if(s.getContent() != null && s.getContent().length() > 30) {
+                    s.setContent(s.getContent().substring(30));
+                }
+                s.setImage(rs.getString("image"));
+                s.setStatus(rs.getString("description"));
+                skillList.add(s);
+            }
+
+            try {
+                ps.close();
+            } catch (SQLException e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return skillList;
+    }
 
     public ArrayList<Skill> getTopSkill() {
 
