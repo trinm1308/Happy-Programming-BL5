@@ -69,7 +69,7 @@
                                         <nav class="breadcrumb-container d-inline-block" aria-label="breadcrumb">
                                             <ul class="breadcrumb pt-0">
                                                 <li class="breadcrumb-item"><a href="/HappyProgramming">Home</a></li>
-                                                <li class="breadcrumb-item"><a href="template.jsp">Admin Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="AdminDashboardController">Admin Dashboard</a></li>
                                                 <li class="breadcrumb-item"><a href="AdminMentorList">Mentors List</a></li>
                                             </ul>
                                         </nav>

@@ -11,7 +11,6 @@ import dao.UserDAO;
 import entity.Rating;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
