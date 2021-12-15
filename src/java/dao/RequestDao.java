@@ -520,5 +520,55 @@ public class RequestDao {
         }
         return null;
     }
+    
+    public void editRequest(int rID, String title, String deadline, String content, String deadlineHours) {
+        String query = "UPDATE request SET title = ?, deadline_date = ?, message = ?, hours = ? WHERE id = ?;";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, title);
+            ps.setString(2, deadline);
+            ps.setString(3, content);
+            ps.setString(4, deadlineHours);
+            ps.setInt(5, rID);
+            ps.executeUpdate();
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void cancelRequest(int rID) {
+        String query = "UPDATE request SET status = 3 WHERE id = ?;";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setInt(1, rID);
+            ps.executeUpdate();
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
 }

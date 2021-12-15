@@ -94,19 +94,17 @@
                                 </div>
                                 <div class="mb-3 row menter-register__item">
                                     <label for="skill" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
-                                        Choose Skill:
+                                        Skill:
                                     </label>
                                     <select name="skill" class="form-control" multiple="true" id="cboSkill" size="6" multiple required>
-                                        <c:forEach items="${listSkill}" var="i">                                                   
-                                            <option value="${i.id}" >${i.name}</option>
-                                        </c:forEach>
+                                        <option value="${skillSuggestionId}" >${skillSuggestion}</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 row menter-register__item">
                                     <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                         Input Mentor ID:
                                     </label>
-                                    <input type="text" name="mentorID" class="form-control" id="txtMentor" value="${mentor}" required disabled="disabled">
+                                    <input type="text" name="mentorID" class="form-control" id="txtMentor" value="${mentor}" required>
                                 </div>
                                 <div class="mb-3 row menter-register__item">
                                     <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">

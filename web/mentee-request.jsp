@@ -11,6 +11,48 @@
 <html lang="en" data-footer="true" data-override='{"attributes":{"layout": "boxed"}}'>
     <c:set var="context" value=""/>
     <head>
+        
+        <style>
+/* The Modal (background) */
+.modal-1 {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+        </style>
+        
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <title>Thông tin cá nhân</title>
@@ -58,7 +100,6 @@
         <link rel="stylesheet" href="resources/css/main.css" />
         <script src="resources/js/base/loader.js"></script>
     </head>
-
     <body>
         <%
             DBConnect dc = new DBConnect();
@@ -77,6 +118,10 @@
                     }
                 }
             }
+                SkillDao sDao = new SkillDao(dc);
+                List<Skill> skillPopular = sDao.getSkillHaveManyRequest();
+                List<Skill> skillList = sDao.getSkillList();
+                List<Skill> topSkill = sDao.getTopSkill();
 
         %>
         <c:if test="${msg != null}">
@@ -85,6 +130,53 @@
         <main>
             <%@include file="header.jsp" %>
             <div class="container">
+                <!-- The Modal -->
+                <div id="myModal" class="modal-1">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Request</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="RequestController?service=EditRequest" id="editForm" method="POST">
+                                    <div class="menter-register__body">
+                                        <p style="color:red; text-align:center" >${alertMess1}</p>
+                                        <div class="mb-3 row menter-register__item">
+                                            <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                Title:
+                                            </label>
+                                            <input type="text" name="title" class="form-control" id="txtETitle" value="${title}" required> 
+                                        </div>
+                                        <div class="mb-3 row menter-register__item">
+                                            <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                Deadline:
+                                            </label>
+                                            <input type="date" name="deadline" class="form-control" id="txtEDeadline" value="${deadline}" required>
+                                        </div>
+                                        <div class="mb-3 row menter-register__item">
+                                            <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                Content:
+                                            </label>
+                                            <input type="text" name="content" class="form-control" id="txtEContent" value="${content}" required> 
+                                        </div>
+                                        <div class="mb-3 row menter-register__item">
+                                            <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                Deadline Hours:
+                                            </label>
+                                            <input type="number" min="0" step=".01" name="deadlineHours" id="txtENumDeadline" class="form-control" value="${deadlineHours}" required> 
+                                        </div>
+                                        <div class="modal-footer border-0">
+                                            <input class="btn btn-icon btn-icon-end btn-primary btnEditRequest" style="margin-left: 350px" type="submit" value="Edit" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="row">
                     <div class="col-auto d-none d-lg-flex">
                         <div class="col-auto d-none d-lg-flex">
@@ -273,9 +365,8 @@
                                                     </td>
                                                     <td>
                                                         <c:if test="${o.status == 1}">
-                                                            <input style="width: 100px;" class="mb-1 btn btn-success btnEdit" data-id="${o.id}"  type="button" value="Edit">
-
-                                                            <form action="RequestController?service=cancelRequest" method="post">
+                                                            <input id="myBtn" style="width: 100px;" class="mb-1 btn btn-success" data-id="${o.id}"  type="button" value="Edit">
+                                                            <form action="RequestController?service=cancelRequest&requestId=${o.id}" method="post">
                                                                 <!--<input type="hidden" value="${o.id}" name="requestId">-->
                                                                 <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
                                                             </form>
@@ -331,9 +422,10 @@
                                                                 Choose Skill:
                                                             </label>
                                                             <select name="skill" class="form-control" multiple="true" id="cboSkill" size="6" multiple required>
-                                                                <c:forEach items="${listSkill}" var="i">                                                   
-                                                                    <option value="${i.id}" >${i.name}</option>
-                                                                </c:forEach>
+                                                                <%                                    for (Skill item : skillList) {
+                                %>
+                                <option value="<%=item.getId()%>" ><%=item.getName()%></option>
+                                <%}%>
                                                             </select>
                                                         </div>
                                                         
@@ -455,6 +547,40 @@
   }
 }
     </script>
+    
+    <script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function(e) {
+  modal.style.display = "block";
+  console.log($(this).parent().siblings()[0].innerText);
+  document.getElementById('txtETitle').value = $(this).parent().siblings()[1].innerText
+  document.getElementById('txtEDeadline').value = $(this).parent().siblings()[2].innerText
+  document.getElementById('txtEContent').value = $(this).parent().siblings()[3].innerText
+  document.getElementById('txtENumDeadline').value = $(this).parent().siblings()[4].innerText
+  $("#editForm").attr('action', 'RequestController?service=EditRequest&requestId=' + $(this).parent().siblings()[0].innerText);
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
     <!-- Page Specific Scripts End -->
 </body>
 </html>
