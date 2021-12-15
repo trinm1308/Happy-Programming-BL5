@@ -6,19 +6,19 @@
 package controller;
 
 import context.DBConnect;
+import dao.RatingDAO;
 import dao.RequestDao;
-import dao.SkillDao;
 import dao.UserDAO;
+import entity.Rating;
 import entity.Request;
-import entity.Skill;
 import entity.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tri
  */
-@WebServlet(name = "AdminDashboardController", urlPatterns = {"/AdminDashboardController"})
-public class AdminDashboardController extends HttpServlet {
+public class MentorRequestStatistics extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,30 +39,44 @@ public class AdminDashboardController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            DBConnect dBConnect = new DBConnect();
-            UserDAO ud = new UserDAO(dBConnect);
-            RequestDao rd = new RequestDao(dBConnect);
-            SkillDao sd = new SkillDao(dBConnect);
 
-            ArrayList<User> mentors = ud.getMentors();
+        DBConnect dBConnect = new DBConnect();
+        UserDAO ud = new UserDAO(dBConnect);
+        RatingDAO rd = new RatingDAO(dBConnect);
+        RequestDao rqd = new RequestDao(dBConnect);
 
-            int[] requestCounts = rd.getRequestCounts();
-            ArrayList<Request> requests = rd.getRecentRequests(20);
+        User u = (User) request.getSession().getAttribute("user");
+        User mentor = ud.getUserById(u.getId());
+        request.setAttribute("mentor", mentor);
 
-            ArrayList<Skill> skills = sd.getSkillList();
+        int[] mentorRequestCounts = rqd.getMentorRequestCounts(mentor.getId());
+        request.setAttribute("requests", mentorRequestCounts);
 
-            request.setAttribute("skills", skills);
-            request.setAttribute("requestCounts", requestCounts);
-            request.setAttribute("requests", requests);
-            request.setAttribute("newMentors", mentors.size() >= 6 ? mentors.subList(0, 6) : mentors);
+        int limit = 10;
 
-            request.getRequestDispatcher("admin_dashboard.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        int pendingPage = request.getParameter("pendingPage") != null
+                ? Integer.parseInt(request.getParameter("pendingPage"))
+                : 1;
+        int pendingOffset = pendingPage == 1
+                ? 0
+                : (pendingPage - 1) * limit;
+
+        int pendingCount = rqd.getCountOfStatus(mentor.getId(), -1);
+        request.setAttribute("pendingPage", pendingPage);
+        request.setAttribute("pendingPages", pendingCount % limit == 0 ? pendingCount / limit : pendingCount / limit + 1);
+
+        ArrayList<Request> pendingRequests = rqd.getPaginatedRequestsByMentorId(mentor.getId(), limit, pendingOffset);
+        request.setAttribute("pendingRequests", pendingRequests);
+
+        ArrayList<Rating> ratings = rd.getRatingOfMentor(mentor.getId());
+        int averageStars = rd.getAverageRating(mentor.getId());
+
+        request.setAttribute("averageStars", averageStars);
+        request.setAttribute("ratings", ratings);
+
+        request.getRequestDispatcher("mentor_request_statistics.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +91,11 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MentorRequestStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,7 +109,11 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MentorRequestStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
