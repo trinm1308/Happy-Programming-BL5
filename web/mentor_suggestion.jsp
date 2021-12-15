@@ -106,7 +106,7 @@
                                     <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                         Input Mentor ID:
                                     </label>
-                                    <input type="text" name="mentor" class="form-control" id="txtMentor" value="${mentor}" required disabled="disabled">
+                                    <input type="text" name="mentorID" class="form-control" id="txtMentor" value="${mentor}" required disabled="disabled">
                                 </div>
                                 <div class="mb-3 row menter-register__item">
                                     <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">

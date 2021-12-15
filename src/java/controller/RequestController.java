@@ -105,7 +105,7 @@ public class RequestController extends HttpServlet {
                     request.getRequestDispatcher("mentor_suggestion.jsp").forward(request, response);
                 } else {
                     java.util.Date currentDate = new java.util.Date();
-                    int mentorId = request.getParameter("mentor") == null ? 1 : Integer.parseInt(request.getParameter("mentor"));
+                    int mentorId = request.getParameter("mentorID") == null ? 1 : Integer.parseInt(request.getParameter("mentor"));
                     Request r = new Request(userId, mentorId, content, title, deadline, currentDate, status, deadlineHour) {
                     };
                     dao.createRequest(r);
