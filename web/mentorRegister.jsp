@@ -74,21 +74,15 @@
 
                     <div class="menter-register__body">
                         <div class="menter-register__item">
-                            <label for="link-github" class="menter-register__label">Link Github:</label>
-                            <input type="text" id="link-github" class="mentor-register__input"> 
-                        </div>
-
-                        <div class="menter-register__item">
                             <label for="skill" class="menter-register__label">
                                 <p class="red-star">*</p>
                                 Skill:
                             </label>    
                             <select name="nameSkill" class="mentor-register__input" multiple="true" size="6" multiple required>
-                                <%
-                                                for (Skill item : skillList) {
-                                            %>
-                                            <option value="<%=item.getId()%>" ><%=item.getName()%></option>
-                                            <%}%>
+                                <%                                    for (Skill item : skillList) {
+                                %>
+                                <option value="<%=item.getId()%>" ><%=item.getName()%></option>
+                                <%}%>
                                 </c:forEach>>
                             </select>
                         </div>

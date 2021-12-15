@@ -60,7 +60,6 @@ public class RequestController extends HttpServlet {
         RequestDao dao = new RequestDao(dc);
         SkillDao Sdao = new SkillDao(dc);
         RequestSkillDao rSDao = new RequestSkillDao(dc);
-        //InvitationDao Idao = new InvitationDao(dc);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String service = request.getParameter("service");
@@ -93,34 +92,22 @@ public class RequestController extends HttpServlet {
                 String content = request.getParameter("content");
                 //1: Open, 0:closed, 2:Processing, 3:canceled
                 int status = 1;
-
                 String[] skill = request.getParameterValues("skill");
-                if (skill.length > 3) {
-                    request.setAttribute("listSkill", listSkill);
-                    request.setAttribute("title", title);
-                    request.setAttribute("deadline", deadline);
-                    request.setAttribute("deadlineHour", deadlineHour);
-                    request.setAttribute("content", content);
-                    request.setAttribute("alertMess1", "Không được chọn quá 3 kỹ năng");
-                    request.getRequestDispatcher("mentor_suggestion.jsp").forward(request, response);
-                } else {
-                    java.util.Date currentDate = new java.util.Date();
-                    int mentorId = request.getParameter("mentorID") == null ? 1 : Integer.parseInt(request.getParameter("mentor"));
-                    Request r = new Request(userId, mentorId, content, title, deadline, currentDate, status, deadlineHour) {
-                    };
-                    dao.createRequest(r);
-                    int Rid = dao.getMaxRequestId();
-                    for (String s : skill) {
-                        RequestSkill rs = new RequestSkill(Rid, Integer.parseInt(s));
-                        rSDao.createRequestSkill(rs);
-                    }
-                    request.setAttribute("msg", "Add request successfully");
-                    request.setAttribute("listSkill", listSkill);
-                    response.sendRedirect("RequestController?service=createRequest");
-                    return;
-                    //request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
-                    //response.sendRedirect("RequestController?service=createRequest");
-                }
+                java.util.Date currentDate = new java.util.Date();
+                int mentorId = Integer.parseInt(request.getParameter("mentorID"));
+                Request r = new Request(userId, mentorId, content, title, deadline, currentDate, status, deadlineHour) {
+                };
+                dao.createRequest(r);
+                int Rid = dao.getMaxRequestId();
+                String[] skillId = request.getParameterValues("skill");
+                RequestSkill rs = new RequestSkill(Rid, Integer.parseInt(skillId[0]));
+                rSDao.createRequestSkill(rs);
+                request.setAttribute("msg", "Add request successfully");
+                request.setAttribute("listSkill", listSkill);
+                response.sendRedirect("RequestController?service=createRequest");
+                return;
+                //request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
+                //response.sendRedirect("RequestController?service=createRequest");
             }
             if (service.equals("createRequestAfter")) {
                 HttpSession session = request.getSession();
@@ -152,9 +139,10 @@ public class RequestController extends HttpServlet {
                     boolean isSuggestMentor = request.getParameter("suggestion") == null ? false : request.getParameter("suggestion").equals("isSuggestion");
                     if (isSuggestMentor) {
                         request.setAttribute("listSkill", listSkill);
-                        ArrayList<Mentor> mentors = ud.getSuggestMentor(30);
+                        ArrayList<Mentor> mentors = ud.getSuggestMentor(Integer.parseInt(skill[0]));
                         request.setAttribute("mentors", mentors);
-                        request.setAttribute("listSkill", listSkill);
+                        request.setAttribute("skillSuggestionId", Sdao.getSkill(Integer.parseInt(skill[0])).getId());
+                        request.setAttribute("skillSuggestion", Sdao.getSkill(Integer.parseInt(skill[0])).getName());
                         request.setAttribute("title", title);
                         request.setAttribute("deadline", deadline);
                         request.setAttribute("deadlineHour", deadlineHour);
@@ -197,6 +185,29 @@ public class RequestController extends HttpServlet {
 //
 //                request.getRequestDispatcher("menteeUpdateRequest.jsp").forward(request, response);
 //            }
+            if (service.equals("EditRequest")) {
+                HttpSession session = request.getSession();
+                User user = (User) session.getAttribute("user");
+                int requestId = Integer.parseInt(request.getParameter("requestId"));
+                String title = request.getParameter("title");
+                String deadline = request.getParameter("deadline");
+                String content = request.getParameter("content");
+                String deadlineHours = request.getParameter("deadlineHours");
+                dao.editRequest(requestId, title, deadline, content, deadlineHours);
+                request.setAttribute("msg", "Update request successfully");
+                request.setAttribute("listSkill", listSkill);
+                response.sendRedirect("RequestController?service=createRequest");
+            }
+            if (service.equals("cancelRequest")) {
+                HttpSession session = request.getSession();
+                User user = (User) session.getAttribute("user");
+                int requestId = Integer.parseInt(request.getParameter("requestId"));
+                dao.cancelRequest(requestId);
+                request.setAttribute("msg", "Update request successfully");
+                request.setAttribute("listSkill", listSkill);
+                response.sendRedirect("RequestController?service=createRequest");
+            }
+            
             if (service.equals("updateRequestAfter")) {
                 User user = (User) request.getSession().getAttribute("user");
                 int requestId = Integer.parseInt(request.getParameter("requestId"));
@@ -276,14 +287,6 @@ public class RequestController extends HttpServlet {
 //                dao.updateRequestStatusAndDateById(3, requestId, currentDate);
 //                response.sendRedirect("mentorRequestList.jsp");
 //            }if(service.equals("menteeListRequest")){
-//                response.sendRedirect("menteeRequestList.jsp");
-//            }if(service.equals("cancelRequest")){
-//                HttpSession session = request.getSession();
-//                User user = (User)session.getAttribute("user");
-//                int requestId = Integer.parseInt(request.getParameter("requestId"));
-//                java.util.Date finish_date = new java.util.Date();
-//                dao.updateRequestStatusAndDateById(3, requestId, finish_date);
-//                Idao.updateInvitationCancelStatus("Cancel", requestId);
 //                response.sendRedirect("menteeRequestList.jsp");
 //            }
             dc.close();
