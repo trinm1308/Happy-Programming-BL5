@@ -52,6 +52,10 @@
         <servlet-name>RequestController</servlet-name>
         <servlet-class>controller.RequestController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MentorRequestStatistics</servlet-name>
+        <servlet-class>controller.MentorRequestStatistics</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>RequestController</servlet-name>
         <url-pattern>/RequestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MentorRequestStatistics</servlet-name>
+        <url-pattern>/MentorRequestStatistics</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

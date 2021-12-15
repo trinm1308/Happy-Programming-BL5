@@ -30,7 +30,7 @@
                 <c:if test="${sessionScope.user!=null}">
                     <div class="user-container d-flex">
                         <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="profile" alt="profile" src="img/profile/profile-9.jpg" />
+                            <img class="profile" alt="profile" src="${sessionScope.user.ava != null ? sessionScope.user.ava : 'img/profile/profile-9.jpg'}" />
                             <div class="name">${sessionScope.user.fullName}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end user-menu wide">
@@ -59,7 +59,7 @@
                                 <div class="col-12 pe-1 ps-1">
                                     <ul class="list-unstyled">                                   
                                         <li>
-                                            <a href="#">
+                                            <a href="LogoutController">
                                                 <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
                                                 <span class="align-middle">Logout</span>
                                             </a>
@@ -107,8 +107,8 @@
                                     <c:when test="${sessionScope.user.role==0}">
                                         <ul id="dashboards">
                                             <li>
-                                                <a href="Dashboards.Default.html">
-                                                    <span class="label">Mentor Action #1</span>
+                                                <a href="MentorRequestStatistics">
+                                                    <span class="label">Mentor Request Statistics</span>
                                                 </a>
                                             </li>                                            
                                         </ul>
@@ -132,6 +132,11 @@
                                             <li>
                                                 <a href="AdminMentorList">
                                                     <span class="label">Mentor List</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="AdminBecomingMentorRequestList">
+                                                    <span class="label">Becoming Mentor Requests List</span>
                                                 </a>
                                             </li>
                                         </ul>

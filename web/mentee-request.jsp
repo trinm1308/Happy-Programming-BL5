@@ -336,6 +336,19 @@
                                                                 </c:forEach>
                                                             </select>
                                                         </div>
+                                                        
+                                                        <div class="mb-3 row menter-register__item">
+                                                            <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                                                Input Mentor ID:
+                                                            </label>
+                                                            <input type="text" name="mentor" class="form-control" id="txtMentor" value="${mentor}" required>
+                                                            <br />
+                                                            <span>
+                                                                <input type="checkbox" id="suggestion" onclick='handleClick(this);' name="suggestion" value="isSuggestion">
+                                                                <label for="suggestion"> I need suggestion mentor!!!</label><br>
+                                                            </span>
+                                                            
+                                                        </div>
                                                         <div class="mb-3 row menter-register__item">
                                                             <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Deadline Hours:
@@ -432,6 +445,15 @@
                                                                             $("#frmForm").attr('action', "RequestController?service=createRequestAfter");
                                                                         }
                                                                     });
+                                                                    function handleClick(cb) {
+  if (cb.checked) {
+      document.getElementById('txtMentor').value = "need suggestion"
+      document.getElementById("txtMentor").disabled = true;
+  } else {
+      document.getElementById('txtMentor').value = ""
+      document.getElementById("txtMentor").disabled = false;
+  }
+}
     </script>
     <!-- Page Specific Scripts End -->
 </body>

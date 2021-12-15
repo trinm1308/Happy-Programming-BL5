@@ -19,7 +19,6 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -34,21 +33,21 @@
         <link rel="stylesheet" href="resources/css/styles.css" />
         <!-- Template Base Styles End -->
 
-        <link rel="stylesheet" href="resources/css/main.css" />
-        <script src="resources/js/base/loader.js"></script>
-
+        <script>
+        function handleClick(id) {
+                document.getElementById('txtMentor').value = id
+        }
+         </script>
 
         <title>JSP Page</title>
     </head>
-    <body id="page-top">
+    <body>
         <%@include file="header.jsp" %>
         <div class="container-margin-top">
             <div class="container mt-5 mb-3 page-section portfolio" id="portfolio">
                 <div class="row">
-
                     <c:forEach items="${mentors}" var="mentor">
-
-                        <div class="col-md-4">
+                        <div class="col-md-4" onclick='handleClick(${mentor.id});'>
                             <div class="card p-3 mb-2">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-row align-items-center">
@@ -71,16 +70,62 @@
                             </div>
                         </div>
                     </c:forEach> 
+                    <form action="RequestController?service=createRequestAfterSuggestion" id="frmForm" method="POST">
+
+                            <div class="menter-register__body">
+                                <p style="color:red; text-align:center" >${alertMess1}</p>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Title:
+                                    </label>
+                                    <input type="text" name="title" class="form-control" id="txtTitle" value="${title}" required> 
+                                </div>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Deadline:
+                                    </label>
+                                    <input type="date" name="deadline" class="form-control" id="txtDeadline" value="${deadline}" required>
+                                </div>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="request_content" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Content:
+                                    </label>
+                                    <input type="text" name="content" class="form-control" id="txtContent" value="${content}" required> 
+                                </div>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="skill" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Choose Skill:
+                                    </label>
+                                    <select name="skill" class="form-control" multiple="true" id="cboSkill" size="6" multiple required>
+                                        <c:forEach items="${listSkill}" var="i">                                                   
+                                            <option value="${i.id}" >${i.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Input Mentor ID:
+                                    </label>
+                                    <input type="text" name="mentorID" class="form-control" id="txtMentor" value="${mentor}" required disabled="disabled">
+                                </div>
+                                <div class="mb-3 row menter-register__item">
+                                    <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+                                        Deadline Hours:
+                                    </label>
+                                    <input type="number" min="0" step=".01" name="deadlineHours" id="txtDeadline" class="form-control" value="${deadlineHours}" required> 
+                                </div>
+                                <div> 
+                                    <input style="margin-left: 350px" type="submit" value="Create" />
+                                </div>
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/trungNhScripts.js"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
@@ -97,6 +142,5 @@
 <!-- Template Base Scripts End -->
 <!-- Page Specific Scripts Start -->
 <script src="resources/js/pages/profile.settings.js"></script>
-<script src="resources/js/common.js"></script>
 <script src="resources/js/scripts.js"></script>
 </html>

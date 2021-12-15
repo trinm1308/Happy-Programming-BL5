@@ -63,7 +63,7 @@ public class SignUpController extends HttpServlet {
                         out.println("<script type=\"text/javascript\">");
                         out.println("alert('Register success!');");
                         out.println("</script>");
-                        response.sendRedirect("/login.jsp");
+                        response.sendRedirect("login.jsp");
                         return;
                     } else {
                         request.setAttribute("mess", "Email already register!!!");

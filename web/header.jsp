@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="root">
-    
-        <%
-            if(session.getAttribute("user") == null) {
-                response.sendRedirect("login.jsp");
-            }
-        %>
+
+    <%
+        if (session.getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
     <div id="nav" class="nav-container d-flex">
         <div class="nav-content d-flex">
             <!-- Logo Start -->
@@ -42,13 +42,16 @@
                             <div class="col-6 ps-1 pe-1">
                                 <ul class="list-unstyled">
                                     <li> <a href="profile.jsp">Profile</a></li>
-                                    <c:if test="${sessionScope.user.role==2}">
-                                        <li> <a href="/admin.jsp">Admin Page</a></li>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user.role!=2}">
-                                       <li> <a href="RequestController?service=createRequest">My Request</a></li>
-                                    </c:if>
-                                    
+                                        <c:if test="${sessionScope.user.role==2}">
+                                        <li> <a href="AdminDashboardController">Admin Page</a></li>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.role==0}">
+                                        <li> <a href="MentorRequestStatistics">Request Statistics</a></li>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.role!=2}">
+                                        <li> <a href="RequestController?service=createRequest">My Request</a></li>
+                                        </c:if>
+
                                 </ul>
                             </div>
 
@@ -146,7 +149,7 @@
                 <ul id="menu" class="menu">
                     <li>
                         <a href="/home" data-href="#admin">
-                        
+
                             <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                             <span class="label">Homepage</span>
                         </a>
@@ -154,7 +157,7 @@
                     </li>
                     <c:if test="${sessionScope.user.role==2}">
                         <li>
-                            <a href="./admin" data-href="#admin">
+                            <a href="AdminDashboardController" data-href="#admin">
                                 <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                                 <span class="label">Admin Board</span>
                             </a>
@@ -170,6 +173,9 @@
                             <li>
                                 <a href="MentorListController">
                                     <span class="label">Mentor List</span>
+                                </a>
+                                <a href="mentorRegister.jsp">
+                                    <span class="label">Mentor Register</span>
                                 </a>
                                 <a href="MentorSuggestion">
                                     <span class="label">Mentor Suggestion</span>
@@ -236,4 +242,3 @@
     </footer>
     <!-- Layout Footer End -->
 </div>
-<a href="/home.jsp" data-href="#admin">
