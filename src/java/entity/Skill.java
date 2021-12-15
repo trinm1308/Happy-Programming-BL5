@@ -17,6 +17,7 @@ public class Skill {
     private String image;
     private int countRequest;
     private String content;
+    private String category;
 
     public Skill(int id, String name, String status) {
         this.id = id;
@@ -89,6 +90,14 @@ public class Skill {
 
     public String getImage() {
         return image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
