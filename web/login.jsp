@@ -98,7 +98,7 @@
                                     <p class="h6">Please use your credentials to login.</p>
                                     <p class="h6">
                                         If you are not a member, please
-                                        <a href="/signup.jsp">register</a>
+                                        <a href="signup.jsp">register</a>
                                         .
                                     </p>
                                 </div>

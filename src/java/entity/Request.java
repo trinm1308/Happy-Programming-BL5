@@ -61,10 +61,25 @@ public class Request {
         this.status = status;
         this.deadlineHour = deadlineHour;
     }
+
+    public Request(int mentee_id, int mentor_id, String mess, String title, Date deadline, Date creationDate, int status, float deadlineHour) {
+        this.mentee_id = mentee_id;
+        this.mentor_id = mentor_id;
+        this.mess = mess;
+        this.title = title;
+        this.deadline = deadline;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.deadlineHour = deadlineHour;
+    }
+    
+    
     
     public Request() {
         
     }
+    
+    
 
     public Request(int id, int mentee_id, int mentor_id, String mess, String title, Date deadline, Date creationDate, Date finishDate, int status, float deadlineHour) {
         this.id = id;

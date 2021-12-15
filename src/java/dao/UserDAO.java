@@ -462,10 +462,50 @@ public class UserDAO {
         }
     }
 
-    public ArrayList<Mentor> getSuggestMentor() {
+    public ArrayList<Mentor> getSuggestMentor(int sid) {
         try {
             ArrayList<Mentor> mentors = new ArrayList();
-            String sql = "select user.id, user.full_name, user.phone, user.email, skill.name, user.gender, rating.rate from user inner join rating on user.id = rating.mentor_id inner join request_mentor_skill on user.id = request_mentor_skill.userid inner join skill on request_mentor_skill.skillid = skill.id where rate >= 4;";
+            String sql = "select user.id, user.full_name, "
+                    + "user.phone, user.email, skill.name, "
+                    + "user.gender, rating.rate, request_mentor_skill.skillid "
+                    + "from user inner join rating on user.id = "
+                    + "rating.mentor_id inner join request_mentor_skill "
+                    + "on user.id = request_mentor_skill.userid inner join "
+                    + "skill on request_mentor_skill.skillid = skill.id where "
+                    + "request_mentor_skill.status = 1 and "
+                    + "request_mentor_skill.skillid = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, sid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("full_name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String skillName = rs.getString("name");
+                String gender = rs.getInt("gender") == 0 ? "male" : "Female";
+                int rate = rs.getInt("rate");
+                Mentor m = new Mentor(id, name, phone, email, skillName, gender, rate);
+                mentors.add(m);
+            }
+            return mentors;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<Mentor> getAllMentor() {
+        try {
+            ArrayList<Mentor> mentors = new ArrayList();
+            String sql = "select user.id, user.full_name, "
+                    + "user.phone, user.email, skill.name, "
+                    + "user.gender, rating.rate, request_mentor_skill.skillid "
+                    + "from user inner join rating on user.id = "
+                    + "rating.mentor_id inner join request_mentor_skill "
+                    + "on user.id = request_mentor_skill.userid inner join "
+                    + "skill on request_mentor_skill.skillid = skill.id where "
+                    + "request_mentor_skill.status = 1;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

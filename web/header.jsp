@@ -171,6 +171,9 @@
                                 <a href="MentorListController">
                                     <span class="label">Mentor List</span>
                                 </a>
+                                <a href="MentorRegister">
+                                    <span class="label">Mentor Register</span>
+                                </a>
                                 <a href="MentorSuggestion">
                                     <span class="label">Mentor Suggestion</span>
                                 </a>
@@ -236,4 +239,3 @@
     </footer>
     <!-- Layout Footer End -->
 </div>
-<a href="/home.jsp" data-href="#admin">

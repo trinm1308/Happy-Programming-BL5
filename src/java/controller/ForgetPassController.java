@@ -43,22 +43,38 @@ public class ForgetPassController extends HttpServlet {
             UserDAO ud = new UserDAO(dc);
             String email = request.getParameter("email");
             User u = ud.checkExitsEmail(email);
-            if (u != null) {
-                String userfrom = "quantahe151524@fpt.edu.vn";
-                String passfrom = "Quan280701";
-                String code = ud.getRandom2(6);
-                String subject = "Change Your Password";
-                String message = ("Your authentic code to change your password: " + code);
-                UserDAO.send(email, subject, message, userfrom, passfrom);
+            String action = request.getParameter("change_pass");
+            if (request.getParameter("type") != null) {
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(120);
-                session.setAttribute("otp", code);
-                session.setAttribute("account", u.getAccount());
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                String otp = request.getParameter("otp");
+                if (session.getAttribute("otp").equals(otp)) {
+                    ud.changePassword((int) session.getAttribute("userId"), request.getParameter("password"));
+                    response.sendRedirect("LoginController");
+                    return;
+                } else {
+                    request.setAttribute("mess", "OTP invalid");
+                    request.getRequestDispatcher("forgetpass.jsp").forward(request, response);
+                }
+                return;
             } else {
-                request.setAttribute("mess", "Email not existed!!");
-                request.getRequestDispatcher("forgetpass.jsp").forward(request, response);
-
+                if (u != null) {
+                    String userfrom = "teach1397@gmail.com";
+                    String passfrom = "Kieu@nh1";
+                    String code = ud.getRandom2(6);
+                    String subject = "Change Your Password";
+                    String message = ("Your authentic code to change your password: " + code);
+                    UserDAO.send(email, subject, message, userfrom, passfrom);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("otp", code);
+                    session.setAttribute("account", u.getAccount());
+                    session.setAttribute("userId", u.getId());
+                    session.setMaxInactiveInterval(120);
+                    request.getRequestDispatcher("forgetpass.jsp").forward(request, response);
+                } else {
+                    HttpSession session = request.getSession();
+                    request.setAttribute("mess", session.getAttribute("otp"));
+                    request.getRequestDispatcher("forgetpass.jsp").forward(request, response);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(ForgetPassController.class.getName()).log(Level.SEVERE, null, ex);

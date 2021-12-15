@@ -104,6 +104,10 @@
                                         .
                                     </p>
                                 </div>
+                                <%
+                                    String otp = (String) session.getAttribute("otp");
+                                    if (otp == null) {
+                                %>            
                                 <div>
                                     <form action="ForgetPassController" method="POST"  class="tooltip-end-bottom" >
                                         <input type="text" name="action" value ="forgetPass" hidden readonly>
@@ -115,6 +119,24 @@
                                         <p style = "color: red"> ${mess} </p>
                                     </form>
                                 </div>
+                                <%
+                                } else {
+                                %>
+                                <div>
+                                    <form action="ForgetPassController?type=success" method="POST"  class="tooltip-end-bottom" >
+                                        <input type="text" name="action" value ="forgetPass" hidden readonly>
+                                        <div class="mb-3 filled form-group tooltip-end-top">
+                                            <input class="form-control" placeholder="New Password" name="password" />
+                                            <input class="form-control" placeholder="Confirm New Password" name="cfPassword" />
+                                            <input class="form-control" placeholder="OTP" name="otp" />
+                                        </div>
+                                        <button type="submit" class="btn btn-lg btn-primary">Send Reset Email</button>
+                                        <p style = "color: red"> ${mess} </p>
+                                    </form>
+                                </div>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
