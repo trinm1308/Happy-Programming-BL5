@@ -136,7 +136,7 @@ public class SkillDao {
     public ArrayList<Skill> getRelatedSkill(int id) {
         Skill skillDetail = getSkill(id);
         ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "select * from skill where category=?";
+        String query = "select * from skill where categoryId=?";
 
         try {
 
@@ -246,7 +246,7 @@ public class SkillDao {
 "`name`,\n" +
 "`description`,\n" +
 "`image`,\n" +
-"`content`, `category`)\n" +
+"`content`, `categoryId`)\n" +
 "VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -278,7 +278,7 @@ public class SkillDao {
 
     // Cập nhật Skill theo id
     public void updateSkill(Skill skill) {
-        String query = "update skill set name = ?, description=? ,image = ?, content=?, category=? where id = ? ";
+        String query = "update skill set name = ?, description=? ,image = ?, content=?, categoryId=? where id = ? ";
 
         try {
 

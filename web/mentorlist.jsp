@@ -48,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="myModal" role="dialog" ư>
+                    <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
@@ -82,7 +82,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success" data-dismiss="modal" id="request">Thuê</button>
+                                        <button type="submit" class="btn btn-success" data-dismiss="modal" id="request">Thuê</button>
                                     </div>
                                 </form>
                             </div>
@@ -96,36 +96,8 @@
                 <span id="pagination-index">${pageIndex}</span>
                 <button onclick="pagingHandle(${pageIndex}, '${searchCode}', ${maxPage})" class="btn-success rounded-50"  >Trang sau</button>
             </div>
+        </div>
+        <!-- Modal -->
 
-            <!-- Modal -->
-
-        </jsp:body>
-    </t:template>
-    <script>
-        const contextPath = "<%=request.getContextPath()%>";
-        const pageIndex = document.getElementById("pagination-index").textContent;
-
-        function pagingHandle(index, code, max) {
-            if (typeof max === 'undefined') {
-                --index;
-            } else {
-                ++index;
-            }
-            if (index < 1 || index > max)
-                return;
-            let url = contextPath + "/MentorListController?index=" + index + "&searchCode=" + code
-            window.location.href = url.toString();
-        }
-
-
-        var form = document.getElementById("request_mentor");
-
-        document.getElementById("request").addEventListener("click", function () {
-            form.submit();
-        });
-    </script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </jsp:body>
+</t:template>

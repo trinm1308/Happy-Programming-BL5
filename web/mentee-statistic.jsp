@@ -1,3 +1,4 @@
+<%@page import="entity.Mentee"%>
 <%@page import="dao.UserDAO"%>
 <%@page import="entity.Skill"%>
 <%@page import="dao.SkillDao"%>
@@ -67,6 +68,7 @@
             UserDAO userDao = new UserDAO(dc);
             User user = (User) session.getAttribute("user");
             List<Request> requestsByMentee = dao.getListRequestById(user.getId());
+            List<Mentee> menteeList = userDao.getAllMentee();
             //String requestId = request.getParameter("requestId");
         %>
         <c:if test="${msg != null}">
@@ -82,10 +84,6 @@
                             <div class="page-title-container">
                                 <h1 class="mb-0 pb-0 display-4">Mentee List</h1>
                                 <nav class="breadcrumb-container d-inline-block" aria-label="breadcrumb">
-                                    <!--                    <ul class="breadcrumb pt-0">
-                                                          <li class="breadcrumb-item"><a href="Dashboards.Default.html">Home</a></li>
-                                                          <li class="breadcrumb-item"><a href="Blocks.html">Blocks</a></li>
-                                                        </ul>-->
                                 </nav>
                             </div>
                         </section>
@@ -93,32 +91,42 @@
 
                         <!-- Content Start --
                         <div>
-                        -->                          <div class="card mb-5">
-                            <div class="card-body">
+                        -->                          
+                        <div class="card mb-5">
+                            <div class="">
                                 <div class="card mb-2">
-                                    <a href="#" class="row g-0 sh-10">
+                                    <a href="#" class="row g-0 sh-10" style="font-size:25px">
                                         <div class="col">
-                                            <div class="card-body d-flex flex-row pt-0 pb-0 h-100 align-items-center justify-content-between">
-<!--                                                <div class="d-flex flex-column justify-content-center">
-                                                    <div class="mb-1">${item.name}</div>
-                                                    <div class="mb-1">${item.accountName}</div>
-                                                </div>-->
-                                                <div class="d-flex flex-row ms-3">
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <div class="text-muted text-small">Total Mentees</div>
-                                                        <div class="text-alternate"><%=userDao.getTotalMentee()%></div>
+                                            <div style="margin-top:8px">
+                                                <!--                                                <div class="d-flex flex-column justify-content-center">
+                                                                                                    <div class="mb-1">${item.name}</div>
+                                                                                                    <div class="mb-1">${item.accountName}</div>
+                                                                                                </div>-->
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <div class="text-muted text-small">Total Mentees</div>
+                                                            <div class="text-alternate"><%=userDao.getTotalMentee()%></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="d-flex flex-column align-items-center ms-3">
-                                                        <div class="text-muted text-small">Total Requests</div>
-                                                        <div class="text-alternate"><%=userDao.getTotalRequest()%></div>
+                                                    <div class="col-md-3">
+                                                        <div class="d-flex flex-column align-items-center ms-3">
+                                                            <div class="text-muted text-small">Total Requests</div>
+                                                            <div class="text-alternate"><%=userDao.getTotalRequest()%></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <div class="text-muted text-small">Total Hours</div>
-                                                        <div class="text-alternate"><%=userDao.getTotalHour()%></div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <div class="text-muted text-small">Total Hours</div>
+                                                            <div class="text-alternate"><%=userDao.getTotalHour()%></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <div class="text-muted text-small">Total Skils</div>
-                                                        <div class="text-alternate"><%=userDao.getTotalSkill()%></div>
+                                                    <div class="col-md-3">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <div class="text-muted text-small">Total Skills</div>
+                                                            <div class="text-alternate"><%=userDao.getTotalSkill()%></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,61 +139,36 @@
                         <div class="row">
         
                         <!-- Additional Info Start -->
-                        <div class="col-xl-12 mb-5 h-100-card">
-                            <section class="scroll-section" id="additionalInfo">
-                                <!--                                <div class="d-flex justify-content-between">
-                                                                    <h2 class="small-title">Additional Info</h2>
-                                                                    <div class="dropdown-as-select">
-                                                                        <button
-                                                                            class="btn btn-sm pe-0 btn-link align-top mt-n1"
-                                                                            type="button"
-                                                                            data-bs-toggle="dropdown"
-                                                                            aria-expanded="false"
-                                                                            aria-haspopup="true"
-                                                                            >
-                                                                            Week
-                                                                        </button>
-                                                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
-                                                                            <div class="nav flex-column" role="tablist">
-                                                                                <a class="active" data-bs-toggle="tab" href="#additionalInfoWeek" aria-selected="true" role="tab">Week</a>
-                                                                                <a class="" data-bs-toggle="tab" href="#additionalInfoMonth" aria-selected="false" role="tab">Month</a>
-                                                                                <a class="" data-bs-toggle="tab" href="#additionalInfoYear" aria-selected="false" role="tab">Year</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>-->
-<!--                                <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="additionalInfoWeek">
-                                        <c:forEach items="${menteeList}" var="item">
-                                            <div class="card mb-2">
-                                                <a href="#" class="row g-0 sh-10">
+                        <div class="card mb-2">
+                                <div id="checkboxTable">
+                                    <table id="tblRequest" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Avatar</th>
+                                                <th>Name</th>
+                                                <th>Number Request</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for (Mentee item : menteeList) {
+                                            %>
+                                            <tr>
+                                                <td>
                                                     <div class="col-auto h-100">
-                                                        <img src="${item.avatar}" alt="user" class="card-img card-img-horizontal sw-11" />
+                                                        <img src="<%=item.getAvatar()%>" alt="user" class="card-img card-img-horizontal sw-11" />
                                                     </div>
-                                                    <div class="col">
-                                                        <div class="card-body d-flex flex-row pt-0 pb-0 h-100 align-items-center justify-content-between">
-                                                            <div class="d-flex flex-column justify-content-center">
-                                                                <div class="mb-1">${item.name}</div>
-                                                                <div class="mb-1">${item.accountName}</div>
-                                                            </div>
-                                                            <div class="d-flex flex-row ms-3">
-                                                                <div class="d-flex flex-column align-items-center">
-                                                                    <div class="text-muted text-small">Total Hours</div>
-                                                                    <div class="text-alternate">${item.totalHours}</div>
-                                                                </div>
-                                                                <div class="d-flex flex-column align-items-center ms-3">
-                                                                    <div class="text-muted text-small">Total skill</div>
-                                                                    <div class="text-alternate">${item.totalSkill}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </div>-->
-                            </section>
+                                                </td>
+                                                <td><a href="user-info.jsp?id=<%=item.getId()%>"><%=item.getName()%></td>
+                                                <td><%=item.getTotalHours()%></td>
+                                            </tr>
+                                            <%}%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                        
+                            </section>-->
                         </div>
                         <!-- Additional Info End -->
                     </div>

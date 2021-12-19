@@ -47,14 +47,6 @@
         <link rel="stylesheet" href="resources/css/vendor/select2.min.css" />
         <link rel="stylesheet" href="resources/css/vendor/select2-bootstrap4.min.css" />
         <link rel="stylesheet" href="resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
-
-        <link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
-        <link href="css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
-        <link href="themes/krajee-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="css/select2.min.css" />
-        <link rel="stylesheet" href="css/select2-bootstrap-5-theme.min.css" />
-        <link rel="stylesheet" href="css/custom.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
         <link rel="stylesheet" href="resources/css/styles.css" />
@@ -68,7 +60,7 @@
             <div class="nav-content d-flex">
                 <!-- Logo Start -->
                 <div class="logo position-relative">
-                    <a href="/home">
+                    <a href="home.jsp">
                         <!-- Logo can be added directly -->
                         <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
 
@@ -87,8 +79,8 @@
                     <c:if test="${sessionScope.user!=null}">
                         <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false">
-                            <img class="profile" alt="profile" src="images/${sessionScope.user.ava}" />
-                            <div class="name">Nguyễn Minh Đức</div>
+                            <img class="profile" alt="profile" src="${sessionScope.user.ava}" />
+                            <div class="name">${sessionScope.user.fullName}</div>
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-end user-menu wide">
@@ -98,18 +90,22 @@
                                 </div>
                                 <div class="col-6 ps-1 pe-1">
                                     <ul class="list-unstyled">
-                                        <li> <a href="/profile.jsp">Profile</a></li>
+                                        <li> <a href="profile.jsp">Profile</a></li>
                                         <c:if test="${sessionScope.user.role==2}">
-                                            <li> <a href="/admin.jsp">Admin Page</a></li>
+                                            <li> <a href="AdminDashboardController">Admin Page</a></li>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.role==0}">
+                                            <li> <a href="MentorRequestStatistics">Request Statistics</a></li>
                                         </c:if>
                                         <c:if test="${sessionScope.user.role!=2}">
-                                            <li> <a href="RequestController?service=createRequest">Create Mentee Request</a></li>
+                                            <li> <a href="RequestController?service=createRequest">My Request</a></li>
                                         </c:if>
+
                                     </ul>
                                 </div>
 
                             </div>
-                            <div class="row mb-1 ms-0 me-0">
+                            <div class="row mb-1 ms-s0 me-0">
                                 <div class="col-12 p-1 mb-3 pt-3">
                                     <div class="separator-light"></div>
                                 </div>
@@ -201,18 +197,27 @@
                 <div class="menu-container flex-grow-1">
                     <ul id="menu" class="menu">
                         <li>
-                            <a href="/home.jsp" data-href="#admin">
+                            <a href="home.jsp" data-href="#admin">
 
                                 <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
-                                <span class="label">Home</span>
+                                <span class="label">Homepage</span>
                             </a>
 
                         </li>
                         <c:if test="${sessionScope.user.role==2}">
                             <li>
-                                <a href="./admin" data-href="#admin">
+                                <a href="AdminDashboardController" data-href="#admin">
                                     <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                                     <span class="label">Admin Board</span>
+                                </a>
+
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionScope.user.role==1}">
+                            <li>
+                                <a href="ListRequestController">
+                                    <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
+                                    <span class="label">List request</span>
                                 </a>
 
                             </li>
@@ -227,6 +232,12 @@
                                     <a href="MentorListController">
                                         <span class="label">Mentor List</span>
                                     </a>
+                                    <a href="mentorRegister.jsp">
+                                        <span class="label">Mentor Register</span>
+                                    </a>
+                                    <a href="MentorSuggestion">
+                                        <span class="label">Mentor Suggestion</span>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -234,6 +245,12 @@
                             <a href="SkillController?service=showSkill" data-href="#course">
                                 <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
                                 <span class="label">Skill List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="MenteeRequestStatistics?service=showAll">
+                                <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                                <span class="label">Mentee statistic</span>
                             </a>
                         </li>
                     </ul>
@@ -311,8 +328,7 @@
         <script src="resources/js/pages/profile.settings.js"></script>
         <script src="resources/js/common.js"></script>
         <script src="resources/js/scripts.js"></script>
-        <script src="js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-        <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        
         <script src="js/star-rating.js" type="text/javascript"></script>
         <script src="themes/krajee-fas/theme.js" type="text/javascript"></script>
         <script src="js/select2.full.min.js"></script>

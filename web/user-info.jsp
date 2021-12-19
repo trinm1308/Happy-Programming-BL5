@@ -98,7 +98,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Name</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">{user.fullName}</label>
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.fullName}</label>
                                         </div>
                                     </div>
 
@@ -106,26 +106,19 @@
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gender</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <c:if test="${sessionScope.user.gender}">
-                                                <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">{user.fullName}</label>
+                                                <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Male</label>
                                             </c:if>
                                             <c:if test="${!sessionScope.user.gender}">
-                                                 <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">{user.fullName}</label>
+                                                 <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Female</label>
                                             </c:if>
                                            
                                         </div>
                                     </div>
 
-                                    <!--                                    <div class="mb-3 row">
-                                                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Birthday</label>
-                                                                            <div class="col-sm-8 col-md-9 col-lg-10">
-                                                                                <input type="text" name="dob" class="form-control date-picker-close" id="birthday" value="sessionScope.user.fullName" />
-                                                                            </div>
-                                                                        </div>-->
-
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Phone</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="number" name="phone" class="form-control" value="${sessionScope.user.phone}"/>
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.phone}</label>
                                         </div>
                                     </div>
 
@@ -133,16 +126,10 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Address</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="text" name="address" class="form-control" value="${sessionScope.user.address}"/>
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.address}</label>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 row mt-5">
-                                        <div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                            <a style="margin-left: 10px" id="message"></a>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>

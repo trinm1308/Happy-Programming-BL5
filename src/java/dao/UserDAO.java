@@ -529,10 +529,9 @@ public class UserDAO {
     public ArrayList<Mentee> getAllMentee() {
             ArrayList<Mentee> menteeList = new ArrayList();
         try {
-            String sql = "select A.id, A.full_name, A.account, A.ava, sum(B.hours) as total_hours, sum(C.id) as total_skill\n"
+            String sql = "select A.id, A.full_name, A.account, A.ava, count(B.id) as total_request\n"
                     + " from user A left join request B\n"
                     + "on A.id = B.mentee_id\n"
-                    + "left join request_skill C on B.id = C.request_id\n"
                     + "where A.role = 1\n"
                     + "group by A.id\n"
                     + "order by A.full_name";
@@ -543,8 +542,7 @@ public class UserDAO {
                 mentee.setId(rs.getInt("id"));
                 mentee.setName(rs.getString("full_name"));
                 mentee.setAccountName(rs.getString("account"));
-                mentee.setTotalHours(rs.getInt("total_hours"));
-                mentee.setTotalSkill(rs.getInt("total_skill"));
+                mentee.setTotalHours(rs.getInt("total_request"));
                 mentee.setAvatar(rs.getString("ava"));
                 menteeList.add(mentee);
             }
