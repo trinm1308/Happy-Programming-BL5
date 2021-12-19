@@ -5,10 +5,16 @@
  */
 package entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Admin
  */
+@Getter
+@Setter
 public class Category {
-    
+    private int id;
+    private String name;
 }

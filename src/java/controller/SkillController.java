@@ -161,9 +161,9 @@ public class SkillController extends HttpServlet {
         String status = request.getParameter("status");
         String description = request.getParameter("description");
         String image = request.getParameter("image");
-        String category = request.getParameter("category");
+        String category = request.getParameter("categoryId");
         Skill s = new Skill(id, skillName, status, image, 0, description);
-        s.setCategory(category);
+        s.setCategoryId(Integer.parseInt(category));
         d.updateSkill(s);
 
         response.sendRedirect("SkillController?service=showSkill&message=success");
@@ -181,7 +181,7 @@ public class SkillController extends HttpServlet {
         String description = request.getParameter("description");
         String status = request.getParameter("status");
         String image = request.getParameter("image");
-        String category = request.getParameter("category");
+        String category = request.getParameter("categoryId");
 
         for (Skill o : allSkill) {
             if (skillName.equalsIgnoreCase(o.getName())) {
@@ -192,7 +192,7 @@ public class SkillController extends HttpServlet {
 
         if (s == null) {
             s = new Skill(0, skillName, status, image, 0, description);
-            s.setCategory(category);
+            s.setCategoryId(Integer.parseInt(category));
             d.createSkill(s);
             response.sendRedirect("SkillController?service=showSkill&message=success");
         } else {

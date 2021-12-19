@@ -213,4 +213,19 @@ public class MentorDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public int getTotalRecord(String name) throws SQLException {
+        List<MentorEntity> mes = new ArrayList<>();
+        DBConnect bConnect = new DBConnect();
+        conn = bConnect.con;
+        String sql = "select count(*) as count from (select u.id, u.full_name, u.description, u.framework, u.ava, r.rate from user u join rating r\n"
+                + "on u.id = r.mentor_id and u.role = 1 and full_name like ?) as a;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count");
+        }
+        return 0;
+    }
 }

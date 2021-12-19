@@ -6,6 +6,7 @@
 package entity;
 
 import java.sql.Timestamp;
+import lombok.Setter;
 
 /**
  *
@@ -14,11 +15,25 @@ import java.sql.Timestamp;
 public class Rating {
 
     private int id;
+     int menteeId;
     private int mentorID;
     private String author;
     private int point;
     private String content;
     private String createdTime;
+    @Setter
+    String menteeName;
+
+    public Rating() {
+    }
+
+    public Rating(int id, int menteeId, int mentorId, int stars, String comment) {
+        this.id = id;
+        this.menteeId = menteeId;
+        this.mentorID = mentorId;
+        this.point = stars;
+        this.content = comment;
+    }
 
     public Rating(int id, int mentorID, String author, int point, String content, String createdTime) {
         this.id = id;
@@ -27,9 +42,6 @@ public class Rating {
         this.point = point;
         this.content = content;
         this.createdTime = createdTime;
-    }
-
-    public Rating() {
     }
 
     public int getId() {

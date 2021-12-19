@@ -71,7 +71,7 @@ public class SkillDao {
 
             while (rs.next()) {
                 Skill s = new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("image"), 0, rs.getString("content"));
-                s.setCategory(rs.getString("category"));
+                s.setCategoryId(rs.getInt("categoryId"));
                 return s;
             }
 
@@ -119,10 +119,7 @@ public class SkillDao {
                 }
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
-                s.setCategory(rs.getString("category"));
-                 if(s.getCategory()== null) {
-                    s.setCategory("");
-                }
+                s.setCategoryId(rs.getInt("categoryId"));
                 skillList.add(s);
             }
 
@@ -144,7 +141,7 @@ public class SkillDao {
         try {
 
             ps = con.prepareStatement(query);
-            ps.setString(1, skillDetail.getCategory());
+            ps.setInt(1, skillDetail.getCategoryId());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -163,10 +160,7 @@ public class SkillDao {
                 }
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
-                s.setCategory(rs.getString("category"));
-                 if(s.getCategory()== null) {
-                    s.setCategory("");
-                }
+                s.setCategoryId(rs.getInt("categoryId"));
                 skillList.add(s);
             }
 
@@ -262,7 +256,7 @@ public class SkillDao {
             ps.setString(2, skill.getStatus());
             ps.setString(3, skill.getImage());
             ps.setString(4, skill.getContent());
-            ps.setString(5, skill.getCategory());
+            ps.setInt(5, skill.getCategoryId());
             ps.executeUpdate();
 
             try {
@@ -293,7 +287,7 @@ public class SkillDao {
             ps.setString(2, skill.getStatus());
             ps.setString(3, skill.getImage());
             ps.setString(4, skill.getContent());
-            ps.setString(5, skill.getCategory());
+            ps.setInt(5, skill.getCategoryId());
             ps.setInt(6, skill.getId());
             ps.executeUpdate();
 
