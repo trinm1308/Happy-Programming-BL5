@@ -248,6 +248,7 @@
         <script>
                                                     const introduceModal = new bootstrap.Modal(document.getElementById('introduceModal'));
                                                     $('#rmsTable').DataTable({
+                                                        "order": [[ 0, "desc" ]],
                                                         "info": false,
                                                         "searching": false,
                                                         "paging": false,

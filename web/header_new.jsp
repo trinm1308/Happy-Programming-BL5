@@ -30,7 +30,7 @@
                 <c:if test="${sessionScope.user!=null}">
                     <div class="user-container d-flex">
                         <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="profile" alt="profile" src="${sessionScope.user.ava != null ? sessionScope.user.ava : 'img/profile/profile-9.jpg'}" />
+                            <img class="profile" alt="profile" src="${sessionScope.user.ava != null ? sessionScope.user.ava : 'img/profile/profile-10.jpg'}" />
                             <div class="name">${sessionScope.user.fullName}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end user-menu wide">
@@ -41,7 +41,7 @@
                                 <div class="col-12 ps-1 pe-1">
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a href="#">User Info</a>
+                                            <a href="profile.jsp">Profile</a>
                                         </li>
                                         <li>
                                             <a href="#">Preferences</a>
