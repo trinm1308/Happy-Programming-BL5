@@ -11,7 +11,7 @@
         <div class="nav-content d-flex">
             <!-- Logo Start -->
             <div class="logo position-relative">
-                <a href="/home">
+                <a href="home.jsp">
                     <!-- Logo can be added directly -->
                     <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
 
@@ -160,6 +160,15 @@
                             <a href="AdminDashboardController" data-href="#admin">
                                 <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                                 <span class="label">Admin Board</span>
+                            </a>
+
+                        </li>
+                    </c:if>
+                    <c:if test="${sessionScope.user.role==1}">
+                        <li>
+                            <a href="ListRequestController">
+                                <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
+                                <span class="label">List request</span>
                             </a>
 
                         </li>

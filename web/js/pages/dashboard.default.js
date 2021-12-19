@@ -78,7 +78,7 @@ class DashboardDefault {
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Today'],
         datasets: [
           {
-            label: 'Guests',
+            label: 'Sales',
             data: [23, 24, 26, 30, 27],
             icons: ['arrow-top', 'arrow-top', 'arrow-top', 'arrow-top', 'arrow-bottom'],
             borderColor: Globals.primary,
@@ -106,7 +106,7 @@ class DashboardDefault {
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Today'],
         datasets: [
           {
-            label: 'Users',
+            label: 'Stock',
             data: [44, 49, 45, 33, 52],
             icons: ['arrow-top', 'arrow-top', 'arrow-bottom', 'arrow-bottom', 'arrow-top'],
             borderColor: Globals.secondary,

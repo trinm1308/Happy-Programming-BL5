@@ -37,18 +37,18 @@
         <link rel="stylesheet" href="/font/CS-Interface/style.css" />
         <!-- Font Tags End -->
         <!-- Vendor Styles Start -->
-        <link rel="stylesheet" href="resources/css/vendor/bootstrap.min.css" />
-        <link rel="stylesheet" href="resources/css/vendor/OverlayScrollbars.min.css" />
-        <link rel="stylesheet" href="resources/css/vendor/select2.min.css" />
-        <link rel="stylesheet" href="resources/css/vendor/select2-bootstrap4.min.css" />
-        <link rel="stylesheet" href="resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
+        <link rel="stylesheet" href="/resources/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" href="/resources/css/vendor/OverlayScrollbars.min.css" />
+        <link rel="stylesheet" href="/resources/css/vendor/select2.min.css" />
+        <link rel="stylesheet" href="/resources/css/vendor/select2-bootstrap4.min.css" />
+        <link rel="stylesheet" href="/resources/css/vendor/bootstrap-datepicker3.standalone.min.css" />
         <!-- Vendor Styles End -->
         <!-- Template Base Styles Start -->
-        <link rel="stylesheet" href="resources/css/styles.css" />
+        <link rel="stylesheet" href="/resources/css/styles.css" />
         <!-- Template Base Styles End -->
 
-        <link rel="stylesheet" href="resources/css/main.css" />
-        <script src="resources/js/base/loader.js"></script>
+        <link rel="stylesheet" href="/resources/css/main.css" />
+        <script src="/resources/js/base/loader.js"></script>
     </head>
     <!--    <style>
             *{
@@ -223,28 +223,28 @@
         </div>
     </div>
     <!-- Vendor Scripts Start -->
-    <script src="resources/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="resources/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="resources/js/vendor/OverlayScrollbars.min.js"></script>
-    <script src="resources/js/vendor/autoComplete.min.js"></script>
-    <script src="resources/js/vendor/clamp.min.js"></script>
-    <script src="resources/js/vendor/movecontent.js"></script>
-    <script src="resources/js/vendor/select2.full.min.js"></script>
-    <script src="resources/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="/resources/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="/resources/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/resources/js/vendor/OverlayScrollbars.min.js"></script>
+    <script src="/resources/js/vendor/autoComplete.min.js"></script>
+    <script src="/resources/js/vendor/clamp.min.js"></script>
+    <script src="/resources/js/vendor/movecontent.js"></script>
+    <script src="/resources/js/vendor/select2.full.min.js"></script>
+    <script src="/resources/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
     <!-- Vendor Scripts End -->
 
     <!-- Template Base Scripts Start -->
-    <script src="resources/font/CS-Line/csicons.min.js"></script>
-    <script src="resources/js/base/helpers.js"></script>
-    <script src="resources/js/base/globals.js"></script>
-    <script src="resources/js/base/nav.js"></script>
-    <script src="resources/js/base/search.js"></script>
-    <script src="resources/js/base/settings.js"></script>
-    <script src="resources/js/base/init.js"></script>
+    <script src="/resources/font/CS-Line/csicons.min.js"></script>
+    <script src="/resources/js/base/helpers.js"></script>
+    <script src="/resources/js/base/globals.js"></script>
+    <script src="/resources/js/base/nav.js"></script>
+    <script src="/resources/js/base/search.js"></script>
+    <script src="/resources/js/base/settings.js"></script>
+    <script src="/resources/js/base/init.js"></script>
     <!-- Template Base Scripts End -->
     <!-- Page Specific Scripts Start -->
-    <script src="resources/js/pages/profile.settings.js"></script>
-    <script src="resources/js/common.js"></script>
-    <script src="resources/js/scripts.js"></script>
+    <script src="/resources/js/pages/profile.settings.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <script src="/resources/js/scripts.js"></script>
 </body>
 </html>
