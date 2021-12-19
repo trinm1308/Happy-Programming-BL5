@@ -278,6 +278,7 @@
                                                             <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Category
                                                             </label>
+                                                            <input type="hidden" id="txtCategoryId" value="${skill.categoryId}"/>
                                                             <select name="categoryId" class="form-control" value="${skill.categoryId}" id="txtCategory" >
                                                                 <%                                    for (Category item : categoryList) {
                                                                 %>
@@ -463,14 +464,12 @@
             }
             if ($("#txtService").val() === 'edit') {
                 $('#btnAddSkill').click();
+                $('#txtCategory').val($('#txtCategoryId').val());
                 $('#discountAddModal modal-title').text('Edit Skill');
                 $('#btnModify').text('Update');
                 $('#frmForm').attr('action', 'SkillController?service=adminUpdateSkillAfter&id=' + $('#txtId').val());
                 var link = 'SkillController?service=editSkill&id=' + $('#txtId').val();
                 $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=editSkill&id=' + $('#txtId').val());
-            }
-            if ($('#txtMessage').val() === 'success') {
-                alert('Action success');
             }
             $('#btnAddSkill').click(function () {
                 if ($("#txtService").val() !== 'edit') {

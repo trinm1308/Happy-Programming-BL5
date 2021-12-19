@@ -99,7 +99,7 @@ public class SkillDao {
     public ArrayList<Skill> getSkillList() {
 
         ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "select * from skill";
+        String query = "select A.*, B.name as catName from skill A left join category B on A.categoryId = B.id";
 
         try {
 
@@ -120,6 +120,7 @@ public class SkillDao {
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
                 s.setCategoryId(rs.getInt("categoryId"));
+                s.setCategory(rs.getString("catName") == null? "": rs.getString("catName"));
                 skillList.add(s);
             }
 
