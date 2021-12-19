@@ -99,7 +99,7 @@ public class SkillDao {
     public ArrayList<Skill> getSkillList() {
 
         ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "select A.*, B.name as catName from skill A left join category B on A.categoryId = B.id";
+        String query = "select * from skill";
 
         try {
 
@@ -132,6 +132,66 @@ public class SkillDao {
             System.out.println(e);
         }
         return skillList;
+    }
+    
+    // Lấy danh sách Skill
+    public ArrayList<Skill> getAllSkill() {
+
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "select * from skill";
+
+        try {
+
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Skill s = new Skill();
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                skillList.add(s);
+            }
+
+            try {
+                ps.close();
+            } catch (SQLException e) {
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return skillList;
+    }
+    
+    public Skill getSkillByID(int id) {
+        String query = "select * from skill where id = ? ";
+        try {
+
+            ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Skill s = new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("image"), 0, rs.getString("content"));
+                s.setCategoryId(rs.getInt("categoryId"));
+                return s;
+            }
+
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                ps.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
     
     public ArrayList<Skill> getRelatedSkill(int id) {

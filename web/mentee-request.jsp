@@ -118,9 +118,7 @@
                 }
             }
                 SkillDao sDao = new SkillDao(dc);
-                List<Skill> skillPopular = sDao.getSkillHaveManyRequest();
-                List<Skill> skillList = sDao.getSkillList();
-                List<Skill> topSkill = sDao.getTopSkill();
+                List<Skill> skillList = sDao.getAllSkill();
 
         %>
         <c:if test="${msg != null}">
@@ -308,7 +306,7 @@
                                     <button
                                         id="btnAdd"
                                         type="button"
-                                        class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                                        class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto btnAdd"
                                         data-bs-toggle="modal"
                                         data-bs-target="#discountAddModal"
                                         >
@@ -327,6 +325,7 @@
                                                     <th>Deadline</th>
                                                     <th>Content</th>
                                                     <th>Hour</th>
+                                                    <th>Mentor</th>
                                                     <th>Skills</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -344,6 +343,7 @@
                                                     <td>${o.deadline}</td>
                                                     <td style="white-space: pre-wrap;">${o.mess}</td>
                                                     <td>${o.deadlineHour}</td>
+                                                    <td>${o.mentor_id}
                                                     <td>
                                                         <%
                                                             SkillDao skillDAO = new SkillDao(dc);
@@ -364,7 +364,18 @@
                                                     </td>
                                                     <td>
                                                         <c:if test="${o.status == 1}">
-                                                            <input style="width: 100px;" class="mb-1 btn btn-success myBtn" data-id="${o.id}"  type="button" value="Edit">
+                                                            <input 
+                                                                style="width: 100px;"
+                                                                class="mb-1 btn btn-success myBtn"
+                                                                data-id="${o.id}"
+                                                                type="button"
+                                                                value="Edit"
+                                                                id="btnAdd"
+                                                                type="button"
+                                                                class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#discountAddModal"
+                                                                >
                                                             <form action="RequestController?service=cancelRequest&requestId=${o.id}" method="post">
                                                                 <!--<input type="hidden" value="${o.id}" name="requestId">-->
                                                                 <input style="width: 100px;" class="mb-1 btn btn-danger" type="submit" value="Cancel" id="submit" onclick ="return confirm('Do you want to cancel your request?')">
@@ -390,7 +401,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Add New Mente Request</h5>
+                                                <h5 class="modal-title" id="title-modal">Add New Mente Request</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -444,7 +455,7 @@
                                                             <label for="request_deadlineHours" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Deadline Hours:
                                                             </label>
-                                                            <input type="number" min="0" step=".01" name="deadlineHours" id="txtDeadline" class="form-control" value="${deadlineHours}" required> 
+                                                            <input type="number" min="0" step=".01" name="deadlineHours" id="txtNumDeadline" class="form-control" value="${deadlineHours}" required> 
                                                         </div>
                                                         <div> 
                                                             <input style="margin-left: 350px" type="submit" value="Create" />
@@ -528,7 +539,13 @@
                                                                             location.href = "RequestController?service=createRequest&requestId=" + $(this).data('id');
                                                                         });
                                                                         if ($('#currentRequestId').val() && $('#currentRequestId').val() !== 'null') {
-                                                                            $('#btnAdd').click();
+                                                                            $('#btnAdd').click(function () {
+                                                                                $("#title-modal").text("Add New Mente Request");
+                                                                                  document.getElementById('txtTitle').value = " "
+  document.getElementById('txtDeadline').value = " "
+  document.getElementById('txtContent').value = " "
+  document.getElementById('txtNumDeadline').value = " "
+                                                                            });
                                                                             $('#btnModify span').text('Update');
                                                                             $("#frmForm").attr('action', "RequestController?service=updateRequestAfter");
                                                                         } else {
@@ -558,13 +575,27 @@ var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
 $(".myBtn").on('click', function(e) {
-  modal.style.display = "block";
   console.log($(this).parent().siblings()[0].innerText);
-  document.getElementById('txtETitle').value = $(this).parent().siblings()[1].innerText
-  document.getElementById('txtEDeadline').value = $(this).parent().siblings()[2].innerText
-  document.getElementById('txtEContent').value = $(this).parent().siblings()[3].innerText
-  document.getElementById('txtENumDeadline').value = $(this).parent().siblings()[4].innerText
-  $("#editForm").attr('action', 'RequestController?service=EditRequest&requestId=' + $(this).parent().siblings()[0].innerText);
+  $("#title-modal").text("Edit Mente Request");
+  document.getElementById('txtTitle').value = $(this).parent().siblings()[1].innerText
+  document.getElementById('txtDeadline').value = $(this).parent().siblings()[2].innerText
+  document.getElementById('txtContent').value = $(this).parent().siblings()[3].innerText
+  document.getElementById('txtNumDeadline').value = $(this).parent().siblings()[4].innerText
+  document.getElementById('txtMentor').value = $(this).parent().siblings()[5].innerText
+  $("txtMentor").hide();
+  $("#frmForm").attr('action', 'RequestController?service=EditRequest&requestId=' + $(this).parent().siblings()[0].innerText);
+})
+
+$(".btnAdd").on('click', function(e) {
+  console.log($(this).parent().siblings()[0].innerText);
+  $("#title-modal").text("Add new Mentee Request");
+  document.getElementById('txtTitle').value = ""
+  document.getElementById('txtDeadline').value = ""
+  document.getElementById('txtContent').value = ""
+  document.getElementById('txtNumDeadline').value = ""
+  document.getElementById('txtMentor').value = ""
+  $("txtMentor").hide();
+  $("#frmForm").attr('action', 'RequestController?service=createRequestAfter');
 })
 
 // When the user clicks on <span> (x), close the modal
