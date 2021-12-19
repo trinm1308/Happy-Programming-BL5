@@ -26,6 +26,11 @@ public class Skill {
         this.status = status;
     }
 
+    public Skill(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Skill() {
     }
 

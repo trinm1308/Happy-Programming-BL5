@@ -15,9 +15,7 @@
 <%
                 DBConnect dc = new DBConnect();
                 SkillDao dao = new SkillDao(dc);
-                List<Skill> skillPopular = dao.getSkillHaveManyRequest();
-                List<Skill> skillList = dao.getSkillList();
-                List<Skill> topSkill = dao.getTopSkill();
+                List<Skill> skillList = dao.getAllSkill();
 
             %>
 <!DOCTYPE html>
@@ -69,7 +67,7 @@
                     </div>
                     <div class="menter-register__item">
                         <label for="link-linkedin" class="menter-register__label">Introduction: </label>
-                        <input type="" id="link-linkedin" class="mentor-register__input" name="introduce"> 
+                        <textarea type="" id="link-linkedin" class="mentor-register__input" name="introduce"> </textarea>  
                     </div>
 
                     <div class="menter-register__body">

@@ -106,8 +106,6 @@ public class RequestController extends HttpServlet {
                 request.setAttribute("listSkill", listSkill);
                 response.sendRedirect("RequestController?service=createRequest");
                 return;
-                //request.getRequestDispatcher("mentee-request.jsp").forward(request, response);
-                //response.sendRedirect("RequestController?service=createRequest");
             }
             if (service.equals("createRequestAfter")) {
                 HttpSession session = request.getSession();
@@ -141,8 +139,6 @@ public class RequestController extends HttpServlet {
                         request.setAttribute("listSkill", listSkill);
                         ArrayList<Mentor> mentors = ud.getSuggestMentor(Integer.parseInt(skill[0]));
                         request.setAttribute("mentors", mentors);
-                        request.setAttribute("skillSuggestionId", Sdao.getSkill(Integer.parseInt(skill[0])).getId());
-                        request.setAttribute("skillSuggestion", Sdao.getSkill(Integer.parseInt(skill[0])).getName());
                         request.setAttribute("title", title);
                         request.setAttribute("deadline", deadline);
                         request.setAttribute("deadlineHour", deadlineHour);
