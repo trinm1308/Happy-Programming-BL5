@@ -5,23 +5,19 @@
  */
 package entity;
 
-import java.sql.Timestamp;
-import lombok.Setter;
-
 /**
  *
- * @author Dao Van Do
+ * @author Tri
  */
 public class Rating {
 
-    private int id;
-     int menteeId;
-    private int mentorID;
-    private String author;
-    private int point;
-    private String content;
-    private String createdTime;
-    @Setter
+    int id;
+    int menteeId;
+    int mentorId;
+    int stars;
+    String comment;
+
+    //extra
     String menteeName;
 
     public Rating() {
@@ -30,18 +26,21 @@ public class Rating {
     public Rating(int id, int menteeId, int mentorId, int stars, String comment) {
         this.id = id;
         this.menteeId = menteeId;
-        this.mentorID = mentorId;
-        this.point = stars;
-        this.content = comment;
+        this.mentorId = mentorId;
+        this.stars = stars;
+        this.comment = comment;
     }
 
-    public Rating(int id, int mentorID, String author, int point, String content, String createdTime) {
-        this.id = id;
-        this.mentorID = mentorID;
-        this.author = author;
-        this.point = point;
-        this.content = content;
-        this.createdTime = createdTime;
+    public Rating(String comment) {
+        this.comment = comment;
+    }
+
+    public String getMenteeName() {
+        return menteeName;
+    }
+
+    public void setMenteeName(String menteeName) {
+        this.menteeName = menteeName;
     }
 
     public int getId() {
@@ -52,43 +51,36 @@ public class Rating {
         this.id = id;
     }
 
-    public int getRestaurantId() {
-        return mentorID;
+    public int getMenteeId() {
+        return menteeId;
     }
 
-    public void setRestaurantId(int mentorID) {
-        this.mentorID = mentorID;
+    public void setMenteeId(int menteeId) {
+        this.menteeId = menteeId;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getMentorId() {
+        return mentorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setMentorId(int mentorId) {
+        this.mentorId = mentorId;
     }
 
-    public int getPoint() {
-        return point;
+    public int getStars() {
+        return stars;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 
-    public String getContent() {
-        return content;
+    public String getComment() {
+        return comment;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
 }
