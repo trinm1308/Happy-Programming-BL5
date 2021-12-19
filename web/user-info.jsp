@@ -1,3 +1,5 @@
+<%@page import="context.DBConnect"%>
+<%@page import="dao.UserDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -53,13 +55,11 @@
 
     <body>
         <%@include file="header.jsp" %>
-        <%            String mesage = request.getParameter("action");
-            if (mesage != null) {
-        %>
-        <script>alert('<%=mesage%>')</script>
-
-        <%
-            }
+        <%            
+            int id = Integer.parseInt(request.getParameter("id"));
+            UserDAO uc = new UserDAO(new DBConnect());
+            request.setAttribute("user", uc.getUserById(id));
+            
         %>
         <main>
             <div class="container">
@@ -67,43 +67,17 @@
                     <div class="col-auto d-none d-lg-flex">
                     </div>
                     <div class="col">
-                        <h2 class="small-title">Cập nhật thông tin </h2>
                         <div class="card mb-5">
                             <div class="card-body">
                                 <form class="d-flex flex-column mb-4" action="UploadController" method="POST" id="frmUpload" enctype="multipart/form-data">
                                     <div class="mb-3 mx-auto position-relative" id="singleImageUploadExample">
-                                        <c:if test="${fileName == null && sessionScope.user.ava != null}">
-                                            <img
-                                                src="${sessionScope.user.ava}"
+                                        <img
+                                                src="${user.ava}"
                                                 alt="user"
                                                 name="ava"
                                                 class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
                                                 id="contactThumbModal"
                                                 />
-                                        </c:if>
-                                        <c:if test="${fileName != null}">
-                                            <img
-                                                src="${fileName}"
-                                                alt="user"
-                                                name="ava"
-                                                class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
-                                                id="contactThumbModal"
-                                                />
-                                        </c:if>
-                                        <c:if test="${fileName == null && sessionScope.user.ava == null}">
-                                            <img
-                                                src=""
-                                                alt="user"
-                                                name="ava"
-                                                class="rounded-xl border border-separator-light border-4 sw-12 sh-12"
-                                                id="contactThumbModal"
-                                                />
-                                        </c:if>
-
-                                        <button class="btn btn-sm btn-icon btn-icon-only btn-separator-light position-absolute rounded-xl e-0 b-0" type="button">
-                                            <i data-cs-icon="upload"></i>
-                                        </button>
-                                        <input class="file-upload d-none" type="file" name="photo" accept="image/*" />
                                     </div>
                                 </form>
                                 <form id="profileForm" action="ProfileController?action=updateProfile" method="POST" class="d-flex flex-column mb-4">
@@ -114,17 +88,17 @@
                                         <input type="hidden" name="avatar" value="${fileName}"/>
                                     </c:if>
                                     
-                                    <div class="mb-3 row">
+<!--                                    <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <input type="email" name="email" class="form-control" value="${sessionScope.user.email}" disabled />
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Name</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="text" class="form-control" name="name" value="${sessionScope.user.fullName}" />
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.fullName}</label>
                                         </div>
                                     </div>
 
@@ -132,30 +106,19 @@
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gender</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
                                             <c:if test="${sessionScope.user.gender}">
-                                                 <label class="radio-inline"><input type="radio" name="gender" >Male</label>
-                                                <label class="radio-inline" style="margin-left: 30px"><input type="radio" name="gender" checked>Female</label>
-
+                                                <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Male</label>
                                             </c:if>
-                                                <c:if test="${!sessionScope.user.gender}">
-                                                 <label class="radio-inline"><input type="radio" name="gender" checked>Male</label>
-                                                <label class="radio-inline" style="margin-left: 30px"><input type="radio" name="gender" >Female</label>
-
+                                            <c:if test="${!sessionScope.user.gender}">
+                                                 <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Female</label>
                                             </c:if>
                                            
                                         </div>
                                     </div>
 
-                                    <!--                                    <div class="mb-3 row">
-                                                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Birthday</label>
-                                                                            <div class="col-sm-8 col-md-9 col-lg-10">
-                                                                                <input type="text" name="dob" class="form-control date-picker-close" id="birthday" value="sessionScope.user.fullName" />
-                                                                            </div>
-                                                                        </div>-->
-
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Phone</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="number" name="phone" class="form-control" value="${sessionScope.user.phone}"/>
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.phone}</label>
                                         </div>
                                     </div>
 
@@ -163,16 +126,10 @@
                                     <div class="mb-3 row">
                                         <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Address</label>
                                         <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input type="text" name="address" class="form-control" value="${sessionScope.user.address}"/>
+                                            <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">${user.address}</label>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 row mt-5">
-                                        <div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                            <a style="margin-left: 10px" id="message"></a>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>

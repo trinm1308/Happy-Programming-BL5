@@ -1,4 +1,6 @@
 
+<%@page import="dao.CategoryDAO"%>
+<%@page import="entity.Category"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="entity.Skill"%>
@@ -77,6 +79,7 @@
                 List<Skill> topSkill = dao.getTopSkill();
                 String service = request.getParameter("service");
                 String message = request.getParameter("message");
+                List<Category> categoryList = new CategoryDAO(dc).getList();
 
             %>
             <%@include file="header.jsp" %>
@@ -275,7 +278,13 @@
                                                             <label for="request_title" class="col-lg-2 col-md-3 col-sm-4 col-form-label">
                                                                 Category
                                                             </label>
-                                                            <input type="text" name="category" class="form-control" value="${skill.category}" id="txtCategory" required> 
+                                                            <input type="hidden" id="txtCategoryId" value="${skill.categoryId}"/>
+                                                            <select name="categoryId" class="form-control" value="${skill.categoryId}" id="txtCategory" >
+                                                                <%                                    for (Category item : categoryList) {
+                                                                %>
+                                                                <option value="<%=item.getId()%>" ><%=item.getName()%></option>
+                                                                <%}%>
+                                                            </select>
                                                         </div>
                                                         <div> 
                                                             <input style="margin-left: 350px" type="submit" value="Create" />
@@ -328,7 +337,7 @@
 
                                 <!-- History Start -->
                                 <div class="mb-5">
-                                    <h2 class="small-title">Skill List</h2>
+                                    <h2 class="small-title">New Skill</h2>
                                     <div class="scroll-out mb-n2">
                                         <div class="scroll-by-count" data-count="4">
                                             <%
@@ -384,22 +393,22 @@
                                                 <td><%=item.getStatus()%></td>
                                                 <td>
                                                     <c:if test="${sessionScope.user.role==2}">
-                                                    <%
-                                                        if ("Active".equals(item.getStatus())) {
-                                                    %>
-                                                    <form action="SkillController?service=changeStatus&status=Deactive&id=<%=item.getId()%>" method="post">
-                                                        <input style="width: 100px;" class="mb-1 btn btn-success" type="submit" value="Deactive">
-                                                    </form>
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <form action="SkillController?service=changeStatus&status=Active&id=<%=item.getId()%>" method="post">
-                                                        <input style="width: 100px;" class="mb-1 btn btn-success"  type="submit" value="Active">
-                                                    </form>
-                                                    <%
-                                                        }
-                                                    %>
-                                                    
+                                                        <%
+                                                            if ("Active".equals(item.getStatus())) {
+                                                        %>
+                                                        <form action="SkillController?service=changeStatus&status=Deactive&id=<%=item.getId()%>" method="post">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success" type="submit" value="Deactive">
+                                                        </form>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <form action="SkillController?service=changeStatus&status=Active&id=<%=item.getId()%>" method="post">
+                                                            <input style="width: 100px;" class="mb-1 btn btn-success"  type="submit" value="Active">
+                                                        </form>
+                                                        <%
+                                                            }
+                                                        %>
+
                                                         <form action="SkillController?service=editSkill&id=<%=item.getId()%>" method="post">
                                                             <input style="width: 100px;" class="mb-1 btn btn-success btnEdit"  type="submit" value="Edit">
                                                         </form>
@@ -455,22 +464,20 @@
             }
             if ($("#txtService").val() === 'edit') {
                 $('#btnAddSkill').click();
+                $('#txtCategory').val($('#txtCategoryId').val());
                 $('#discountAddModal modal-title').text('Edit Skill');
                 $('#btnModify').text('Update');
                 $('#frmForm').attr('action', 'SkillController?service=adminUpdateSkillAfter&id=' + $('#txtId').val());
                 var link = 'SkillController?service=editSkill&id=' + $('#txtId').val();
-                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=editSkill&id='+ $('#txtId').val());
+                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=editSkill&id=' + $('#txtId').val());
             }
-            if ($('#txtMessage').val() === 'success') {
-                alert('Action success');
-            }
-            $('#btnAddSkill').click(function() {
+            $('#btnAddSkill').click(function () {
                 if ($("#txtService").val() !== 'edit') {
-                $('#discountAddModal modal-title').text('Add Skill');
-                $('#btnModify').text('Add');
-                $('#frmForm').attr('action', 'SkillController?service=addSkill');
-                $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=addSkill');
-            }
+                    $('#discountAddModal modal-title').text('Add Skill');
+                    $('#btnModify').text('Add');
+                    $('#frmForm').attr('action', 'SkillController?service=addSkill');
+                    $('#frmUpload').attr('action', 'UploadController?page=skill.jsp?service=addSkill');
+                }
             });
         });
     </script>

@@ -71,7 +71,7 @@ public class SkillDao {
 
             while (rs.next()) {
                 Skill s = new Skill(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("image"), 0, rs.getString("content"));
-                s.setCategory(rs.getString("category"));
+                s.setCategoryId(rs.getInt("categoryId"));
                 return s;
             }
 
@@ -99,7 +99,7 @@ public class SkillDao {
     public ArrayList<Skill> getSkillList() {
 
         ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "select * from skill";
+        String query = "select A.*, B.name as catName from skill A left join category B on A.categoryId = B.id";
 
         try {
 
@@ -119,10 +119,8 @@ public class SkillDao {
                 }
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
-                s.setCategory(rs.getString("category"));
-                 if(s.getCategory()== null) {
-                    s.setCategory("");
-                }
+                s.setCategoryId(rs.getInt("categoryId"));
+                s.setCategory(rs.getString("catName") == null? "": rs.getString("catName"));
                 skillList.add(s);
             }
 
@@ -139,12 +137,12 @@ public class SkillDao {
     public ArrayList<Skill> getRelatedSkill(int id) {
         Skill skillDetail = getSkill(id);
         ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "select * from skill where category=?";
+        String query = "select * from skill where categoryId=?";
 
         try {
 
             ps = con.prepareStatement(query);
-            ps.setString(1, skillDetail.getCategory());
+            ps.setInt(1, skillDetail.getCategoryId());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -163,10 +161,7 @@ public class SkillDao {
                 }
                 s.setImage(rs.getString("image"));
                 s.setStatus(rs.getString("description"));
-                s.setCategory(rs.getString("category"));
-                 if(s.getCategory()== null) {
-                    s.setCategory("");
-                }
+                s.setCategoryId(rs.getInt("categoryId"));
                 skillList.add(s);
             }
 
@@ -252,7 +247,7 @@ public class SkillDao {
 "`name`,\n" +
 "`description`,\n" +
 "`image`,\n" +
-"`content`, `category`)\n" +
+"`content`, `categoryId`)\n" +
 "VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -262,7 +257,7 @@ public class SkillDao {
             ps.setString(2, skill.getStatus());
             ps.setString(3, skill.getImage());
             ps.setString(4, skill.getContent());
-            ps.setString(5, skill.getCategory());
+            ps.setInt(5, skill.getCategoryId());
             ps.executeUpdate();
 
             try {
@@ -284,7 +279,7 @@ public class SkillDao {
 
     // Cập nhật Skill theo id
     public void updateSkill(Skill skill) {
-        String query = "update skill set name = ?, description=? ,image = ?, content=?, category=? where id = ? ";
+        String query = "update skill set name = ?, description=? ,image = ?, content=?, categoryId=? where id = ? ";
 
         try {
 
@@ -293,7 +288,7 @@ public class SkillDao {
             ps.setString(2, skill.getStatus());
             ps.setString(3, skill.getImage());
             ps.setString(4, skill.getContent());
-            ps.setString(5, skill.getCategory());
+            ps.setInt(5, skill.getCategoryId());
             ps.setInt(6, skill.getId());
             ps.executeUpdate();
 

@@ -7,6 +7,7 @@ package controller;
  */
 import dao.MentorDAO;
 import entity.MentorEntity;
+import entity.Rating;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,7 +41,9 @@ public class MentorDetailController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("mentorID"));
         MentorDAO mentorDAO = new MentorDAO();
         MentorEntity mentorEntity = mentorDAO.getMentorByID(id);
+        List<Rating> ratings = mentorDAO.ratings(id);
         request.setAttribute("mentor", mentorEntity);
+        request.setAttribute("ratings", ratings);
         request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
     }
 

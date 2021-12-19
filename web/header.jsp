@@ -11,7 +11,7 @@
         <div class="nav-content d-flex">
             <!-- Logo Start -->
             <div class="logo position-relative">
-                <a href="/home">
+                <a href="home.jsp">
                     <!-- Logo can be added directly -->
                     <!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
 
@@ -164,6 +164,15 @@
 
                         </li>
                     </c:if>
+                    <c:if test="${sessionScope.user.role==1}">
+                        <li>
+                            <a href="ListRequestController">
+                                <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
+                                <span class="label">List request</span>
+                            </a>
+
+                        </li>
+                    </c:if>
                     <li>
                         <a href="#course" data-href="#course">
                             <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
@@ -187,6 +196,12 @@
                         <a href="SkillController?service=showSkill" data-href="#course">
                             <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
                             <span class="label">Skill List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="MenteeRequestStatistics?service=showAll">
+                            <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                            <span class="label">Mentee statistic</span>
                         </a>
                     </li>
                 </ul>

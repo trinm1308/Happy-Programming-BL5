@@ -23,6 +23,9 @@ public class MentorEntity {
     int role;
     String ava;
     int rate;
+    String serviceDescription;
+    String skill;
+    int rateCount;
 
     public MentorEntity() {
     }
@@ -40,15 +43,17 @@ public class MentorEntity {
         this.ava = ava;
         this.description = description;
     }
-    
-        public MentorEntity(int id, String fullName,  String ava, String description, int rate) {
+
+    public MentorEntity(int id, String fullName, String ava, String description, int rate, String serviceDescription, String skill, int rateCount) {
         this.id = id;
         this.fullName = fullName;
         this.ava = ava;
         this.description = description;
         this.rate = rate;
+        this.serviceDescription = serviceDescription;
+        this.skill = skill;
+        this.rateCount = rateCount;
     }
-    
 
     public int getId() {
         return id;
@@ -92,6 +97,14 @@ public class MentorEntity {
 
     public String getPhone() {
         return phone;
+    }
+
+    public int getRateCount() {
+        return rateCount;
+    }
+
+    public void setRateCount(int rateCount) {
+        this.rateCount = rateCount;
     }
 
     public void setPhone(String phone) {
@@ -145,6 +158,21 @@ public class MentorEntity {
     public void setRate(int rate) {
         this.rate = rate;
     }
-    
+
+    public String getServiceDescription() {
+        return serviceDescription;
+    }
+
+    public void setServiceDescription(String serviceDescription) {
+        this.serviceDescription = serviceDescription;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
 
 }

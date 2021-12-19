@@ -7,13 +7,10 @@ package controller;
 
 import dao.MentorDAO;
 import entity.MentorEntity;
-import entity.Point;
-import entity.Rating;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -26,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Dao Van Do
  */
-public class RatingController extends HttpServlet {
+public class RequestMentorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,6 +38,26 @@ public class RatingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        int id = 0;
+        int hourse = 0;
+        try {
+            id = Integer.parseInt(request.getParameter("mentorID"));
+            hourse = Integer.parseInt(request.getParameter("hourse"));
+        } catch (Exception e) {
+        }
+        String time = request.getParameter("time");
+        String note = request.getParameter("note");
+        MentorDAO mentorDAO = new MentorDAO();
+        try {
+            HttpSession session = request.getSession();
+            User u = (User) session.getAttribute("user");
+            MentorEntity mentorEntity = mentorDAO.getMentorByID(id);
+            mentorDAO.addRequest(mentorEntity, u.getAccount(), hourse, time, note);
+            request.setAttribute("mentor", mentorEntity);
+            request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestMentorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,19 +72,7 @@ public class RatingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-            MentorDAO mentorDAO = new MentorDAO();
-            int mentorId = Integer.parseInt(request.getParameter("mentorID"));
-            int point = Integer.parseInt(request.getParameter("point"));
-            List<Rating> ratings = mentorDAO.getRatingsByPoint(mentorId, point);
-            MentorEntity mentorEntity = mentorDAO.getMentorByID(mentorId);
-            request.setAttribute("mentor", mentorEntity);
-            request.setAttribute("ratings", ratings);
-            request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -82,43 +87,6 @@ public class RatingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        int mentorId = Integer.parseInt(request.getParameter("mentorID"));
-        String point = request.getParameter("point");
-        String content = request.getParameter("content");
-
-        HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("user");
-        String author = "GUES";
-        if (u != null) {
-            author = u.getFullName();
-        }
-
-        MentorDAO mentorDAO = new MentorDAO();
-        try {
-            Point p = mentorDAO.getRateByMentorID(mentorId);
-            p.setRateCount(p.getRateCount() + 1);
-            mentorDAO.rate(mentorId, Integer.parseInt(point), content, author);
-            List<Rating> ratings = mentorDAO.ratings(mentorId);
-            int rate = 0;
-            for (Rating i : ratings) {
-                rate += i.getPoint();
-            }
-            if (ratings.size() > 0) {
-                rate = rate / ratings.size();
-                p.setRate(rate);
-            } else {
-                p.setRate(Integer.parseInt(point));
-            }
-            mentorDAO.updateRateMentor(mentorId, p.getRate(), p.getRateCount());
-            MentorEntity mentorEntity = mentorDAO.getMentorByID(mentorId);
-
-            request.setAttribute("mentor", mentorEntity);
-            request.setAttribute("ratings", ratings);
-            request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**

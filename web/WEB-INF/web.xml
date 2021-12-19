@@ -60,6 +60,22 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>controller.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MenteeRequestStatistics</servlet-name>
+        <servlet-class>controller.MenteeRequestStatistics</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RatingController</servlet-name>
+        <servlet-class>controller.RatingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestMentorController</servlet-name>
+        <servlet-class>controller.RequestMentorController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListRequestController</servlet-name>
+        <servlet-class>controller.ListRequestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -111,6 +127,22 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/ProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenteeRequestStatistics</servlet-name>
+        <url-pattern>/MenteeRequestStatistics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RatingController</servlet-name>
+        <url-pattern>/RatingController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestMentorController</servlet-name>
+        <url-pattern>/RequestMentorController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListRequestController</servlet-name>
+        <url-pattern>/ListRequestController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
