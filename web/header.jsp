@@ -189,6 +189,12 @@
                             <span class="label">Skill List</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="MenteeRequestStatistics?service=showAll">
+                            <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                            <span class="label">Mentee statistic</span>
+                        </a>
+                    </li>
                 </ul>
 
             </div>

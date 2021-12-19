@@ -60,6 +60,10 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>controller.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MenteeRequestStatistics</servlet-name>
+        <servlet-class>controller.MenteeRequestStatistics</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/ProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenteeRequestStatistics</servlet-name>
+        <url-pattern>/MenteeRequestStatistics</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

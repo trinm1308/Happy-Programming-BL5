@@ -6,6 +6,7 @@
 package dao;
 
 import context.DBConnect;
+import entity.Mentee;
 import entity.Mentor;
 import entity.Skill;
 import entity.User;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
@@ -70,7 +72,6 @@ public class UserDAO {
         return null;
     }
 
-    
     public User showUserProfile(String account) {
         try {
             String sql = "select * from user where account=?";
@@ -94,6 +95,7 @@ public class UserDAO {
         }
         return null;
     }
+
     public void changePassword(int id, String password) {
         try {
             String sql = "update user set password =? where id = ?";
@@ -105,7 +107,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public User checkUser(String account, String password) {
         try {
             String sql = "select * from user where account=? and password =?";
@@ -220,7 +222,6 @@ public class UserDAO {
         }
     }
 
-    
     public User checkExitsEmail(String email) {
         try {
             String sql = "select * from user where email=?";
@@ -264,7 +265,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public ArrayList<User> getMentors() {
         try {
             ArrayList<User> users = new ArrayList<>();
@@ -334,7 +335,7 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    
+
     public Skill nameSkill(int IDSkill) {
         try {
             String sql = "select * from skill where id=?";
@@ -350,7 +351,7 @@ public class UserDAO {
 
         return null;
     }
-    
+
     public void updateFramework(String frame, int IdUSer) {
         String sql = "UPDATE user SET framework =? WHERE id=?";
         try {
@@ -362,7 +363,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void changeRoleforUser(int role, int userid) {
         String sql = "Update user SET role=? WHERE id=?";
         try {
@@ -413,7 +414,6 @@ public class UserDAO {
         return rnd.nextInt((max - min) + 1) + min;
     }
 
-    
     public void addRequestMentor(int userid, int sid, String intro, int status) {
         String sql = "insert into request_mentor_skill(userid, skillid, introduce, status) values (?,?,?,?)";
         try {
@@ -426,7 +426,7 @@ public class UserDAO {
         } catch (Exception e) {
         }
     }
-    
+
     public ArrayList<Skill> getSkills() {
         try {
             ArrayList<Skill> skills = new ArrayList<>();
@@ -494,7 +494,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public ArrayList<Mentor> getAllMentor() {
         try {
             ArrayList<Mentor> mentors = new ArrayList();
@@ -524,5 +524,90 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public ArrayList<Mentee> getAllMentee() {
+            ArrayList<Mentee> menteeList = new ArrayList();
+        try {
+            String sql = "select A.id, A.full_name, A.account, A.ava, sum(B.hours) as total_hours, sum(C.id) as total_skill\n"
+                    + " from user A left join request B\n"
+                    + "on A.id = B.mentee_id\n"
+                    + "left join request_skill C on B.id = C.request_id\n"
+                    + "where A.role = 1\n"
+                    + "group by A.id\n"
+                    + "order by A.full_name";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Mentee mentee = new Mentee();
+                mentee.setId(rs.getInt("id"));
+                mentee.setName(rs.getString("full_name"));
+                mentee.setAccountName(rs.getString("account"));
+                mentee.setTotalHours(rs.getInt("total_hours"));
+                mentee.setTotalSkill(rs.getInt("total_skill"));
+                mentee.setAvatar(rs.getString("ava"));
+                menteeList.add(mentee);
+            }
+            return menteeList;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return menteeList;
+    }
+    
+    public Integer getTotalMentee() {
+        try {
+            String sql = "select count(*) as total from user where role=1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (Exception e) {
+        }
+
+        return 0;
+    }
+    
+    public Integer getTotalRequest() {
+        try {
+            String sql = "select count(*) as total from request";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (Exception e) {
+        }
+
+        return 0;
+    }
+    
+    public Integer getTotalHour() {
+        try {
+            String sql = "select sum(hours) as total from request";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (Exception e) {
+        }
+
+        return 0;
+    }
+    
+    public Integer getTotalSkill() {
+        try {
+            String sql = "select count(*) as total from skill";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (Exception e) {
+        }
+
+        return 0;
     }
 }

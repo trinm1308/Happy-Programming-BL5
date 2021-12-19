@@ -114,7 +114,6 @@
                         request.setAttribute("content", item.getMess());
                         request.setAttribute("deadline", item.getDeadline());
                         request.setAttribute("deadlineHours", item.getDeadlineHour());
-//                    request.setAttribute("title", item.get());
                     }
                 }
             }

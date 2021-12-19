@@ -328,7 +328,7 @@
 
                                 <!-- History Start -->
                                 <div class="mb-5">
-                                    <h2 class="small-title">Skill List</h2>
+                                    <h2 class="small-title">New Skill</h2>
                                     <div class="scroll-out mb-n2">
                                         <div class="scroll-by-count" data-count="4">
                                             <%
