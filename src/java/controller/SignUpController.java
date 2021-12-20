@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utility.HashPassword;
 
 /**
  *
@@ -55,11 +56,12 @@ public class SignUpController extends HttpServlet {
                     boolean addGender = "Male".equals(request.getParameter("gender"));
                     String addAddress = request.getParameter("address");
                     String addPassword = request.getParameter("password");
-                    User user = new User(0, addFullName, addAccount, addPassword, addEmail, addPhone, addGender, addAddress,0 ,"framwork");
+                    String passHash = HashPassword.sha256(addPassword);
+                    User user = new User(0, addFullName, addAccount, passHash, addEmail, addPhone, addGender, addAddress,0 ,"framwork");
                     session.setAttribute("user", user);
                     User existUser = ud.checkExitsEmail(addEmail);
                     if (existUser == null) {
-                        ud.registerUser(addFullName, addAccount, addPassword, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
+                        ud.registerUser(addFullName, addAccount, passHash, addEmail, addPhone, (addGender ? 1 : 0), addAddress);
                         out.println("<script type=\"text/javascript\">");
                         out.println("alert('Register success!');");
                         out.println("</script>");

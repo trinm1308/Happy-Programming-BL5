@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utility.HashPassword;
 
 /**
  *
@@ -48,7 +49,7 @@ public class ForgetPassController extends HttpServlet {
                 HttpSession session = request.getSession();
                 String otp = request.getParameter("otp");
                 if (session.getAttribute("otp").equals(otp)) {
-                    ud.changePassword((int) session.getAttribute("userId"), request.getParameter("password"));
+                    ud.changePassword((int) session.getAttribute("userId"), HashPassword.sha256(request.getParameter("password")));
                     response.sendRedirect("LoginController");
                     return;
                 } else {

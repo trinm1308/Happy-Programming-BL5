@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utility.HashPassword;
 
 /**
  *
@@ -72,7 +73,7 @@ public class LoginController extends HttpServlet {
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
             String acc = request.getParameter("username");
-            String password = request.getParameter("password");
+            String password = HashPassword.sha256(request.getParameter("password"));
             User u = ud.checkUser(acc, password);
             if(u == null){
                 HttpSession session =request.getSession();
