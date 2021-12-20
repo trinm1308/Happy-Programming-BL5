@@ -109,7 +109,6 @@ public class Authorization implements Filter {
         int role;
         HttpSession session = ((HttpServletRequest) request).getSession(false);
         String requestAction = rq.getRequestURI().replaceFirst(rq.getContextPath(), "").toLowerCase();
-        System.out.println(requestAction);
 
         //Makeshift Authorization since teammates cant adapt 
         if (session != null && session.getAttribute("user") != null) {

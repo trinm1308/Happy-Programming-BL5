@@ -223,8 +223,8 @@
                             <!-- Content End -->
 
                             <!-- Edit Modal Start -->
-                            <div class="modal modal-right fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-                                <div class="modal-dialog" style="max-width: fit-content">
+                            <div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="modalTitle">Edit User</h5>
@@ -238,21 +238,21 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Full Name</label>
-                                                    <input name="FullName" type="text" class="form-control" />
+                                                    <input name="FullName" type="text" class="form-control" required/>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Username</label>
-                                                    <input name="Username" type="text" class="form-control" />
+                                                    <input name="Username" type="text" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Email</label>
-                                                    <input name="Email" type="text" class="form-control" />
+                                                    <input name="Email" type="email" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Phone</label>
-                                                    <input name="Phone" type="text" class="form-control" />
+                                                    <input name="Phone" type="tel" pattern="[0-9]{10}" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -287,7 +287,7 @@
                             <!-- Edit Modal End -->
 
                             <!-- Add User Modal Start -->
-                            <div class="modal modal-right fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                            <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -298,21 +298,21 @@
                                             <form method="POST" action="AdminMentorList?action=add">
                                                 <div class="mb-3">
                                                     <label class="form-label">Full Name</label>
-                                                    <input name="FullName" type="text" class="form-control" />
+                                                    <input name="FullName" type="text" class="form-control" required/>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Username</label>
-                                                    <input name="Username" type="text" class="form-control" />
+                                                    <input name="Username" type="text" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Email</label>
-                                                    <input name="Email" type="text" class="form-control" />
+                                                    <input name="Email" type="email" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Phone</label>
-                                                    <input name="Phone" type="text" class="form-control" />
+                                                    <input name="Phone" type="tel" pattern="[0-9]{10}" class="form-control" required/>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -331,7 +331,7 @@
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Address</label>
-                                                    <input name="Address" type="text" class="form-control" />
+                                                    <input name="Address" type="text" class="form-control" required/>
                                                 </div>
                                         </div>
                                         <div class="modal-footer">

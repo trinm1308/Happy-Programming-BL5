@@ -66,8 +66,8 @@
                                 <h1 class="mb-0 pb-0 display-4" id="title">Admin Dashboard</h1>
                                 <nav class="breadcrumb-container d-inline-block" aria-label="breadcrumb">
                                     <ul class="breadcrumb pt-0">
-                                        <li class="breadcrumb-item"><a href="Dashboards.Default.html">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="Dashboards.html">Dashboards</a></li>
+                                        <li class="breadcrumb-item"><a href="/HappyProgramming">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -96,12 +96,12 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <div class="cta-3 text-alternate">84</div>
-                                                        <div class="text-small text-muted mb-1">THIS WEEK</div>
+                                                        <div class="cta-3 text-alternate">${requestScope.requestCounts[1]}</div>
+                                                        <div class="text-small text-muted mb-1">ACCEPTED</div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="cta-3 text-alternate">792</div>
-                                                        <div class="text-small text-muted mb-1">THIS MONTH</div>
+                                                        <div class="cta-3 text-alternate">${requestScope.requestCounts[2]}</div>
+                                                        <div class="text-small text-muted mb-1">REJECTED</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,12 +126,12 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <div class="cta-3 text-alternate">84</div>
-                                                        <div class="text-small text-muted mb-1">THIS WEEK</div>
+                                                        <div class="cta-3 text-alternate">${requestScope.requestCounts[1]}</div>
+                                                        <div class="text-small text-muted mb-1">ACCEPTED</div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="cta-3 text-alternate">792</div>
-                                                        <div class="text-small text-muted mb-1">THIS MONTH</div>
+                                                        <div class="cta-3 text-alternate">${requestScope.requestCounts[2]}</div>
+                                                        <div class="text-small text-muted mb-1">REJECTED</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,7 +206,7 @@
                                             <div class="row g-0 sh-12">
                                                 <div class="col-auto" style="height: inherit">                                                    
                                                     <a href="RatingController?mentorId=${mentor.id}">
-                                                        <img src=${mentor.ava ? mentor.ava : "img/profile/profile-10.jpg"} alt="user" class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                                        <img src=${mentor.ava !=null ? mentor.ava : "img/profile/profile-10.jpg"} alt="user" class="card-img card-img-horizontal sw-13 sw-lg-15" />
                                                     </a>
                                                 </div>
                                                 <div class="col">
@@ -285,10 +285,10 @@
                         <div class="col-lg-6 mb-5">
                             <div class="d-flex justify-content-between">
                                 <h2 class="small-title">Skills Available</h2>
-                                <button class="btn btn-icon btn-icon-end btn-xs btn-background-alternate p-0 text-small" type="button">
+                                <a href="SkillController?service=showSkill" class="btn btn-icon btn-icon-end btn-xs btn-background-alternate p-0 text-small" type="button">
                                     <span class="align-bottom">View All</span>
                                     <i data-cs-icon="chevron-right" class="align-middle" data-cs-size="12"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="row g-2">
                                 <c:forEach items="${requestScope.skills}" var="skill">
@@ -355,5 +355,61 @@
         <script src="js/common.js"></script>
         <script src="js/scripts.js"></script>
         <!-- Page Specific Scripts End -->
+        <script>
+            if (document.getElementById('largeLineChart1')) {
+                this._largeLineChart1 = ChartsExtend.LargeLineChart('largeLineChart1', {
+                    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Today'],
+                    datasets: [
+                        {
+                            label: 'Guests',
+                            data: [23, 24, 26, 30, 27],
+                            icons: ['arrow-top', 'arrow-top', 'arrow-top', 'arrow-top', 'arrow-bottom'],
+                            borderColor: Globals.primary,
+                            pointBackgroundColor: Globals.primary,
+                            pointBorderColor: Globals.primary,
+                            pointHoverBackgroundColor: Globals.foreground,
+                            pointHoverBorderColor: Globals.primary,
+                            borderWidth: 2,
+                            pointRadius: 2,
+                            pointBorderWidth: 2,
+                            pointHoverBorderWidth: 2,
+                            pointHoverRadius: 5,
+                            fill: false,
+                            datalabels: {
+                                align: 'end',
+                                anchor: 'end',
+                            },
+                        },
+                    ],
+                });
+                if (document.getElementById('largeLineChart2')) {
+                    this._largeLineChart2 = ChartsExtend.LargeLineChart('largeLineChart2', {
+                        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Today'],
+                        datasets: [
+                            {
+                                label: 'Users',
+                                data: [44, 49, 45, 33, 52],
+                                icons: ['arrow-top', 'arrow-top', 'arrow-bottom', 'arrow-bottom', 'arrow-top'],
+                                borderColor: Globals.secondary,
+                                pointBackgroundColor: Globals.secondary,
+                                pointBorderColor: Globals.secondary,
+                                pointHoverBackgroundColor: Globals.foreground,
+                                pointHoverBorderColor: Globals.secondary,
+                                borderWidth: 2,
+                                pointRadius: 2,
+                                pointBorderWidth: 2,
+                                pointHoverBorderWidth: 2,
+                                pointHoverRadius: 5,
+                                fill: false,
+                                datalabels: {
+                                    align: 'end',
+                                    anchor: 'end',
+                                },
+                            },
+                        ],
+                    });
+                }
+            }
+        </script>
     </body>
 </html>

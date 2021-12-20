@@ -130,6 +130,11 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                <a href="UserController">
+                                                    <span class="label">User Management</span>
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="AdminMentorList">
                                                     <span class="label">Mentor List</span>
                                                 </a>

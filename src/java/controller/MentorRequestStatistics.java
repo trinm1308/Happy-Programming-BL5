@@ -49,6 +49,12 @@ public class MentorRequestStatistics extends HttpServlet {
 
         User u = (User) request.getSession().getAttribute("user");
         User mentor = ud.getUserById(u.getId());
+
+        if (u.getRole() == 2 && request.getParameter("mentorId") != null) {
+            int mentorId = Integer.parseInt(request.getParameter("mentorId"));
+            mentor = ud.getUserById(mentorId);
+        }
+
         request.setAttribute("mentor", mentor);
 
         int[] mentorRequestCounts = rqd.getMentorRequestCounts(mentor.getId());

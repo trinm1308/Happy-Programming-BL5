@@ -71,10 +71,10 @@ public class UserController extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             response.setContentType("text/html;charset=UTF-8");
-            
+
             DBConnect dc = new DBConnect();
             UserDAO ud = new UserDAO(dc);
-            
+
             if (request.getParameter("action") != null) {
                 String action = request.getParameter("action");
                 switch (action) {
@@ -88,12 +88,12 @@ public class UserController extends HttpServlet {
                         break;
                 }
             }
-            
+
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -124,34 +124,32 @@ public class UserController extends HttpServlet {
                         String addPhone = request.getParameter("Phone");
                         boolean addGender = "Male".equals(request.getParameter("Gender"));
                         String addAddress = request.getParameter("Address");
-
-                        ud.addUser(addFullName, addAccount, addEmail, addPhone, addGender, addAddress);
+                        int addRole = Integer.parseInt(request.getParameter("Role"));
+                        ud.adminAddUser(addFullName, addAccount, addEmail, addPhone, addGender, addAddress, addRole);
                         break;
                     case "edit":
                         int id = Integer.parseInt(request.getParameter("ID"));
                         String fullName = request.getParameter("FullName");
-                        String account = request.getParameter("Username");
                         String email = request.getParameter("Email");
+                        System.out.println(email);
                         String phone = request.getParameter("Phone");
                         System.out.println(request.getParameter("Gender"));
                         boolean gender = "Male".equals(request.getParameter("Gender"));
                         System.out.println(gender);
-                        String address = request.getParameter("Address");
+                        int role = Integer.parseInt(request.getParameter("Role"));
 
-
-                        ud.editUser(id, fullName, account, email, phone, gender, address, null);
+                        ud.adminEditUser(id, fullName, gender, email, phone, role);
 
                         break;
 
                     case "delete":
-                        String[] ids = request.getParameterValues("deleteIds");
-                        for (String s : ids) {
-                            ud.deleteUser(Integer.parseInt(s));
-                        }
+                        String deleteId = request.getParameter("deleteId");
+                        ud.deleteUser(Integer.parseInt(deleteId));
+
                         break;
                     case "updateProfile":
-                        HttpSession session =request.getSession();
-                        User user =  (User)session.getAttribute("user");
+                        HttpSession session = request.getSession();
+                        User user = (User) session.getAttribute("user");
                         //id = Integer.parseInt(request.getParameter("ID"));
                         fullName = request.getParameter("name");
                         //account = request.getParameter("Username");
@@ -161,13 +159,13 @@ public class UserController extends HttpServlet {
                         System.out.println(request.getParameter("Gender"));
                         gender = "0".equals(request.getParameter("gender"));
                         System.out.println(gender);
-                        address = request.getParameter("address");
-                        
+                        String address = request.getParameter("address");
+
                         ud.editUser(user.getId(), fullName, user.getAccount(), email, phone, gender, address, avatar);
-                       User newUser = ud.getUserById(user.getId());
-                       session.setAttribute("user", newUser);
+                        User newUser = ud.getUserById(user.getId());
+                        session.setAttribute("user", newUser);
                         request.setAttribute("result", "success");
-        
+
                         response.sendRedirect("profile.jsp?action=success");
                         return;
                     default:

@@ -5,27 +5,28 @@
  */
 package controller;
 
-import dao.MentorDAO;
-import entity.MentorEntity;
-import entity.Point;
+import context.DBConnect;
+import dao.RatingDAO;
+import dao.RequestDao;
+import dao.UserDAO;
 import entity.Rating;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Dao Van Do
+ * @author Tri
  */
+@WebServlet(name = "RatingController", urlPatterns = {"/RatingController"})
 public class RatingController extends HttpServlet {
 
     /**
@@ -39,8 +40,59 @@ public class RatingController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            if (request.getParameter("mentorId") == null) {
+                request.getRequestDispatcher("forbidden.jsp").forward(request, response);
+            }
 
+            DBConnect dBConnect = new DBConnect();
+            UserDAO ud = new UserDAO(dBConnect);
+            RatingDAO rd = new RatingDAO(dBConnect);
+            RequestDao rqd = new RequestDao(dBConnect);
+
+            int mentorId = Integer.parseInt(request.getParameter("mentorId"));
+
+            int[] mentorRequestCounts = rqd.getMentorRequestCounts(mentorId);
+            request.setAttribute("requests", mentorRequestCounts);
+
+            User user = new User();
+            boolean hasPermisson = false;
+
+            if (request.getSession().getAttribute("user") != null) {
+                user = (User) request.getSession().getAttribute("user");
+                if (user.getRole() == 1) {
+                    hasPermisson = true;
+                }
+                request.setAttribute("user", user);
+            }
+            request.setAttribute("hasPermission", hasPermisson);
+
+            //Check if current user has rated this mentor
+            boolean hasRated = false;
+            ArrayList<Rating> ratings = rd.getRatingOfMentor(mentorId);
+            request.setAttribute("ratings", ratings);
+            if (hasPermisson) {
+                for (Rating r : ratings) {
+                    if (r.getMenteeId() == user.getId()) {
+                        hasRated = true;
+                        request.setAttribute("currentUserRating", r);
+                    }
+                }
+            }
+            request.setAttribute("hasRated", hasRated);
+
+            int averageStars = rd.getAverageRating(mentorId);
+
+            request.setAttribute("averageStars", averageStars);
+
+            User mentor = ud.getUserById(mentorId);
+            request.setAttribute("mentor", mentor);
+
+            request.getRequestDispatcher("mentor_ratings.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,19 +107,7 @@ public class RatingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-            MentorDAO mentorDAO = new MentorDAO();
-            int mentorId = Integer.parseInt(request.getParameter("mentorID"));
-            int point = Integer.parseInt(request.getParameter("point"));
-            List<Rating> ratings = mentorDAO.getRatingsByPoint(mentorId, point);
-            MentorEntity mentorEntity = mentorDAO.getMentorByID(mentorId);
-            request.setAttribute("mentor", mentorEntity);
-            request.setAttribute("ratings", ratings);
-            request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -81,41 +121,81 @@ public class RatingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        int mentorId = Integer.parseInt(request.getParameter("mentorID"));
-        String point = request.getParameter("point");
-        String content = request.getParameter("content");
-
-        HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("user");
-        String author = "GUES";
-        if (u != null) {
-            author = u.getFullName();
-        }
-
-        MentorDAO mentorDAO = new MentorDAO();
         try {
-            Point p = mentorDAO.getRateByMentorID(mentorId);
-            p.setRateCount(p.getRateCount() + 1);
-            mentorDAO.rate(mentorId, Integer.parseInt(point), content, author);
-            List<Rating> ratings = mentorDAO.ratings(mentorId);
-            int rate = 0;
-            for (Rating i : ratings) {
-                rate += i.getPoint();
+            response.setContentType("text/html;charset=UTF-8");
+            if (request.getParameter("mentorId") == null) {
+                request.getRequestDispatcher("forbidden.jsp").forward(request, response);
             }
-            if (ratings.size() > 0) {
-                rate = rate / ratings.size();
-                p.setRate(rate);
-            } else {
-                p.setRate(Integer.parseInt(point));
-            }
-            mentorDAO.updateRateMentor(mentorId, p.getRate(), p.getRateCount());
-            MentorEntity mentorEntity = mentorDAO.getMentorByID(mentorId);
 
-            request.setAttribute("mentor", mentorEntity);
+            DBConnect dBConnect = new DBConnect();
+            UserDAO ud = new UserDAO(dBConnect);
+
+            int mentorId = Integer.parseInt(request.getParameter("mentorId"));
+
+            User mentor = ud.getUserById(mentorId);
+            request.setAttribute("mentor", mentor);
+
+            RatingDAO rd = new RatingDAO(dBConnect);
+
+            User user = new User();
+            boolean hasPermisson = false;
+
+            if (request.getSession().getAttribute("user") != null) {
+                user = (User) request.getSession().getAttribute("user");
+                if (user.getRole() == 1) {
+                    hasPermisson = true;
+                }
+                request.setAttribute("user", user);
+            }
+            request.setAttribute("hasPermission", hasPermisson);
+
+            //Check if current user has rated this mentor
+            boolean hasRated = false;
+            ArrayList<Rating> ratings = rd.getRatingOfMentor(mentorId);
             request.setAttribute("ratings", ratings);
-            request.getRequestDispatcher("mentordetail.jsp").forward(request, response);
+            Rating currentUserRating = new Rating();
+            if (hasPermisson) {
+                for (Rating r : ratings) {
+                    if (r.getMenteeId() == user.getId()) {
+                        hasRated = true;
+                        currentUserRating = r;
+                        request.setAttribute("currentUserRating", r);
+                    }
+                }
+            }
+            request.setAttribute("hasRated", hasRated);
 
+            int averageStars = rd.getAverageRating(mentorId);
+
+            request.setAttribute("averageStars", averageStars);
+
+            switch (request.getParameter("action")) {
+                case "add":
+                    String rating = request.getParameter("rating");
+                    String comment = request.getParameter("comment");
+                    rd.addRating(user.getId(), mentorId, Integer.parseInt(rating), comment);
+                    break;
+                case "edit":
+                    if (!hasRated || !hasPermisson) {
+                        break;
+                    }
+                    int editId = currentUserRating.getId();
+                    int editRate = Integer.parseInt(request.getParameter("rating"));
+                    String editComment = request.getParameter("yourComment");
+                    System.out.println(editComment);
+                    rd.updateRating(editId, editRate, editComment);
+                    break;
+                case "delete":
+                    if (!hasRated || !hasPermisson) {
+                        break;
+                    }
+                    rd.deleteRating(currentUserRating.getId());
+                    break;
+                default:
+                    break;
+            }
+
+            response.sendRedirect("RatingController?mentorId=" + mentorId);
         } catch (SQLException ex) {
             Logger.getLogger(RatingController.class.getName()).log(Level.SEVERE, null, ex);
         }

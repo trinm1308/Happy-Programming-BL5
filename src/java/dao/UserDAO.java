@@ -189,6 +189,49 @@ public class UserDAO {
         }
     }
 
+    public void adminEditUser(int id, String fullName, boolean gender, String email, String phone, int role) {
+        try {
+            String sql = "update user set full_name = ?, "
+                    + "gender = ?, "
+                    + "email = ?, "
+                    + "phone = ?, "
+                    + "role = ? "
+                    + "where id = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setBoolean(2, gender);
+            pre.setString(3, email);
+            pre.setString(4, phone);
+            pre.setInt(5, role);
+            pre.setInt(6, id);
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void adminAddUser(String fullName, String account, String email, String phone, boolean gender, String address, int role) {
+        try {
+            String sql = "insert into user (full_name, account, email, phone, gender, address, role, password) values (?,?,?,?,?,?,?,?)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, fullName);
+            pre.setString(2, account);
+            pre.setString(3, email);
+            pre.setString(4, phone);
+            pre.setBoolean(5, gender);
+            pre.setString(6, address);
+            pre.setInt(7, role);
+            pre.setString(8, "12345678");
+
+            pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void addUser(String fullName, String account, String email, String phone, boolean gender, String address) {
         try {
             String sql = "insert into user (full_name, account, email, phone, gender, address, role, password) values (?,?,?,?,?,?,?,?)";
@@ -527,7 +570,7 @@ public class UserDAO {
     }
 
     public ArrayList<Mentee> getAllMentee() {
-            ArrayList<Mentee> menteeList = new ArrayList();
+        ArrayList<Mentee> menteeList = new ArrayList();
         try {
             String sql = "select A.id, A.full_name, A.account, A.ava, count(B.id) as total_request\n"
                     + " from user A left join request B\n"
@@ -552,7 +595,7 @@ public class UserDAO {
         }
         return menteeList;
     }
-    
+
     public Integer getTotalMentee() {
         try {
             String sql = "select count(*) as total from user where role=1";
@@ -566,7 +609,7 @@ public class UserDAO {
 
         return 0;
     }
-    
+
     public Integer getTotalRequest() {
         try {
             String sql = "select count(*) as total from request";
@@ -580,7 +623,7 @@ public class UserDAO {
 
         return 0;
     }
-    
+
     public Integer getTotalHour() {
         try {
             String sql = "select sum(hours) as total from request";
@@ -594,7 +637,7 @@ public class UserDAO {
 
         return 0;
     }
-    
+
     public Integer getTotalSkill() {
         try {
             String sql = "select count(*) as total from skill";

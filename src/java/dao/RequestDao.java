@@ -362,11 +362,11 @@ public class RequestDao {
 
     public ArrayList<Request> getRecentRequests(int count) {
         try {
-            String sql = "select r.id, r.mentee_id, u.full_name as mentee_name, r.mentor_id, u2.full_name as mentor_name, r.request_date, r.status\n"
+            String sql = "select r.id, r.mentee_id, u.full_name as mentee_name, r.mentor_id, u2.full_name as mentor_name, r.creation_date, r.status\n"
                     + "from request r "
                     + "left join user u on r.mentee_id = u.id "
                     + "left join user u2 on r.mentor_id = u2.id "
-                    + "order by r.request_date DESC "
+                    + "order by r.creation_date DESC "
                     + "limit ? ";
             PreparedStatement pre = con.prepareStatement(sql);
             pre.setInt(1, count);
@@ -379,7 +379,7 @@ public class RequestDao {
                 r.setId(rs.getInt("id"));
                 r.setMenteeName(rs.getString("mentee_name"));
                 r.setMentorName(rs.getString("mentor_name"));
-                r.setRequestDate(rs.getString("request_date"));
+                r.setRequestDate(rs.getString("creation_date"));
                 r.setStatus(rs.getInt("status"));
 
                 requests.add(r);

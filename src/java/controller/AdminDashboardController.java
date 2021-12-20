@@ -55,7 +55,7 @@ public class AdminDashboardController extends HttpServlet {
 
             ArrayList<Skill> skills = sd.getSkillList();
 
-            request.setAttribute("skills", skills);
+            request.setAttribute("skills", skills.size() >= 6 ? skills.subList(0, 6) : skills);
             request.setAttribute("requestCounts", requestCounts);
             request.setAttribute("requests", requests);
             request.setAttribute("newMentors", mentors.size() >= 6 ? mentors.subList(0, 6) : mentors);

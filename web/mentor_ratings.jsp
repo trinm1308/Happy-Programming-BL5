@@ -88,7 +88,7 @@
                                     <div class="d-flex align-items-center flex-column mb-4">
                                         <div class="d-flex align-items-center flex-column">
                                             <div class="sw-13 position-relative mb-3">
-                                                <img src=${requestScope.mentor.ava ? requestScope.mentor.ava :"img/profile/profile-10.jpg"} class="img-fluid rounded-xl" alt="thumb" />
+                                                <img src=${requestScope.mentor.ava !=null ? requestScope.mentor.ava :"img/profile/profile-10.jpg"} class="img-fluid rounded-xl" alt="thumb" />
                                             </div>
                                             <div class="h5 mb-0">${requestScope.mentor.fullName}</div>
                                             <div class="text-muted">HappyProgramming Exclusive Mentor</div>
@@ -102,10 +102,6 @@
                                         <a class="nav-link px-0 border-bottom border-separator-light" data-bs-toggle="tab" href="#overviewTab" role="tab">
                                             <i data-cs-icon="activity" class="me-2" data-cs-size="17"></i>
                                             <span class="align-middle">Overview</span>
-                                        </a>
-                                        <a class="nav-link px-0 border-bottom border-separator-light" data-bs-toggle="tab" href="#projectsTab" role="tab">
-                                            <i data-cs-icon="suitcase" class="me-2" data-cs-size="17"></i>
-                                            <span class="align-middle">Projects</span>
                                         </a>
                                         <a class="nav-link active px-0 border-bottom border-separator-light" data-bs-toggle="tab" href="#friendsTab" role="tab">
                                             <i data-cs-icon="heart" class="me-2" data-cs-size="17"></i>
@@ -134,11 +130,11 @@
                                             <div class="card hover-border-primary">
                                                 <div class="card-body">
                                                     <div class="heading mb-0 d-flex justify-content-between lh-1-25 mb-3">
-                                                        <span>Projects</span>
-                                                        <i data-cs-icon="suitcase" class="text-primary"></i>
+                                                        <span>Pending Requests</span>
+                                                        <i data-cs-icon="alarm" class="text-primary"></i>
                                                     </div>
-                                                    <div class="text-small text-muted mb-1">ACTIVE</div>
-                                                    <div class="cta-1 text-primary">14</div>
+                                                    <div class="text-small text-muted mb-1">ALL TIME</div>
+                                                    <div class="cta-1 text-primary">${requests[0]}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,11 +142,11 @@
                                             <div class="card hover-border-primary">
                                                 <div class="card-body">
                                                     <div class="heading mb-0 d-flex justify-content-between lh-1-25 mb-3">
-                                                        <span>Tasks</span>
+                                                        <span>Accepted Requests</span>
                                                         <i data-cs-icon="check-square" class="text-primary"></i>
                                                     </div>
-                                                    <div class="text-small text-muted mb-1">PENDING</div>
-                                                    <div class="cta-1 text-primary">153</div>
+                                                    <div class="text-small text-muted mb-1">ALL TIME</div>
+                                                    <div class="cta-1 text-primary">${requests[1]}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -158,11 +154,11 @@
                                             <div class="card hover-border-primary">
                                                 <div class="card-body">
                                                     <div class="heading mb-0 d-flex justify-content-between lh-1-25 mb-3">
-                                                        <span>Notes</span>
-                                                        <i data-cs-icon="file-empty" class="text-primary"></i>
+                                                        <span>Rejected Requests</span>
+                                                        <i data-cs-icon="arrow-bottom-left" class="text-primary"></i>
                                                     </div>
-                                                    <div class="text-small text-muted mb-1">RECENT</div>
-                                                    <div class="cta-1 text-primary">24</div>
+                                                    <div class="text-small text-muted mb-1">ALL TIME</div>
+                                                    <div class="cta-1 text-primary">${requests[2]}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,11 +166,11 @@
                                             <div class="card hover-border-primary">
                                                 <div class="card-body">
                                                     <div class="heading mb-0 d-flex justify-content-between lh-1-25 mb-3">
-                                                        <span>Views</span>
-                                                        <i data-cs-icon="screen" class="text-primary"></i>
+                                                        <span>Total Requests</span>
+                                                        <i data-cs-icon="suitcase" class="text-primary"></i>
                                                     </div>
-                                                    <div class="text-small text-muted mb-1">THIS MONTH</div>
-                                                    <div class="cta-1 text-primary">524</div>
+                                                    <div class="text-small text-muted mb-1">ALL TIME</div>
+                                                    <div class="cta-1 text-primary">${requests[0] + requests[1] + requests[2]}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,478 +178,10 @@
                                 </div>
                                 <!-- Stats End -->
 
-                                <!-- Timeline Start -->
-                                <h2 class="small-title">Timeline</h2>
-                                <div class="card mb-5">
-                                    <div class="card-body">
-                                        <div class="row g-0">
-                                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
-                                                <div class="w-100 d-flex sh-1"></div>
-                                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
-                                                    <div class="bg-gradient-primary sw-1 sh-1 rounded-xl position-relative"></div>
-                                                </div>
-                                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col mb-4">
-                                                <div class="h-100">
-                                                    <div class="d-flex flex-column justify-content-start">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="#" class="heading stretched-link">Developing Components</a>
-                                                            <div class="text-alternate">21.12.2020</div>
-                                                            <div class="text-muted mt-1">
-                                                                Jujubes tootsie roll liquorice cake jelly beans pudding gummi bears chocolate cake donut. Jelly-o sugar plum fruitcake bonbon
-                                                                bear claw cake cookie chocolate bar. Tiramisu soufflé apple pie.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row g-0">
-                                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
-                                                <div class="w-100 d-flex sh-1 position-relative justify-content-center">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
-                                                    <div class="bg-gradient-primary sw-1 sh-1 rounded-xl position-relative"></div>
-                                                </div>
-                                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col mb-4">
-                                                <div class="h-100">
-                                                    <div class="d-flex flex-column justify-content-start">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="#" class="heading stretched-link pt-0">HTML Structure</a>
-                                                            <div class="text-alternate">14.12.2020</div>
-                                                            <div class="text-muted mt-1">
-                                                                Pudding gummi bears chocolate chocolate apple pie powder tart chupa chups bonbon. Donut biscuit chocolate cake pie topping.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row g-0">
-                                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
-                                                <div class="w-100 d-flex sh-1 position-relative justify-content-center">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
-                                                    <div class="bg-gradient-primary sw-1 sh-1 rounded-xl position-relative"></div>
-                                                </div>
-                                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col mb-4">
-                                                <div class="h-100">
-                                                    <div class="d-flex flex-column justify-content-start">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="#" class="heading stretched-link">Sass Structure</a>
-                                                            <div class="text-alternate">03.11.2020</div>
-                                                            <div class="text-muted mt-1">
-                                                                Jelly-o wafer sesame snaps candy canes. Danish dragée toffee bonbon. Jelly-o marshmallow cake oat cake caramels jujubes.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row g-0">
-                                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
-                                                <div class="w-100 d-flex sh-1 position-relative justify-content-center">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
-                                                    <div class="bg-gradient-primary sw-1 sh-1 rounded-xl position-relative"></div>
-                                                </div>
-                                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col mb-4">
-                                                <div class="h-100">
-                                                    <div class="d-flex flex-column justify-content-start">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="#" class="heading stretched-link pt-0">Final Design</a>
-                                                            <div class="text-alternate">15.10.2020</div>
-                                                            <div class="text-muted mt-1">Chocolate apple pie powder tart chupa chups bonbon. Donut biscuit chocolate cake pie topping.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row g-0">
-                                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
-                                                <div class="w-100 d-flex sh-1 position-relative justify-content-center">
-                                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
-                                                </div>
-                                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
-                                                    <div class="bg-gradient-primary sw-1 sh-1 rounded-xl position-relative"></div>
-                                                </div>
-                                                <div class="w-100 d-flex h-100 justify-content-center position-relative"></div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="h-100">
-                                                    <div class="d-flex flex-column justify-content-start">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="#" class="heading stretched-link pt-0">Wireframe Design</a>
-                                                            <div class="text-alternate">08.06.2020</div>
-                                                            <div class="text-muted mt-1">Chocolate apple pie powder tart chupa chups bonbon. Donut biscuit chocolate cake pie topping.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Timeline End -->
 
                             </div>
                             <!-- Overview Tab End -->
-
-                            <!-- Projects Tab Start -->
-                            <div class="tab-pane fade" id="projectsTab" role="tabpanel">
-                                <h2 class="small-title">Projects</h2>
-
-                                <!-- Search Start -->
-                                <div class="row mb-3 g-2">
-                                    <div class="col mb-1">
-                                        <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-                                            <input class="form-control" placeholder="Search" />
-                                            <span class="search-magnifier-icon">
-                                                <i data-cs-icon="search"></i>
-                                            </span>
-                                            <span class="search-delete-icon d-none">
-                                                <i data-cs-icon="close"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto text-end mb-1">
-                                        <div class="dropdown-as-select d-inline-block" data-childselector="span">
-                                            <button class="btn p-0 shadow" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="btn btn-foreground-alternate dropdown-toggle sw-13">All</span>
-                                            </button>
-                                            <div class="dropdown-menu shadow dropdown-menu-end">
-                                                <a class="dropdown-item active" href="#">All</a>
-                                                <a class="dropdown-item" href="#">Active</a>
-                                                <a class="dropdown-item" href="#">Inactive</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Search End -->
-
-                                <!-- Projects Content Start -->
-                                <div class="row row-cols-1 row-cols-sm-2 g-2">
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Basic Introduction to Bread Making</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 4</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="check-square" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Completed</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">4 Facts About Old Baking Techniques</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 3</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="clock" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Apple Cake Recipe for Starters</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 8</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="lock-on" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Locked</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="sync-horizontal" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Continuing</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">A Complete Guide to Mix Dough for the Molds</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 12</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="check-square" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Completed</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">14 Facts About Sugar Products</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 2</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-down" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Inactive</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="box" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Archived</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Easy and Efficient Tricks for Baking Crispy Breads</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 2</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="clock" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Apple Cake Recipe for Starters</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 6</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-down" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Inactive</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="box" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Archived</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Simple Guide to Mix Dough</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 22</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="lock-on" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Locked</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="check-square" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Completed</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">10 Secrets Every Southern Baker Knows</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 3</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="sync-horizontal" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Continuing</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Recipes for Sweet and Healty Treats</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 1</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-down" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Inactive</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="clock" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Better Ways to Mix Dough for the Molds</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 20</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="clock" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="heading mb-3">
-                                                    <a href="#" class="stretched-link">
-                                                        <span class="clamp-line sh-5" data-line="2">Introduction to Baking Cakes</span>
-                                                    </a>
-                                                </h6>
-                                                <div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="diagram-2" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Contributors: 13</span>
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <i data-cs-icon="trend-up" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Active</span>
-                                                    </div>
-                                                    <div>
-                                                        <i data-cs-icon="check-square" class="text-muted me-2" data-cs-size="17"></i>
-                                                        <span class="align-middle text-alternate">Completed</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Projects Content End -->
-                            </div>
-                            <!-- Projects Tab End -->                         
+                      
 
                             <!-- Friends Tab Start -->
 

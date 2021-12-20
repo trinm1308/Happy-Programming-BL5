@@ -94,7 +94,7 @@ public class MentorDAO {
             String comment = rs.getString("comment");
             String time = rs.getString("time");
             int rate = rs.getInt("rate");
-            ratings.add(new Rating(id, mentorID, author, rate, comment, time));
+//            ratings.add(new Rating(id, mentorID, author, rate, comment, time));
         }
         return ratings;
     }
@@ -115,7 +115,7 @@ public class MentorDAO {
             String comment = rs.getString("comment");
             String time = rs.getString("time");
             int rate = rs.getInt("rate");
-            ratings.add(new Rating(id, mentorID, author, rate, comment, time));
+//            ratings.add(new Rating(id, mentorID, author, rate, comment, time));
         }
         return ratings;
     }
